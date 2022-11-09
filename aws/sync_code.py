@@ -8,6 +8,7 @@ def parse_args():
     parser.add_argument('--n', type=int, default=1)
     parser.add_argument('--hostfile', type=str, default='hostname', help='Hostfile')
     parser.add_argument('--init', action='store_true')
+    parser.add_argument('--update-env', action='store_true')
     args = parser.parse_args()
     global NNodes, HOSTFILE
     NNodes = args.n
@@ -16,7 +17,7 @@ def parse_args():
 
 
 HOMEDIR = '/home/ubuntu'
-MASTER = 'ip-172-31-28-108'
+MASTER = ['ip-172-31-28-108', '172.31.28.108']
 
 global NNodes, HOSTFILE
 NNodes = None
@@ -57,10 +58,35 @@ def get_rsync_example_cmd(ip):
     return cmd
 
 
+def run_cmd(cmd, hosts):
+    processes = []
+    for ip in hosts:
+        if ip in MASTER:
+            continue
+        print(cmd.format(ip))
+        p = subprocess.Popen(cmd.format(ip), shell=True)
+        processes.append(p)
+
+    for p in processes:
+        p.wait()
+
+
+def update_instance_env(hosts):
+    # apex
+    cmd = 'scp /home/ubuntu/varuna_apex/apex/amp/_process_optimizer.py ubuntu@{}:/home/ubuntu/varuna_apex/apex/amp/_process_optimizer.py'
+    run_cmd(cmd, hosts)
+
+    cmd = 'ssh ubuntu@{} "sudo /opt/conda/envs/varuna/bin/pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" /home/ubuntu/varuna_apex/"'
+    run_cmd(cmd, hosts)
+
+    cmd = 'ssh ubuntu@{} "sudo /opt/conda/envs/varuna/bin/pip install six pybind11 regex numpy tqdm boto3 requests ipdb h5py nltk"'
+    run_cmd(cmd, hosts)
+
+
 def sync_varuna(hosts, init=False):
     processes = []
     for ip in hosts:
-        if ip == MASTER:
+        if ip in MASTER:
             continue
         cmd = get_rsync_varuna_cmd(ip)
         print(cmd)
@@ -74,7 +100,7 @@ def sync_varuna(hosts, init=False):
 def sync_example(hosts):
     processes = []
     for ip in hosts:
-        if ip == MASTER:
+        if ip in MASTER:
             continue
         cmd = get_rsync_example_cmd(ip)
         print(cmd)
@@ -91,5 +117,8 @@ if __name__ == '__main__':
     poll_aws_instances()
 
     hosts = get_hosts()
+    if args.update_env:
+        update_instance_env(hosts)
+
     sync_varuna(hosts, args.init)
     sync_example(hosts)
