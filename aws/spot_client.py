@@ -52,7 +52,7 @@ class TraceEvent:
         self.n = n
         self.dry_run = dry_run
 
-        poll_aws_instances()
+        # poll_aws_instances()
         self.read_trace(trace_file)
 
     def read_trace(self, trace_file):
@@ -117,7 +117,7 @@ class TraceEvent:
 
     def init_start_training(self):
         cmd = f'bash {TRAIN_SCRIPT}'
-        self.root_process = subprocess.run(cmd, shell=True)
+        self.root_process = subprocess.Popen(cmd, shell=True)
 
     def replay(self):
         self.cur_machine_list = []

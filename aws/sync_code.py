@@ -1,3 +1,4 @@
+import os
 import argparse
 import subprocess
 import socket
@@ -5,19 +6,29 @@ import socket
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--n', type=int, default=1)
+    parser.add_argument('--hostfile', type=str, default='hostname', help='Hostfile')
     parser.add_argument('--init', action='store_true')
     args = parser.parse_args()
-    global NNodes
+    global NNodes, HOSTFILE
     NNodes = args.n
+    HOSTFILE = args.hostfile
     return args
 
 
-HOSTFILE = '/home/ubuntu/spotdl/aws/hostname'
 HOMEDIR = '/home/ubuntu'
 MASTER = 'ip-172-31-28-108'
 
-global NNodes
+global NNodes, HOSTFILE
 NNodes = None
+HOSTFILE = '/home/ubuntu/spotdl/aws/hostname'
+
+
+def poll_aws_instances(exclude_master=False):
+    cmd = f'/opt/conda/envs/varuna/bin/python /home/ubuntu/spotdl/aws/aws_poll_instances.py \
+           --hostfile {HOSTFILE} --master spot-1'
+    if exclude_master:
+        cmd += ' --exclude-master'
+    os.system(cmd)
 
 
 def get_hosts():
@@ -76,6 +87,8 @@ def sync_example(hosts):
 
 if __name__ == '__main__':
     args = parse_args()
+
+    poll_aws_instances()
 
     hosts = get_hosts()
     sync_varuna(hosts, args.init)

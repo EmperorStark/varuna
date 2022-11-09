@@ -9,7 +9,7 @@ try:
     from apex.amp import _amp_state
 except:
     pass
-    
+
 VARUNA_TEMP_FOLDER = "/tmp/varuna"
 HEARTBEAT_IP_ENV_VAR = "VARUNA_MANAGER_IP"
 HEARTBEAT_PORT_ENV_VAR = "VARUNA_HEARTBEAT_PORT"
@@ -20,8 +20,8 @@ def scatter(input, batch_size, chunk_size):
     """
     Accepts input dictionary and splits into microbatches
     """
-    assert isinstance(input,dict) , "varuna inputs must be given as a dictionary" 
-    
+    assert isinstance(input,dict) , "varuna inputs must be given as a dictionary"
+
     microbatches = []
     num_microbatches = math.ceil(batch_size / chunk_size)
     for k,v in input.items():
@@ -38,7 +38,7 @@ def scatter(input, batch_size, chunk_size):
             if len(microbatches) <= i:
                 microbatches.append(dict())
             microbatches[i][k]=value
-    
+
     return microbatches
 
 def save_rng_states(device):
@@ -48,7 +48,7 @@ def save_rng_states(device):
     cpu_rng_state = torch.get_rng_state()
 
     gpu_rng_states: Optional[ByteTensor]
-    # gpu_rng_states = torch.cuda.get_rng_state_all() 
+    # gpu_rng_states = torch.cuda.get_rng_state_all()
     gpu_rng_states = torch.cuda.get_rng_state(device)
     return (cpu_rng_state, gpu_rng_states)
 
@@ -81,21 +81,21 @@ def clip_grad_norm(parameters, grad_norm_sq, max_norm, norm_type=2):
     parameters = list(filter(lambda p: p.grad is not None, parameters))
     max_norm = float(max_norm)
     norm_type = float(norm_type)
-    
-    total_norm = grad_norm_sq.item() ** (1. / norm_type)    
+
+    total_norm = grad_norm_sq.item() ** (1. / norm_type)
     # print(f'clip_grad_norm() total_norm = {total_norm}')
     clip_coef = max_norm / (total_norm + 1e-6)
     if clip_coef < 1:
         for p in parameters:
             p.grad.data.mul_(clip_coef)
-            
+
     return clip_coef<1
 
 def heartbeat(message, ip, port):
     if (ip is not None) and (port is not None):
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                sock.connect((ip, port))
+                sock.connect((ip, int(port)))
                 sock.sendall(bytes(message, 'ascii'))
         except:
             print("Could not send progress update message")

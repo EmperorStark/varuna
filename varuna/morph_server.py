@@ -76,14 +76,14 @@ class Handler(socketserver.BaseRequestHandler):
         cmd = "python -m varuna.run_varuna --resume " + \
              f"--machine_list {available_machines_list} --manager_ip {my_ip}"
         os.system(cmd)
-    
+
     def handle(self):
         global checkpointed, is_preempting, is_restarting, is_morphing, last_ckpt_signal, curr_world_size, last_iter, last_preempt_handled
         data = str(self.request.recv(1024), 'ascii')
         cur_thread = threading.current_thread()
         recv_time = datetime.now()
         print("{} got something from {}: {}".format(recv_time, self.client_address, data), flush=True)
-        
+
         if 'is_running?' in data:
             response = bytes("yes", 'ascii')
             self.request.sendall(response)
@@ -98,7 +98,7 @@ class Handler(socketserver.BaseRequestHandler):
                 print("Caught Exception while starting", e)
             Handler.triggermorph.release()
             print("Lock released by start:", is_restarting, is_morphing, is_preempting)
-        
+
         elif 'preempt' in data:
             Handler.triggermorph.acquire()
             print("Lock acquired by preempt:", is_restarting, is_morphing, is_preempting, flush=True)
@@ -109,7 +109,7 @@ class Handler(socketserver.BaseRequestHandler):
                     notbefore = datetime.strptime(notbefore,"%a,_%d_%b_%Y_%H:%M:%S_%Z")
                     if last_preempt_handled is None or last_preempt_handled < notbefore:
                         last_preempt_handled = notbefore
-                        is_preempting = True  
+                        is_preempting = True
                         sleep_time = (notbefore - datetime.now()).seconds - 30
                         if sleep_time > 0:
                             time.sleep(sleep_time)
@@ -124,7 +124,7 @@ class Handler(socketserver.BaseRequestHandler):
                 is_preempting = False
             Handler.triggermorph.release()
             print("Lock released by preempt:", is_restarting, is_morphing, is_preempting)
-        
+
         elif 'checkpoint done' in data:
             Handler.triggermorph.acquire()
             print("Lock acquired by ckpt:", recv_time, is_restarting, is_morphing, is_preempting, flush=True)
@@ -134,7 +134,7 @@ class Handler(socketserver.BaseRequestHandler):
                     checkpointed = last_iter
                 if is_preempting:
                     print('Preempt successful {}'.format(last_iter), flush=True)
-                    time.sleep(120)     # wait for scheduled event to occur 
+                    time.sleep(120)     # wait for scheduled event to occur
                     Handler.kill_all()
                     curr_world_size = 0
                     # Handler.update_available()
@@ -166,7 +166,7 @@ class Handler(socketserver.BaseRequestHandler):
             last_ckpt_signal = recv_time
             Handler.triggermorph.release()
             print("Lock released by ckpt done:", is_restarting, is_morphing, is_preempting)
-        
+
         elif 'morph' in data:
             Handler.triggermorph.acquire()
             print("Lock acquired by morph:", is_restarting, is_morphing, is_preempting, flush=True)
@@ -198,13 +198,13 @@ class Handler(socketserver.BaseRequestHandler):
             progress_iter = int(data.split(" ")[-1].strip())
             Handler.triggermorph.release()
         print("handle done for", data, recv_time,  flush=True)
-            
+
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
 if __name__ == "__main__":
     server = ThreadedTCPServer((HOST, PORT), Handler)
-    
+
     with server:
         server.serve_forever()
