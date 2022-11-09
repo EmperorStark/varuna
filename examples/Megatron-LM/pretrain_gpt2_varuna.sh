@@ -1,8 +1,9 @@
 #! /bin/bash
 
 
-DATA_PATH=<Specify path and file prefix>_text_document
-CHECKPOINT_PATH=<Specify path>
+$DATA_PATH=<Specify path and file prefix>_text_document
+$CHECKPOINT_PATH="./checkpoint/"
+$MACHINE_PATH="/home/ubuntu/varuna/examples/Megatron-LM/available_machines.out"
 
 # 355m model
 $NUM_LAYERS=24
@@ -26,9 +27,9 @@ $NUM_ATTENTION_HEADS=16
 
 
 # NCCL_DEBUG=INFO NCCL_SOCKET_IFNAME=eth0 NCCL_SOCKET_NTHREADS=4 NCCL_NSOCKS_PERTHREAD=4 \
-python3 -m varuna.run_varuna --nstages 2 --batch_size 8192 --chunk_size 4 --gpus_per_node 4 \
---no_morphing pretrain_gpt2.py \
-       --num-layers $NUM_LAYERS \
+python3 -m varuna.run_varuna --nstages 2 --batch_size 8192 --chunk_size 4 --gpus_per_node 1 \
+--machine_list $MACHINE_PATH pretrain_gpt2.py \
+       --num-layer$NUs M_LAYERS \
        --hidden-size $HIDDEN_SIZE \
        --num-attention-heads $NUM_ATTENTION_HEADS \
        --seq-length 1024 \
