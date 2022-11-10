@@ -154,7 +154,7 @@ class TraceEvent:
                 logger.info(f'>>> [{self.timer()/1000:.3f}] nnodes: {len(self.cur_machine_list)}, morph')
                 logger.info(f'               nodes: {self.cur_machine_list}')
 
-        # final
+        # final, clean all machines
         final_event = self.trace[-1]
         final_timestamp = final_event[0] + final_event[2]['duration']
         self.sleep((final_timestamp - self.timer()) / 1000)

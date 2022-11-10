@@ -41,7 +41,7 @@ class Handler(socketserver.BaseRequestHandler):
         print("updating available", flush=True)
         with open(available_machines_list, "r") as inf:
             with open(running_machines_list, "r") as outf:
-                outf.write(f.read())
+                outf.write(inf.read())
 
     @staticmethod
     def send_signal():

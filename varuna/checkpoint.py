@@ -44,7 +44,44 @@ def smart_load_checkpoint(dirname, map_location=None):
         return torch.load(dirname, map_location=map_location)
 
 
-def smart_write_file()
+def list_files(dirname):
+    if dirname.startswith('s3://'):
+        s3_client = boto3.client('s3')
+        bucket_name, dirname = dirname[5:].split('/', 1)
+        if dirname[-1] != '/':
+            dirname += '/'
+        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=dirname, Delimiter='/')
+        dirs = []
+        for content in response.get('Contents', []):
+            key = content.get('Key')
+            dirs.append(key[len(dirname):])
+        return dirs
+    else:
+        return os.listdir(dirname)
+
+
+def smart_write_file(filename, message):
+    if filename.startswith('s3://'):
+        s3 = boto3.client('s3')
+        bucket, key = filename[5:].split('/', 1)
+        with io.BytesIO() as f:
+            f.write(message.encode())
+            s3.put_object(Bucket=bucket, Key=key, Body=f.getvalue())
+    else:
+        with open(filename, 'w') as f:
+            f.write(message)
+
+
+def read_file(filename):
+    if filename.startswith('s3://'):
+        s3_client = boto3.client('s3')
+        bucket_name, filename = filename[5:].split('/', 1)
+        obj = s3_client.get_object(Bucket=bucket_name, Key=filename)
+        return obj['Body'].read().decode()
+    else:
+        with open(filename, 'r') as f:
+            return f.read()
+
 
 
 """ Writes a varuna checkpoint with model parameters, optimizer state etc.
@@ -110,8 +147,9 @@ def write_varuna_checkpoint(varuna_model, global_store, step, tempdir=None, shar
         with open(local_tracker,"w") as f:
             f.write(str(step))
         global_tracker = get_global_ckpt_tracker(global_store, rank, step)
-        with open(global_tracker,"w") as f:
-            f.write(str(param_count))
+        smart_write_file(global_tracker, str(param_count))
+        # with open(global_tracker,"w") as f:
+        #     f.write(str(param_count))
 
     return ckpt_future
 
@@ -236,8 +274,9 @@ def future_on_futures(mv_futures, rank, local_rank, iteration, global_store, par
         with open(local_tracker,"w") as f:
             f.write(str(iteration))
         global_tracker = get_global_ckpt_tracker(global_store, rank, iteration)
-        with open(global_tracker,"w") as f:
-            f.write(str(param_count))
+        smart_write_file(global_tracker, str(param_count))
+        # with open(global_tracker,"w") as f:
+        #     f.write(str(param_count))
 
 def load_varuna_checkpoint(my_stage, num_stages, total_num_pstages, common_store,
                             pstages_to_read = None, device = 'cpu'):
@@ -251,7 +290,7 @@ def load_varuna_checkpoint(my_stage, num_stages, total_num_pstages, common_store
             state_dict_ = smart_load_checkpoint(cp_file,map_location=device)
             state_dict.update(state_dict_)
         else:
-            shards = [os.path.join(common_store,f) for f in os.listdir(common_store) \
+            shards = [os.path.join(common_store,f) for f in list_files(common_store) \
                         if f.startswith(params_format.format(i) + "_")]
             for cp_file in shards:
                 state_dict_ = smart_load_checkpoint(cp_file,map_location=device)
@@ -273,7 +312,7 @@ def load_varuna_optimizer(optimizer, my_stage, num_stages, total_num_pstages, pa
             state_ = smart_load_checkpoint(f,map_location=device)
             opt_state.update(state_)
         else:
-            shards = [os.path.join(common_store,f) for f in os.listdir(common_store) \
+            shards = [os.path.join(common_store,f) for f in list_files(common_store) \
                         if f.startswith(opt_state_format.format(i) + "_")]
             for filename in shards:
                 state_ = smart_load_checkpoint(filename,map_location=device)
@@ -302,15 +341,17 @@ def get_global_ckpt_tracker(global_store, rank, step):
 
 def num_params_written(global_store, step):
     marker_dir = os.path.join(global_store, f"varuna_ckpt_{step}", MARKERS)
-    markers = os.listdir(marker_dir)
+    markers = list_files(marker_dir)
     complete = 0
     for m in markers:
-        with open(os.path.join(marker_dir, m),"r") as f:
-            complete += int(f.read())
+        filename = os.path.join(marker_dir, m)
+        complete += int(read_file(filename))
+        # with open(os.path.join(marker_dir, m),"r") as f:
+        #     complete += int(f.read())
     return complete
 
 def get_prev_checkpoint(global_store, step):
-    ckpt_steps = sorted ([int(f.split("_")[-1]) for f in os.listdir(global_store)\
+    ckpt_steps = sorted ([int(f.split("_")[-1]) for f in list_files(global_store)\
                          if f.startswith("varuna_ckpt_")] )
     prev_step = -1
     for c in ckpt_steps:
