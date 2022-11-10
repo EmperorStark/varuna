@@ -49,8 +49,12 @@ class AutoConfig:
             else:
                 comm_size = 0
             print("comm size", comm_size)
-            send_time = self.comm_profile[comm_size]["send"]
-            long_send_time = self.comm_profile[comm_size]["long_send"]
+            if comm_size == 0:
+                send_time = 0
+                long_send_time = 0
+            else:
+                send_time = self.comm_profile[comm_size]["send"]
+                long_send_time = self.comm_profile[comm_size]["long_send"]
             if send_time == -1:
                 print(f"WARNING: no send time found, {pp_size} partitions")
                 send_time = 0
