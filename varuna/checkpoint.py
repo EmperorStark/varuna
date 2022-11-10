@@ -1,5 +1,7 @@
 
 import os,sys, time
+import boto3
+import io
 import torch
 import concurrent.futures
 import torch.distributed as dist
@@ -17,16 +19,44 @@ params_format = "opt-fp32-params-{}"
 MARKERS = "markers"
 opt_extra_state_name = "opt-common-state"
 
-""" Writes a varuna checkpoint with model parameters, optimizer state etc. 
+
+def smart_save_checkpoint(torch_data, dirname):
+    if dirname.startswith('s3://'):
+        s3 = boto3.client('s3')
+        bucket, key = dirname[5:].split('/', 1)
+        with io.BytesIO() as f:
+            torch.save(torch_data, f)
+            s3.put_object(Bucket=bucket, Key=key, Body=f.getvalue())
+    else:
+        torch.save(torch_data, dirname)
+
+
+def smart_load_checkpoint(dirname, map_location=None):
+    if dirname.startswith('s3:'):
+        s3 = boto3.client('s3')
+        bucket, key = dirname[5:].split('/', 1)
+        with io.BytesIO() as f:
+            s3.download_fileobj(Bucket=bucket, Key=key, Fileobj=f)
+            f.seek(0)
+            model = torch.load(f, map_location=map_location)
+        return model
+    else:
+        return torch.load(dirname, map_location=map_location)
+
+
+def smart_write_file()
+
+
+""" Writes a varuna checkpoint with model parameters, optimizer state etc.
     Each checkpoint is a directory, written under the given path.
-    
+
     Args:
-    global_store: string, path to a folder accessible by all nodes/ranks in the training job. 
+    global_store: string, path to a folder accessible by all nodes/ranks in the training job.
             For example, path to a mounted blob storage. This is where the varuna checkpoint folder is written.
     step: int, iteration number for checkpoint. If None, it'll be taken from varuna's tracked progress.
     tempdir: string, path to a local directory to which to write checkpoints temporarily, and sync
             with the global store in the background. Lowers checkpoint write time in the critical path.
-    shard: bool, whether to shard checkpoint writes over data parallel workers as well. Speeds up checkpoint 
+    shard: bool, whether to shard checkpoint writes over data parallel workers as well. Speeds up checkpoint
 """
 def write_varuna_checkpoint(varuna_model, global_store, step, tempdir=None, shard=False):
 
@@ -46,17 +76,17 @@ def write_varuna_checkpoint(varuna_model, global_store, step, tempdir=None, shar
     data_depth = len(varuna_model.stage_to_rank_map[stage])
 
     cp_dir_name, marker_dir_name = create_ckpt_dirs(global_store, tempdir, rank, local_rank, step)
-        
-    ordered_params = list(varuna_model.partitioned_model.module.parameters())   
+
+    ordered_params = list(varuna_model.partitioned_model.module.parameters())
     if varuna_model.fp16:
         ordered_params = amp.master_params(optimizer)
-    mv_futures_, param_count = checkpoint_model_params(ordered_params, 
+    mv_futures_, param_count = checkpoint_model_params(ordered_params,
                                         rank_within_stage, shard, data_depth,
-                                        pstages, parameter_names, param_name_to_pstage, 
+                                        pstages, parameter_names, param_name_to_pstage,
                                         cp_dir_name, tempdir = tempdir, executor = executor)
     mv_futures.extend( mv_futures_ )
     mv_futures_, state_count = checkpoint_opt_state(optimizer, rank_within_stage, shard, data_depth,
-                                            pstages, parameter_names, param_name_to_pstage, 
+                                            pstages, parameter_names, param_name_to_pstage,
                                             cp_dir_name, tempdir = tempdir, executor = executor)
     mv_futures.extend( mv_futures_ )
     # assert param_count == state_count, \
@@ -65,14 +95,14 @@ def write_varuna_checkpoint(varuna_model, global_store, step, tempdir=None, shar
     # optimizer extra state
     extra_state = optimizer.state_dict()
     extra_state["state"] = {}
-    torch.save(extra_state, os.path.join(cp_dir_name, opt_extra_state_name))
-           
+    smart_save_checkpoint(extra_state, os.path.join(cp_dir_name, opt_extra_state_name))
+
     cp_time = time.time() - cp_time
     print("Opt ckpt time", cp_time)
 
     ckpt_future = None
     if tempdir is not None and len(mv_futures) > 0:
-        ckpt_future = executor.submit(future_on_futures, mv_futures, rank, local_rank, 
+        ckpt_future = executor.submit(future_on_futures, mv_futures, rank, local_rank,
                         step, global_store, param_count)
         executor.shutdown(wait = False)
     else:
@@ -87,9 +117,9 @@ def write_varuna_checkpoint(varuna_model, global_store, step, tempdir=None, shar
 
 
 def checkpoint_opt_state(optimizer, rank_within_stage, shard, data_depth,
-                pstages, parameter_names, param_name_to_pstage, 
+                pstages, parameter_names, param_name_to_pstage,
                 cp_dir_name, tempdir = None, executor = None):
-    data_depth = data_depth if shard else 1 
+    data_depth = data_depth if shard else 1
     mv_futures = []
     state_count = 0
 
@@ -122,24 +152,24 @@ def checkpoint_opt_state(optimizer, rank_within_stage, shard, data_depth,
                 temp_name =  os.path.join(tempdir, opt_state_format.format(i))
                 if data_depth > 1:
                     temp_name += "_" + str(rank_within_stage)
-                torch.save(pstage_state_dicts[i], temp_name)
+                smart_save_checkpoint(pstage_state_dicts[i], temp_name)
                 mv_futures.append(executor.submit(shutil.move, temp_name, cp_name))
             else:
-                torch.save(pstage_state_dicts[i], cp_name)
-            
+                smart_save_checkpoint(pstage_state_dicts[i], cp_name)
+
 
     return mv_futures, state_count
 
 
 def checkpoint_model_params(ordered_params, rank_within_stage, shard, data_depth,
-                pstages, parameter_names, param_name_to_pstage, 
+                pstages, parameter_names, param_name_to_pstage,
                 cp_dir_name, tempdir = None, executor = None):
-    data_depth = data_depth if shard else 1 
+    data_depth = data_depth if shard else 1
     mv_futures = []
     param_count = 0
 
     # write from the first replica of the stage or shard
-    if rank_within_stage == 0 or shard:    
+    if rank_within_stage == 0 or shard:
         pstage_state_dicts = dict()
         for i in pstages:
             pstage_state_dicts[i] = dict()
@@ -156,8 +186,8 @@ def checkpoint_model_params(ordered_params, rank_within_stage, shard, data_depth
                 continue
             pstage_state_dicts[pstage][param_name] = p
             param_count += 1
-        
-        
+
+
         for i in pstages:
             cp_name = os.path.join(cp_dir_name, params_format.format(i))
             if data_depth > 1:
@@ -166,24 +196,26 @@ def checkpoint_model_params(ordered_params, rank_within_stage, shard, data_depth
                 temp_name =  os.path.join(tempdir, params_format.format(i))
                 if data_depth > 1:
                     temp_name += "_" + str(rank_within_stage)
-                torch.save(pstage_state_dicts[i], temp_name)
+                smart_save_checkpoint(pstage_state_dicts[i], temp_name)
                 mv_futures.append(executor.submit(shutil.move, temp_name, cp_name))
             else:
-                torch.save(pstage_state_dicts[i], cp_name)
-    
+                smart_save_checkpoint(pstage_state_dicts[i], cp_name)
+
     return mv_futures, param_count
 
 
 def create_ckpt_dirs(global_store, tempdir, rank, local_rank, step):
     cp_dir_name = os.path.join(global_store, "varuna_ckpt_{}".format(step))
     marker_dir_name = os.path.join(cp_dir_name, MARKERS)
-    if rank == 0 and (not os.path.exists(cp_dir_name)):
-        os.makedirs(cp_dir_name)
-        os.makedirs(marker_dir_name)
+
     if local_rank == 0 and (tempdir is not None) and (not os.path.exists(tempdir)):
         os.makedirs(tempdir)
-    while not os.path.exists(marker_dir_name):
-        pass
+    if not global_store.startswith('s3://'):
+        if rank == 0 and (not os.path.exists(cp_dir_name)):
+            os.makedirs(cp_dir_name)
+            os.makedirs(marker_dir_name)
+        while not os.path.exists(marker_dir_name):
+            pass
     return cp_dir_name, marker_dir_name
 
 def future_on_futures(mv_futures, rank, local_rank, iteration, global_store, param_count):
@@ -207,7 +239,7 @@ def future_on_futures(mv_futures, rank, local_rank, iteration, global_store, par
         with open(global_tracker,"w") as f:
             f.write(str(param_count))
 
-def load_varuna_checkpoint(my_stage, num_stages, total_num_pstages, common_store, 
+def load_varuna_checkpoint(my_stage, num_stages, total_num_pstages, common_store,
                             pstages_to_read = None, device = 'cpu'):
     state_dict = {}
     if pstages_to_read is None:
@@ -215,14 +247,14 @@ def load_varuna_checkpoint(my_stage, num_stages, total_num_pstages, common_store
         pstages_to_read = range(stages_per_worker * my_stage, stages_per_worker * (my_stage + 1) )
     for i in pstages_to_read:
         cp_file = os.path.join(common_store, params_format.format(i))
-        if os.path.exists(cp_file):
-            state_dict_ = torch.load(cp_file,map_location=device)
+        if cp_file.startswith('s3://') or os.path.exists(cp_file):
+            state_dict_ = smart_load_checkpoint(cp_file,map_location=device)
             state_dict.update(state_dict_)
         else:
             shards = [os.path.join(common_store,f) for f in os.listdir(common_store) \
                         if f.startswith(params_format.format(i) + "_")]
             for cp_file in shards:
-                state_dict_ = torch.load(cp_file,map_location=device)
+                state_dict_ = smart_load_checkpoint(cp_file,map_location=device)
                 state_dict.update(state_dict_)
     return state_dict
 
@@ -237,24 +269,24 @@ def load_varuna_optimizer(optimizer, my_stage, num_stages, total_num_pstages, pa
     opt_state = {}
     for i in pstages_to_read:
         f = os.path.join(common_store, opt_state_format.format(i))
-        if os.path.exists(f):
-            state_ = torch.load(f,map_location=device)
+        if f.startswith('s3://') or os.path.exists(f):
+            state_ = smart_load_checkpoint(f,map_location=device)
             opt_state.update(state_)
         else:
             shards = [os.path.join(common_store,f) for f in os.listdir(common_store) \
                         if f.startswith(opt_state_format.format(i) + "_")]
             for filename in shards:
-                state_ = torch.load(filename,map_location=device)
+                state_ = smart_load_checkpoint(filename,map_location=device)
                 opt_state.update(state_)
-                
+
     for p in amp.master_params(optimizer):
         name = parameter_names[p]
         if name in opt_state:
             optimizer.state[p] = opt_state[name]
         else:
             print(f"checkpoint didn't find state for {name}")
-    
-    extra_state = torch.load(os.path.join(common_store, opt_extra_state_name))
+
+    extra_state = smart_load_checkpoint(os.path.join(common_store, opt_extra_state_name))
     for i,g in enumerate(extra_state['param_groups']):
         for k,v in g.items():
             if k != 'params':
@@ -286,5 +318,3 @@ def get_prev_checkpoint(global_store, step):
             break
         prev_step = c
     return prev_step
-
-    
