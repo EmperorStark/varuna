@@ -150,7 +150,7 @@ class TraceEvent:
                         if operation == 'add':
                             client(MANAGER_IP, MANAGER_PORT, 'morph')
                         else:
-                            client(MANAGER_IP, MANAGER_PORT, 'preempt')
+                            client(MANAGER_IP, MANAGER_PORT, f'preempt {self.timer()/1000}')
                 logger.info(f'>>> [{self.timer()/1000:.3f}] nnodes: {len(self.cur_machine_list)}, morph')
                 logger.info(f'               nodes: {self.cur_machine_list}')
 
@@ -162,6 +162,5 @@ class TraceEvent:
 
 
 if __name__ == "__main__":
-
     trace_events = TraceEvent(args.trace, args.n, args.dry_run)
     trace_events.replay()
