@@ -9,7 +9,7 @@ import pickle
 
 from .utils import save_rng_states, restore_rng_states, VARUNA_TEMP_FOLDER
 
-from collections import OrderedDict 
+from collections import OrderedDict
 
 class CutPoint(Module):
 
@@ -18,7 +18,7 @@ class CutPoint(Module):
         # start with 1 and end before last stage (total num_stages - 1 )
         self.cp_index = -1
         self.cp_func = None
-        
+
         self.set_ret_val_func = None
         self.device = None
         self.send_fn = self.recv_fn = None
@@ -28,7 +28,7 @@ class CutPoint(Module):
         self.barrier_event = None
         self.boundary_func = None
         self.forward_input_shapes = None
-    
+
     def set_pruning(self, boolean):
         self.pruning = boolean
 
@@ -38,7 +38,7 @@ class CutPoint(Module):
             self.barrier_event.record()
         if self.boundary_func is not None:
             self.boundary_func()
-        
+
         if self.cp_func is None:
             return inputs[0]
 
@@ -51,15 +51,15 @@ class CutPoint(Module):
             inputs = (inputs,)
 
         if isinstance(self.cp_func, torch.autograd.Function):
-            out = self.cp_func.apply(*inputs, **kwargs)            
+            out = self.cp_func.apply(*inputs, **kwargs)
             if self.cp_index == (self.stage + 1):
-                self.set_ret_val_func(out) 
+                self.set_ret_val_func(out)
             return out
-        
+
         return self.cp_func(*inputs, **kwargs)
 
     def set_cp_func(self):
-        
+
         is_in_next_stage = self.cp_index == self.stage
         is_in_prev_stage = self.cp_index == (self.stage + 1)
 
@@ -84,13 +84,13 @@ class CutPoint(Module):
                 elif is_in_next_stage and self.send_fn is not None:
                     self.send_fn(grad_output, grads = True)
                 return grad_output
-        
+
         c = CutpointFunction()
         self.cp_func = c
 
 
 def dry_run(model, get_batch, from_cache):
-    # executes the forward pass of the module on dummy inputs. 
+    # executes the forward pass of the module on dummy inputs.
     # Sets the order in which modules are used and the total number of cutpoints declared.
 
     dummy_inputs = get_batch(1, device='cpu')
@@ -118,7 +118,7 @@ def dry_run(model, get_batch, from_cache):
             num_cutpoints += 1
 
     print("Num cutpoints is", num_cutpoints)
-    
+
     # TODO: do this extra compute on GPU? large models...
     model(**dummy_inputs)
     input_shapes_1 = input_shapes
@@ -173,7 +173,7 @@ def read_dry_run_out(model):
     with open("_tmp_shape_changes",'rb') as f:
         shape_indices_to_change = pickle.load(f)
     num_cutpoints = len(input_shapes)
-    
+
     return ordered_modules, input_shapes, \
             shape_indices_to_change, num_cutpoints
 
@@ -189,11 +189,11 @@ class PartitionedModel(Module):
         self.local_rank = local_rank
         self.fp16 = fp16
         self.shared_weights = shared_weights
-        
-        
+
+
         self.grads_send_queue = self.acts_send_queue = None
         self.acts_queue = self.grads_queue = None
-        
+
         if device == "cpu":
             # torch.set_device("cpu")
             self.device = torch.device("cpu")
@@ -239,7 +239,7 @@ class PartitionedModel(Module):
             dist.barrier()
             self.ordered_modules, self.input_shapes, self.shape_indices_to_change, \
                 self.num_cutpoints = read_dry_run_out(self.module)
-            
+
         if self.local_rank == 0 and not (from_cache and os.path.exists("_tmp_pstage_mapping")):
             dummy_inputs = get_batch(1, "cpu")
             # TODO: do we really need these many dry runs?
@@ -256,7 +256,7 @@ class PartitionedModel(Module):
             param_access[p] = set()
 
         self.track_cp = 0
-        
+
         def trace_param_access(frame, event, arg):
             if event != 'call':
                 return
@@ -270,7 +270,7 @@ class PartitionedModel(Module):
                 if isinstance(arg, torch.nn.Parameter):
                     if arg in param_access:
                         param_access[arg].add(self.track_cp)
-        
+
         def boundary_func():
             self.track_cp += 1
         for name, module in self.module.named_modules():
@@ -313,8 +313,8 @@ class PartitionedModel(Module):
 
         with open("_tmp_pstage_mapping",'wb') as f:
             pickle.dump(self.param_name_to_pstage,f)
-        
-    
+
+
     def find_shared_weight_stages(self):
         # TODO: this method is wrong, do trace thing
         all_shared_weights = []
@@ -336,7 +336,7 @@ class PartitionedModel(Module):
                 elif m == module_name:
                     print("Here we have the peculiar case of the missing weight", m, param_name)
                     print(getattr(module,param_name))
-        
+
         for w in all_shared_weights:
             if w not in weight_stages:
                 param_name = w.split(".")[-1]
@@ -392,12 +392,12 @@ class PartitionedModel(Module):
                         self.bwd_grad_shape_changes = self.shape_indices_to_change[name]
                         self.post_cp = module
                     attach_meta(module, assigned_index)
-                    assigned_index += 1  
+                    assigned_index += 1
                 index += 1
             # found all relevant cutpoints, break
             if assigned_index == self.num_stages:
                 break
-        
+
 # """ remove unused modules to save memory. """
     def remove_unused_parameters(self):
 
@@ -407,7 +407,7 @@ class PartitionedModel(Module):
         is_used = {}
         used_modules = []
         add_flag = (self.stage == 0)
-        
+
         modules = self.ordered_modules
 
         for name in modules:
@@ -415,7 +415,7 @@ class PartitionedModel(Module):
             if name == "":
                 continue
             if isinstance(module, CutPoint):
-                if (module.cp_index == pre_cp_index or module.cp_index == post_cp_index): 
+                if (module.cp_index == pre_cp_index or module.cp_index == post_cp_index):
                     add_flag = not add_flag
             else:
                 if add_flag:
@@ -475,7 +475,7 @@ class PartitionedModel(Module):
             param_name_to_pstage[p] = stage_index
         # TODO: this is still hard-coded!!!
         param_name_to_pstage["lm_head_weight"] = stage_index
-            
+
         return param_name_to_pstage
 
     def check_unused_parameters(self):
@@ -495,7 +495,7 @@ class PartitionedModel(Module):
                 for i in range(len(path) - 1):
                     parent = getattr(parent, path[i])
                 setattr(parent,path[-1], None)
-        
+
         self.model_pruned = True
 
     def set_ret_val(self, val):
@@ -529,7 +529,7 @@ class PartitionedModel(Module):
         else:
             acts = self.acts_queue.get() if self.stage > 0 else None
         if self.stage > 0:
-            acts = acts.to(self.device) 
+            acts = acts.to(self.device)
 
         def recv(grads = False):
             if grads:
@@ -592,9 +592,9 @@ class PartitionedModel(Module):
                 )
         return times
 
-    def forward(self, inputs_as_dict, recompute=False, save_ctx=False, 
+    def forward(self, inputs_as_dict, recompute=False, save_ctx=False,
                 recording=False, handle_comm=False):
-        
+
         if save_ctx:
             # if these acts are going to be recomputed
             rng_states = save_rng_states(self.device)
@@ -623,14 +623,14 @@ class PartitionedModel(Module):
             if self.stage == self.num_stages - 1:
                 self.recording_events[-1].record()
             self.clear_recording_events()
-        
+
         if save_ctx:
             if self.stage > 0:
                 recv_acts = recv_acts.cpu()
             ctx = (rng_states, recv_acts)
             self.recompute_queue.put(ctx)
 
-        return ret_val 
+        return ret_val
 
 
 class PassThroughModule(Module):
@@ -640,5 +640,3 @@ class PassThroughModule(Module):
 
     def forward(self,*args,**kwargs):
         return None
-
-

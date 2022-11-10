@@ -13,7 +13,7 @@ MORPH_PORT = 4200
 
 launch_args_filename = "launch_args"
 # TODO move this to args/utils
-running_machines_list = "varuna_current_machines"
+running_machines_list = "/home/ubuntu/varuna/aws/varuna_current_machines"
 
 def check_morph_listeners(manager_ip):
     running = True
@@ -50,11 +50,19 @@ def kill_morph_listeners():
 
 def get_launch_cmd_format(args):
     launch_cmd = [sys.executable]
+    nstage = ""
+    if args.nstages is not None:
+        nstage += f" --nstages {args.nstages}"
+    else:
+        assert args.profile_folder is not None
+        nstage += f" --profile_folder {args.profile_folder}"
+
     launch_cmd.append(f" -u -m varuna.launcher" \
         +  f" --ngpus_per_server {args.gpus_per_node}  " \
         +  " --node_rank {} --nservers {} --master_addr {}"
-        +  f" --nstages {args.nstages} --batch_size {args.batch_size}" \
-        +  f" --chunk_size {args.chunk_size} --code_dir {args.code_dir}")
+        +  f" --batch_size {args.batch_size}" \
+        +  f" --chunk_size {args.chunk_size} --code_dir {args.code_dir}" \
+        + nstage)
     launch_cmd.append(args.training_script)
     launch_cmd.extend(args.training_script_args)
     launch_cmd = " ".join(launch_cmd)
@@ -102,6 +110,10 @@ def parse_args():
                         "Defaults to path from which launched.")
     parser.add_argument("--resume", action="store_true",
                         help="Resume a varuna run.")
+    parser.add_argument("--resume_step", type=int, default=None,
+                        help="Resume a varuna run.")
+    parser.add_argument("--profile_folder", default=None, type=str,
+                        help="Directory of profiling result")
 
     parser.add_argument("training_script", type=str, default=None, nargs='?',
                         help="The full path to the single GPU training "
@@ -130,8 +142,11 @@ if __name__ == "__main__":
         print("Empty machine list, nothing to run!")
         exit()
 
-    if any([arg is None for arg in [args.batch_size, args.nstages, args.chunk_size, args.training_script]]):
-        assert args.resume, "Training script, batch size, num of partitions and micro-batch size required!"
+    # FIXME(replay): enable AutoConfig
+    # if any([arg is None for arg in [args.batch_size, args.nstages, args.chunk_size, args.training_script]]):
+    #     assert args.resume, "Training script, batch size, num of partitions and micro-batch size required!"
+    if any([arg is None for arg in [args.batch_size, args.chunk_size, args.training_script]]):
+        assert args.resume, "Training script, batch size and micro-batch size required!"
 
     if args.code_dir is None:
         args.code_dir = os.getcwd()
@@ -151,6 +166,7 @@ if __name__ == "__main__":
         assert os.path.exists(arg_file), "Args file not found for resumed run!"
         with open(arg_file, "r") as f:
             launch_cmd_format = f.read()
+        launch_cmd_format += f' --resume_step {args.resume_step}'
     else:
         launch_cmd_format = get_launch_cmd_format(args)
         with open(arg_file, "w") as f:

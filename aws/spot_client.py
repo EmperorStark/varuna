@@ -17,11 +17,17 @@ parser.add_argument('--train-script', type=str)
 args = parser.parse_args()
 
 
-logging.basicConfig(filename=args.replayer_log,
-                    filemode='w',
-                    format='[%(asctime)s] %(message)s',
-                    level=logging.INFO,)
-logger = logging.getLogger()
+# logging.basicConfig(filename=args.replayer_log,
+#                     filemode='w',
+#                     format='[%(asctime)s] %(message)s',
+#                     level=logging.INFO,)
+# logger = logging.getLogger()
+
+class FakeLogging:
+    pass
+
+logger = FakeLogging()
+logger.info = print
 
 
 HOSTFILE = args.hostfile
@@ -97,7 +103,7 @@ class TraceEvent:
         elif event[1] == 'remove':
             for node in event[2]['nodes']:
                 self.cur_machine_list.remove(node)
-        return event[2]['nodes']
+        return self.cur_machine_list
 
     def sleep(self, sec):
         if self.dry_run:
@@ -142,16 +148,18 @@ class TraceEvent:
                 # update machine list
                 machine_list = self.get_machine_list(event)
                 self.write_machine_list(machine_list)
+                message = ''
                 if not self.dry_run:
                     if tstamp == 0:
                         # start training
                         self.init_start_training()
                     else:
                         if operation == 'add':
-                            client(MANAGER_IP, MANAGER_PORT, 'morph')
+                            message = 'morph'
                         else:
-                            client(MANAGER_IP, MANAGER_PORT, f'preempt {self.timer()/1000}')
-                logger.info(f'>>> [{self.timer()/1000:.3f}] nnodes: {len(self.cur_machine_list)}, morph')
+                            message = f'preempt {self.timer()/1000}'
+                        client(MANAGER_IP, MANAGER_PORT, message)
+                logger.info(f'>>> [{self.timer()/1000:.3f}] nnodes: {len(self.cur_machine_list)}, message: {message}')
                 logger.info(f'               nodes: {self.cur_machine_list}')
 
         # final, clean all machines
@@ -159,6 +167,14 @@ class TraceEvent:
         final_timestamp = final_event[0] + final_event[2]['duration']
         self.sleep((final_timestamp - self.timer()) / 1000)
         self.write_machine_list('')
+
+        # kill all
+        message = f'preempt {self.timer()/1000}'
+        if not self.dry_run:
+            client(MANAGER_IP, MANAGER_PORT, message)
+        logger.info(f'>>> [{self.timer()/1000:.3f}] nnodes: {len(self.cur_machine_list)}, message: {message}')
+        logger.info(f'          Finally kill all')
+        os.system('bash kill_all.sh')
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ def calculate_config(args):
     # world size in terms of number of processes
     gpus_available = args.ngpus_per_server * args.nservers
     if args.nstages is None:
-        args.nstages, args.chunk_size = num_partitions(gpus_available, args.ngpus_per_server, args.batch_size)
+        args.nstages, args.chunk_size = num_partitions(gpus_available, args.ngpus_per_server, args.batch_size, args.profile_folder)
     gpus_per_stage = (gpus_available // args.nstages) if args.gpus_per_stage == 0 else args.gpus_per_stage
     # args.gpus_per_stage = gpus_per_stage
     print(gpus_per_stage, "per stage")
@@ -40,7 +40,7 @@ def calculate_config(args):
 
     # clustered
     for i in range(args.nstages):
-        stage_to_rank_map[i] = range(i, dist_world_size, args.nstages) 
+        stage_to_rank_map[i] = range(i, dist_world_size, args.nstages)
         for r in stage_to_rank_map[i]:
             rank_to_stage_map[r] = i
 
@@ -51,12 +51,12 @@ def calculate_config(args):
 
     # # batch size should be divisible by num of data parallel workers
     per_gpu_batch_size = args.batch_size // gpus_per_stage
-    total_batch_size = per_gpu_batch_size * gpus_per_stage     
+    total_batch_size = per_gpu_batch_size * gpus_per_stage
 
     last_unused_gpus = 0
     if (dist_world_size % args.ngpus_per_server) != 0:
         last_unused_gpus = args.ngpus_per_server - (dist_world_size % args.ngpus_per_server)
-    
+
     first_rank_in_server = args.node_rank * args.ngpus_per_server
     ranks_in_server = range(first_rank_in_server, first_rank_in_server + args.ngpus_per_server)
     if args.node_rank == args.nservers - 1:
@@ -76,9 +76,9 @@ def calculate_config(args):
     print("stage to rank map:", stage_to_rank_map_str)
 
     return dist_world_size, stage_to_rank_map, ranks_in_server, total_batch_size, gpus_per_stage
-    
-def num_partitions(world_size, ngpus_per_server, batch_size):
-    auto = AutoConfig(world_size, ngpus_per_server, batch_size)
+
+def num_partitions(world_size, ngpus_per_server, batch_size, profile_folder):
+    auto = AutoConfig(world_size, ngpus_per_server, batch_size, profile_folder)
     num_partitions, chunk_size, time = auto.get_min()
     print("best config is:", num_partitions, chunk_size)
     print("expected time is", time, flush=True)
@@ -105,7 +105,7 @@ def get_last_iter(num_local_processes):
         if last_iter == -1:
             last_iter = last_iter_
         else:
-            last_iter = min(last_iter, last_iter_) 
+            last_iter = min(last_iter, last_iter_)
     return last_iter
 
 def parse_args():
@@ -122,7 +122,7 @@ def parse_args():
                         help="The total number of nodes.")
     parser.add_argument("--node_rank", type=int, default=0,
                         help="Rank of node amongst servers.")
-    parser.add_argument("--nstages", type=int, required = True,
+    parser.add_argument("--nstages", type=int, default=None,
                         help="Depth of pipeline (number of stages)")
     parser.add_argument("--batch_size", required=True, type=int,
                         help="Total effective batch size required")
@@ -130,12 +130,14 @@ def parse_args():
                         help="Micro-batch size per mini-batch")
     parser.add_argument("--code_dir", default=None, type=str,
                         help="Directory to run training in")
+    parser.add_argument("--profile_folder", default=None, type=str,
+                        help="Directory of profiling result")
     parser.add_argument("--gpus_per_stage", type=int, default = "0",
                         help="GPUs per stage (Only needed when we want to use less than ngpus_per_server * nservers)")
     # need a better way to pass this information ?
     # parser.add_argument("--total_num_stages", required=True, type=int,
     #                     help="The total number of potential stages/partitions the model is divided into")
-    
+
     parser.add_argument("--master_addr", default="127.0.0.1", type=str,
                         help="Master node (rank 0)'s address, should be either "
                              "the IP address or the hostname of node 0, for "
@@ -160,10 +162,10 @@ def parse_args():
     # rest from the training program
     parser.add_argument('training_script_args', nargs=REMAINDER)
     return parser.parse_args()
-        
+
 if __name__ == "__main__":
 
-    print("Parent process ID:",os.getpid())
+    print("Parent process ID:",os.getpid(), 'node:', socket.gethostbyname(socket.gethostname()))
 
     if not os.path.exists(VARUNA_TEMP_FOLDER):
         os.makedirs(VARUNA_TEMP_FOLDER)
@@ -183,7 +185,7 @@ if __name__ == "__main__":
                 p.send_signal(signal.SIGUSR1)
         except Exception as e:
             print("run_varuna: error while sending signal:- ", e)
-            
+
         print("\n\n STOPPING VARUNA !!\n\n\n", flush=True)
 
     signal.signal(signal.SIGUSR1, handler)
@@ -202,6 +204,10 @@ if __name__ == "__main__":
             "your application as needed. \n"
             "*****************************************".format(current_env["OMP_NUM_THREADS"]))
 
+    # change working dir
+    if args.code_dir is not None:
+        os.chdir(args.code_dir)
+
     dist_world_size, stage_to_rank_map, ranks_in_server, \
         total_batch_size, gpus_per_stage = calculate_config(args)
 
@@ -212,7 +218,7 @@ if __name__ == "__main__":
 
     current_env["WORLD_SIZE"] = str(dist_world_size)
     print("World size is",dist_world_size)
-    
+
     # uneven data parallelism not supported yet
     if dist_world_size % args.nstages != 0:
         raise ValueError("Each stage must get equal number of GPU processes")
@@ -223,9 +229,9 @@ if __name__ == "__main__":
         stage_to_rank_map_str += (ranks + ";")
 
     for rank in ranks_in_server:
-        
+
         local_rank = rank % args.ngpus_per_server
-        rank = alias_ranks[rank]            
+        rank = alias_ranks[rank]
 
         # each process's rank
         current_env["RANK"] = str(rank)
@@ -263,4 +269,3 @@ if __name__ == "__main__":
 
     last_iter = get_last_iter(len(ranks_in_server))
     send_to_manager("checkpoint done {}".format(last_iter), manager_ip, manager_port)
-

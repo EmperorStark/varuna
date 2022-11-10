@@ -3,20 +3,22 @@ import torch.distributed as dist
 from torch.nn import Module
 
 from .partitioned_model import CutPoint, dry_run, read_dry_run_out
+from .utils import smart_pickle_load, smart_pickle_save
+from .checkpoint import list_files
 
 import os
 import time
 import pickle
 import math
 
-from collections import OrderedDict 
+from collections import OrderedDict
 import collections
 
 try:
     from apex import amp
 except:
     print("No apex")
-    
+
 import numpy as np
 import random, math
 
@@ -63,7 +65,7 @@ def receiver(recv_rank, recv_shape, recv_times, dtype):
         recv_times.append(time.time() - start_time)
 
     del acts_tensor
-    
+
 def sender(send_rank, send_shape, send_times, dtype):
     chunks = num_comm_passes
     send_handles = Queue()
@@ -77,35 +79,35 @@ def sender(send_rank, send_shape, send_times, dtype):
             handle, start_time = send_handles.get()
             handle.wait()
             send_times.append(time.time() - start_time)
-    
+
     while not send_handles.empty():
         handle, start_time = send_handles.get()
         handle.wait()
         send_times.append(time.time() - start_time)
 
 class Profiler:
-    r"""Module for varuna profiling. Similar to ``Varuna`` class, the model must be 
-    wrapped in an instance of ``Profiler`` before optimizer creation and the 
+    r"""Module for varuna profiling. Similar to ``Varuna`` class, the model must be
+    wrapped in an instance of ``Profiler`` before optimizer creation and the
     :attr:`model` passed should be on CPU.
 
     Varuna profiling runs in a distributed process and the ``Profiler`` should
-    be used by each worker. Each worker profiles compute for the different ``CutPoint``s 
+    be used by each worker. Each worker profiles compute for the different ``CutPoint``s
     in the model while simultaneously measuring communication links between workers.
     The profiler should be used in three steps:
 
     .. code-block:: python
-    
+
         def get_batch(size):
             # function to get sample batches of given size for profiling
             return batch
         profiler = Profiler(model, get_batch_fn, fp16=args.fp16, device = args.local_rank,
                             from_cache=True, out_folder=args.save)
         profile = profiler.profile_all(microbatch_sizes_to_profile)
-    
+
     :param model: The model to profile.
-    :type model: torch.nn.Module 
+    :type model: torch.nn.Module
     :param get_batch_fn: Function to get batch of a given size, used for different sizes by the profiler
-    :type get_batch_fn: function(size, device='cpu')   
+    :type get_batch_fn: function(size, device='cpu')
     :param device: index of the cuda device to use. Recommended to be the same as local_rank,
         which is the default if not specified.
     :type device: int
@@ -119,7 +121,7 @@ class Profiler:
     :type list or None
     :param add_to_existing: Whether to continue profiling by adding to cutpoint profiles already saved in out_folder
     :type add_To_existing: bool
-    
+
     """
 
     def __init__(self, model, get_batch, device=-1, gpus_per_node=None,
@@ -156,19 +158,34 @@ class Profiler:
         if stages_to_profile is None:
             profiles_done = []
             if add_to_existing:
-                profiles_done = sorted([int(f.split("-")[-1]) for f in os.listdir(self.out_folder) \
+                profiles_done = sorted([int(f.split("-")[-1]) for f in list_files(self.out_folder) \
                             if f.startswith("compute-profile-")])
                 comm_profile_path = os.path.join(self.out_folder, f"comm-profile")
                 alr_profile_path = os.path.join(self.out_folder, f"allred-profile")
-                if os.path.exists(comm_profile_path):
+                if comm_profile_path.startswith('s3://'):
+                    try:
+                        comm_profile = smart_pickle_load(comm_profile_path)
+                        for key in comm_profile:
+                            val = comm_profile[key]
+                            # TODO: this should also have weight for the single val?
+                            self.comm_profile[key] = {"send": [val["send"]],
+                                            "long_send": [val["long_send"]]}
+                    except:
+                        pass
+                elif os.path.exists(comm_profile_path):
                     with open(comm_profile_path, "rb") as f:
                         comm_profile = pickle.load(f)
                     for key in comm_profile:
                         val = comm_profile[key]
                         # TODO: this should also have weight for the single val?
-                        self.comm_profile[key] = {"send": [val["send"]], 
+                        self.comm_profile[key] = {"send": [val["send"]],
                                         "long_send": [val["long_send"]]}
-                if os.path.exists(alr_profile_path):
+                if alr_profile_path.startswith('s3://'):
+                    try:
+                        self.all_reduce_profile = smart_pickle_load(alr_profile_path)
+                    except:
+                        pass
+                elif os.path.exists(alr_profile_path):
                     with open(comm_profile_path, "rb") as f:
                         self.all_reduce_profile = pickle.load(f)
             stages_to_profile = [s for s in range(self.num_cutpoints+1) if s not in profiles_done]
@@ -177,7 +194,7 @@ class Profiler:
         # num_stages_to_profile = min(self.world_size, self.num_cutpoints+1)
         stages_to_profile = stages_to_profile[:self.world_size]
         print(f"Stages to profile: {stages_to_profile}")
-        
+
         my_stages_to_profile = \
             list(range(self.rank, len(stages_to_profile), self.world_size))
         my_stages_to_profile = [stages_to_profile[i] for i in my_stages_to_profile]
@@ -215,8 +232,8 @@ class Profiler:
 
         self.alr_factors, self.alr_sizes = self.get_all_reduce_sizes()
         self.prep_stage(0)
-        
-    # TODO: unify this class and PartitionedModel  
+
+    # TODO: unify this class and PartitionedModel
     def trim_model(self, start=0, end=1):
 
         def attach_meta(cutpoint, index):
@@ -250,9 +267,9 @@ class Profiler:
             if index > start and index <= end:
                 used_modules.append(name)
                 is_used[name] = True
-            
+
             # only need to set up two cutpoints at most
-            if isinstance(module, CutPoint):    
+            if isinstance(module, CutPoint):
                 if index == end:
                     attach_meta(module, start+1)
                     self.bwd_grad_shape = self.input_shapes[name][0]
@@ -266,7 +283,7 @@ class Profiler:
                     attach_meta(module, start)
                     self.pre_cp = module
                 index += 1
-            
+
 
         # any module that is used or has children that are used are needed
         for u in used_modules:
@@ -288,7 +305,7 @@ class Profiler:
                 self.ordered_modules[m] = None
             # else:
             #     print(m)
-        
+
     def check_unused_parameters(self, dummy_inputs):
         # set eval mode and clear grads
         prev_training = self.model.training
@@ -306,7 +323,7 @@ class Profiler:
         # forward
         if self.pre_cp is not None:
             self.pre_cp.recv_fn = lambda grads=False: \
-                torch.zeros(self.fwd_inp_shape, dtype=torch.float32)    
+                torch.zeros(self.fwd_inp_shape, dtype=torch.float32)
         try:
             calc_val = self.model(**dummy_inputs)
             ret_val = self.ret_val if self.ret_val is not None else calc_val
@@ -314,12 +331,12 @@ class Profiler:
             if self.ret_val is None:
                 raise e
             ret_val = self.ret_val
-        
+
         # backward
         if self.pre_cp is not None:
             self.pre_cp.recv_fn = None
         ret_val.backward(torch.ones(list(ret_val.size()), dtype=torch.float32))
-        
+
 
         self.ret_val = None
         to_remove = []
@@ -333,7 +350,7 @@ class Profiler:
                     parent = getattr(parent, path[i])
                 self.orig_params[n] = p
                 setattr(parent,path[-1], None)
-        
+
         # reset grads and train mode
         for p in self.model.parameters():
             p.grad = None
@@ -346,7 +363,7 @@ class Profiler:
                 m.set_pruning(False)
 
         self.model_pruned = True
-    
+
     def set_optimizer(self, optimizer, amp_opt_level="O2", loss_scale = "dynamic",
                             init_loss_scale = 2**20, min_loss_scale=None):
         self.optimizer = optimizer
@@ -355,17 +372,17 @@ class Profiler:
         if self.fp16:
             assert  loss_scale == 'dynamic' or type(loss) == float, \
                     "Loss scale must either be a floating point or the string 'dynamic'"
-            
-            basemodel, optimizer = amp.initialize(  basemodel, self.optimizer, opt_level=amp_opt_level, 
+
+            basemodel, optimizer = amp.initialize(  basemodel, self.optimizer, opt_level=amp_opt_level,
                                                     loss_scale=loss_scale, min_loss_scale=min_loss_scale )
             if loss_scale == 'dynamic':
                 amp._amp_state.loss_scalers[0]._loss_scale = init_loss_scale
-            
+
             self.model = basemodel
             self.optimizer = optimizer
 
     def get_all_reduce_sizes(self):
-        
+
         factors = []
         num_pstages = self.num_cutpoints + 1
         for i in range(1,num_pstages + 1):
@@ -387,10 +404,10 @@ class Profiler:
             for p in module.parameters(recurse = False):
                 pstage_param_count += p.numel()
             pstage_to_param_count[index-1] += pstage_param_count
-            
+
             # only need to set up two cutpoints at most
-            if isinstance(module, CutPoint): 
-                pstage_to_param_count[index] = 0  
+            if isinstance(module, CutPoint):
+                pstage_to_param_count[index] = 0
                 index += 1
 
         factors = sorted(factors)[::-1]
@@ -406,14 +423,14 @@ class Profiler:
         print("all reduce sizes", param_sizes)
 
         return factors, param_sizes
-         
+
     def dry_run(self, get_batch, from_cache):
-        # executes the forward pass of the module on dummy inputs. 
+        # executes the forward pass of the module on dummy inputs.
         # Sets the order in which modules are used and the total number of cutpoints declared.
 
         dummy_inputs = get_batch(1, device='cpu')
         self.dummy_inputs = dummy_inputs
-        
+
         if self.local_rank == 0 and not (from_cache and \
             all([os.path.exists(f) for f in ["_tmp_ord_mod","_tmp_inp_shapes"]])):
 
@@ -472,11 +489,13 @@ class Profiler:
         optimizer = self.optimizer
 
         out_folder = self.out_folder
-        for i in range(self.num_rounds):     
+        for i in range(self.num_rounds):
             self.profile(microbatch_sizes, optimizer)
             if self.stage is not None:
-                with open(os.path.join(out_folder, f"compute-profile-{self.stage}"), "wb") as f:
-                    pickle.dump(self.compute_profile, f)
+                profile_file = os.path.join(out_folder, f"compute-profile-{self.stage}")
+                smart_pickle_save(profile_file, self.compute_profile)
+                # with open(profile_file, "wb") as f:
+                #     pickle.dump(self.compute_profile, f)
 
             if not DEBUG:
                 break
@@ -485,12 +504,14 @@ class Profiler:
                 optimizer.state = collections.defaultdict(dict) # Reset state
                 self.restore_orig_model()
             self.prep_stage(i + 1)
-           
+
         print("pre-alr mem",torch.cuda.memory_allocated(self.device))
         self.profile_all_reduce(self.alr_factors, self.alr_sizes)
         if self.rank == 0:
-            with open(os.path.join(out_folder, "allred-profile"), "wb") as f:
-                pickle.dump(self.all_reduce_profile, f)
+            profile_file = os.path.join(out_folder, "allred-profile")
+            smart_pickle_save(profile_file, self.all_reduce_profile)
+            # with open(profile_file, "wb") as f:
+            #     pickle.dump(self.all_reduce_profile, f)
 
         self.gather_profile(out_folder)
 
@@ -504,7 +525,7 @@ class Profiler:
                 for comm_shape in comm_profile:
                     if comm_shape not in aggregate_comm_profile:
                         aggregate_comm_profile[comm_shape] = {"send": [], "long_send": []}
-                    
+
                     full_profile = aggregate_comm_profile[comm_shape]
                     this_profile = comm_profile[comm_shape]
                     full_profile["send"].extend(this_profile["send"])
@@ -521,9 +542,11 @@ class Profiler:
                         print(f"WARNING: No comm times for size {comm_shape} {key}!")
                         aggregate_comm_profile[comm_shape][key] = -1
 
-            with open(os.path.join(out_folder, "comm-profile"), "wb") as f:
-                pickle.dump(aggregate_comm_profile, f)
-       
+            profile_file = os.path.join(out_folder, "comm-profile")
+            smart_pickle_save(profile_file, aggregate_comm_profile)
+            # with open(profile_file, "wb") as f:
+            #     pickle.dump(aggregate_comm_profile, f)
+
     def set_ret_val(self, val):
         self.ret_val = val
 
@@ -533,7 +556,7 @@ class Profiler:
         return self.fwd_inp
 
     def warmup(self, microbatch_sizes, optimizer):
-        
+
         if self.pre_cp is not None:
             self.pre_cp.recv_fn = self.recv
 
@@ -557,7 +580,7 @@ class Profiler:
                         print("Calc error!!!")
                         raise e
                     fwd_out = self.ret_val
-                
+
                 if isinstance(fwd_out, tuple):
                     fwd_out = fwd_out[0]
                 fwd_out.cpu()
@@ -580,7 +603,7 @@ class Profiler:
                     break
                 else:
                     raise e
-            
+
             for param in optimizer._amp_stash.all_fp32_from_fp16_params:
                 param.grad = None
             for param in self.model.parameters():
@@ -696,7 +719,7 @@ class Profiler:
                     if self.rank == 0:
                         print(f"alr {factor} {alr_size} {ring_size}")
                     try:
-                        allred_tensor = torch.ones(alr_size, dtype=torch.float16 if self.fp16 else torch.float32, 
+                        allred_tensor = torch.ones(alr_size, dtype=torch.float16 if self.fp16 else torch.float32,
                                 device=self.device)
                         avg_time = 0.0
                         for _ in range(num_passes):
@@ -715,7 +738,7 @@ class Profiler:
                             avg_time = (self.all_reduce_profile[factor][ring_size - 1] + avg_time) / 2
                             self.all_reduce_profile[factor][ring_size - 1]  = avg_time
                         else:
-                            self.all_reduce_profile[factor].append(avg_time)            
+                            self.all_reduce_profile[factor].append(avg_time)
 
                     except RuntimeError as e:
                         allred_tensor = None
@@ -727,7 +750,7 @@ class Profiler:
                     dist.all_reduce(oom, group=group)
                     if oom.item():
                         break
- 
+
         print("All reduce times")
         for f in factors:
             print(f, self.all_reduce_profile[f])
@@ -737,7 +760,7 @@ class Profiler:
         if self.stage is not None and not self.warmed_up:
             self.warmup(microbatch_sizes, optimizer)
             self.warmed_up = True
-        
+
         dist.barrier()
 
         self.compute_profile = {}
@@ -807,7 +830,7 @@ class Profiler:
         grads = 0.00001 * torch.ones(list(fwd_out.size()), device = self.device)
         if self.bwd_grad_shape is not None:
             self.bwd_grad = torch.ones(self.bwd_grad_shape, dtype = torch.float16 if self.fp16 else torch.float32).to(self.device)
-    
+
         bwd_start = torch.cuda.Event(enable_timing=True)
         bwd_start.record()
         if self.fp16:
@@ -826,7 +849,7 @@ class Profiler:
         copy_times = []
         avg_mem_usage = 0
 
-        for i in range(num_compute_passes): 
+        for i in range(num_compute_passes):
             torch.cuda.reset_max_memory_allocated(self.device)
 
             # get_batch_fn should load inputs into device and return dict
@@ -836,14 +859,14 @@ class Profiler:
 
             fwd_out, fwd_start, fwd_end = self.profile_fwd(inputs, batch_size)
 
-            fwd_out, bwd_start, bwd_end = self.profile_bwd(fwd_out, batch_size, optimizer) 
+            fwd_out, bwd_start, bwd_end = self.profile_bwd(fwd_out, batch_size, optimizer)
 
             optimizer.step()
             for param in optimizer._amp_stash.all_fp32_from_fp16_params:
                 param.grad = None
             for param in self.model.parameters():
                 param.grad = None
-                    
+
             fwd_act_size = fwd_out.element_size() * fwd_out.nelement()
             self.model.zero_grad()
             optimizer.zero_grad()
@@ -858,7 +881,7 @@ class Profiler:
             copy_end.record()
 
             mem_usage = torch.cuda.max_memory_allocated(self.device)
-        
+
             fwd_times.append((fwd_start, fwd_end))
             bwd_times.append((bwd_start, bwd_end))
             copy_times.append((copy_start, copy_end))
@@ -866,7 +889,7 @@ class Profiler:
 
             del inputs, fwd_out
             self.fwd_inp = None; self.bwd_grad = None
-    
+
         torch.cuda.synchronize()
         for i in range(num_compute_passes):
             fwd_start, fwd_end = fwd_times[i]
@@ -880,7 +903,7 @@ class Profiler:
         opt_state_mem = torch.cuda.memory_allocated(self.device)
         optimizer.state = collections.defaultdict(dict) # Reset state
         opt_state_mem = opt_state_mem - torch.cuda.memory_allocated(self.device)
-                
+
         fwd_times = remove_outliers(fwd_times)
         bwd_times = remove_outliers(bwd_times)
         copy_times = remove_outliers(copy_times)
@@ -889,9 +912,9 @@ class Profiler:
         copy_time = sum(copy_times)/len(copy_times)
         mem_usage = avg_mem_usage / num_compute_passes
         return fwd_time, bwd_time, copy_time, mem_usage, fwd_act_size
-        
-        
-                
+
+
+
 class PassThroughModule(Module):
 
     def __init__(self):
@@ -899,4 +922,3 @@ class PassThroughModule(Module):
 
     def forward(self,*args,**kwargs):
         return None
-

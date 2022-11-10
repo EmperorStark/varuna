@@ -2,6 +2,9 @@
 import os
 import socket
 import math
+import boto3
+import io
+import pickle
 
 try:
     import torch
@@ -15,6 +18,30 @@ HEARTBEAT_IP_ENV_VAR = "VARUNA_MANAGER_IP"
 HEARTBEAT_PORT_ENV_VAR = "VARUNA_HEARTBEAT_PORT"
 MORPH_PORT_ENV_VAR = "VARUNA_MORPH_PORT"
 LOCAL_PID_FILENAME = "local_parent_pid"
+
+
+def smart_pickle_save(filename, obj):
+    if filename.startswith('s3://'):
+        s3 = boto3.client('s3')
+        bucket, key = filename[5:].split('/', 1)
+        with io.BytesIO() as f:
+            pickle.dump(obj, f)
+            s3.put_object(Bucket=bucket, Key=key, Body=f.getvalue())
+    else:
+        with open(filename, 'wb') as f:
+            pickle.dump(obj, f)
+
+
+def smart_pickle_load(filename):
+    if filename.startswith('s3://'):
+        s3 = boto3.client('s3')
+        bucket, key = filename[5:].split('/', 1)
+        with io.BytesIO(s3.get_object(Bucket=bucket, Key=key)['Body'].read()) as f:
+            return pickle.load(f)
+    else:
+        with open(filename, 'rb') as f:
+            return pickle.load(f)
+
 
 def scatter(input, batch_size, chunk_size):
     """

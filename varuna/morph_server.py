@@ -74,7 +74,7 @@ class Handler(socketserver.BaseRequestHandler):
         global available_machines_list, my_ip
         print("restarting", resume, flush=True)
         cmd = "python -m varuna.run_varuna --resume " + \
-             f"--machine_list {available_machines_list} --manager_ip {my_ip}"
+             f"--resume_step {resume} --machine_list {available_machines_list} --manager_ip {my_ip}"
         os.system(cmd)
 
     def handle(self):

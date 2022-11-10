@@ -3,11 +3,12 @@ import math
 import os
 import torch
 import pickle
+from .utils import smart_pickle_load
 
 class AutoConfig:
 
     def __init__(self, num_gpus, gpus_per_vm, batch_size,
-                profile_folder, gpu_memory_capacity=None, verbose=True, 
+                profile_folder, gpu_memory_capacity=None, verbose=True,
                 autofill_missing_compute=False):
 
         self.num_gpus = num_gpus
@@ -16,8 +17,8 @@ class AutoConfig:
         if gpu_memory_capacity is None:
             gpu_memory_capacity = torch.cuda.get_device_properties(0).total_memory
         self.gpu_memory_capacity = gpu_memory_capacity
-        
-        self.read_model_structure()
+
+        self.read_model_structure(verbose=verbose)
         self.read_profile(profile_folder, autofill_missing_compute)
 
         num_stages_candidates = [ i for i in range(1, self.num_pstages) if self.num_pstages % i == 0]
@@ -60,14 +61,14 @@ class AutoConfig:
             if alr == -1:
                 print(f"WARNING: no allreduce time found for {pp_size} x {dp_size}")
                 alr = 0
-            
+
             batch_time = self.get_simulated_time(pp_size, num_microbatches, send_time, \
                                 long_send_time, alr, verbose)
             self.batch_times[pp_size] = batch_time
 
         print(self.batch_times)
         print(self.micro_batch)
- 
+
     def calc_and_write_compute_times(self, pp_size, mbs):
         pstages_per_stage = self.num_pstages // pp_size
 
@@ -91,7 +92,7 @@ class AutoConfig:
             # if stage > 0:
             #     copy = self.compute_profile[pstages_per_stage * stage][mbs]["copy"]
             #     fwd_time += copy; bwd_time += copy
-            
+
             fwd_time = int(fwd_time)
             bwd_time = int(bwd_time)
             fwd_times.append(fwd_time)
@@ -131,28 +132,34 @@ class AutoConfig:
         return best_pp, best_mbs, min_time
 
     def read_profile(self, profile_folfder, autofill_missing_compute=False):
-        
+
         self.compute_profile = []
         self.comm_profile = []
         for i in range(self.num_pstages):
             profile_path = os.path.join(profile_folfder, f"compute-profile-{i}")
-            if os.path.exists(profile_path):
+            if profile_path.startswith('s3://'):
+                compute_profile = smart_pickle_load(profile_path)
+            elif os.path.exists(profile_path):
                 with open(profile_path, "rb") as f:
                     compute_profile = pickle.load(f)
             else:
                 assert autofill_missing_compute and i>0, \
                 "Missing compute profiles! Profile should have compute for at least one cutpoint." + \
                 "Enable flag autofill_missing_compute if some others are missing."
-                compute_profile = self.compute_profile[0]         
+                compute_profile = self.compute_profile[0]
             self.compute_profile.append(compute_profile)
 
-        with open(os.path.join(profile_folfder, f"comm-profile"), "rb") as f:
-            self.comm_profile = pickle.load(f)
+        profile_file = os.path.join(profile_folfder, f"comm-profile")
+        self.comm_profile = smart_pickle_load(profile_file)
+        # with open(profile_file, "rb") as f:
+        #     self.comm_profile = pickle.load(f)
 
-        with open(os.path.join(profile_folfder, "allred-profile"), "rb") as f:
-            self.all_reduce_profile = pickle.load(f)
+        profile_file = os.path.join(profile_folfder, "allred-profile")
+        self.all_reduce_profile = smart_pickle_load(profile_file)
+        # with open(profile_file, "rb") as f:
+        #     self.all_reduce_profile = pickle.load(f)
 
-    def read_model_structure(self):
+    def read_model_structure(self, verbose=False):
         with open("_tmp_inp_shapes",'rb') as f:
             input_shapes = pickle.load(f)
         input_shapes_keys = list(input_shapes.keys())
@@ -209,7 +216,7 @@ class AutoConfig:
             else:
                 start = mid
                 end = mid
-        
+
         # assert start == end,f"No microbatch fits for {pp_size} partitions!"
         if start == end:
             return start
