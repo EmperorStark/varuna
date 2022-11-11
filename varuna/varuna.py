@@ -33,25 +33,25 @@ Module = nn.Module
 log_verbose = False
 
 TASK = ["fwd", "rec", "bwd"]
-    
+
 class Varuna(Module):
-    r"""Module to implement varuna training. The model must be wrapped in an instance 
-    of ``Varuna`` before training. This should be done before optimizer creation and the 
+    r"""Module to implement varuna training. The model must be wrapped in an instance
+    of ``Varuna`` before training. This should be done before optimizer creation and the
     :attr:`model` passed should be on CPU.
 
     Creating a ``Varuna`` instance profiles the model briefly using :attr:`dummy_inputs`
     and partitions it according to the distributed rank and launcher arguments.
     The partitioned model is then moved to the allocated cuda device. The profiling
     information is cached and can be re-used on resuming, unless :attr:`from_cache` is False.
-    The ``Varuna`` module performs mixed precision training internally if enabled through the 
-    :attr:`fp16` arg, no external handling is required. 
+    The ``Varuna`` module performs mixed precision training internally if enabled through the
+    :attr:`fp16` arg, no external handling is required.
 
     :param model: The model to initialize for training.
     :type model: torch.nn.Module
-    :param stage_to_rank_map: Placement of pipeline stages in the distribued job, encoded as a string. 
+    :param stage_to_rank_map: Placement of pipeline stages in the distribued job, encoded as a string.
         Passed by ``varuna.launcher`` to each worker as an argument.
     :type stage_to_rank_map: dict
-    :param get_batch_fn: Function to get sample input batches of a given size, as dictionaries. 
+    :param get_batch_fn: Function to get sample input batches of a given size, as dictionaries.
         These are used to profile the model structure as ``model(**get_batch_fn(k, device='cpu))``.
     :type get_batch_fn: function(size: int, device: torch.device or None)
     :param batch_size: Global batch size for the distributed training job.
@@ -60,7 +60,7 @@ class Varuna(Module):
     :type chunk_size: int
     :param fp16: whether to enable mixed precision training.
     :type fp16: bool
-    :param local_rank: The local rank as passed by ``varuna.launcher``. If not given, 
+    :param local_rank: The local rank as passed by ``varuna.launcher``. If not given,
         defaults to the global rank.
     :type local_rank: int
     :param device: index of the cuda device to use. Recommended to be the same as local_rank,
@@ -71,11 +71,11 @@ class Varuna(Module):
     :type shared_weights: list or None
     :param from_cache: Whether to use cached profiling information if available.
     :type from_cache: bool
-    
+
     .. note::
 
         Optimizer initiliastion should be done after  ``Varuna`` initialisation, so that the ``param_group`` s
-        for the optimizer only contain parameters from the partitioned model. This is important both for memory 
+        for the optimizer only contain parameters from the partitioned model. This is important both for memory
         usage and correctness of fp16 training. Once ``Varuna`` and the optimizer are initialised, :func:`set_optimizer`
         should be called to connect the two.
 
@@ -86,7 +86,7 @@ class Varuna(Module):
                 get_batch_fn,
                 batch_size,
                 chunk_size,
-                fp16 = False, 
+                fp16 = False,
                 local_rank=-1,
                 device=-1,
                 shared_weights=None,
@@ -135,10 +135,10 @@ class Varuna(Module):
 
         self.batch_size = batch_size // self.data_depth
         self.micro_batch_size = chunk_size
-        self.last_chunk_size = self.batch_size % chunk_size 
+        self.last_chunk_size = self.batch_size % chunk_size
         self.init_communication()
 
-        self.model.to(self.device)        
+        self.model.to(self.device)
         self.init_distributed()
         self.configure_checkpointing()
 
@@ -197,7 +197,7 @@ class Varuna(Module):
 
     def init_distributed(self):
         # create same process groups on all ranks
-        
+
         # data parallel groups
         self.dp_group = None
         dp_groups = {}
@@ -228,7 +228,7 @@ class Varuna(Module):
             else:
                 pipeline_groups[replica] = None
                 tied_groups[replica] = None
-            
+
         current_replica = self.stage_to_rank_map[self.stage].index(self.rank)
         print("this rank ", self.rank, "is part of pipeline replica ", current_replica)
         if pipeline_groups[current_replica] is not None:
@@ -246,13 +246,13 @@ class Varuna(Module):
                              or the 'evaluate' function for evaluation.")
 
     def step(self, inputs, clip_grad_max_norm=None):
-        r""" Perform a single training step. Executes forward and backward passes for 
+        r""" Perform a single training step. Executes forward and backward passes for
         the global batch. This function must be called by all distributed workers in the training loop.
         After this function, the optimizer gradients are reduced accross data parallel replicas and
         overflow is checked for mixed precision training. Returns average loss and a boolean for overflow.
 
         :param inputs: The inputs to the model as a dictionary. These should be coordinated amongst workers -
-            the global batch is sharded across data parallel replicas, so each worker should have 
+            the global batch is sharded across data parallel replicas, so each worker should have
             ``global_batch_size / data_parallel_depth`` number of examples. And all pipeline stages of the same
             data parallel replica should recieve the same inputs.
         :type inputs: dict
@@ -265,11 +265,11 @@ class Varuna(Module):
         assert isinstance(inputs, dict), "Varuna inputs should be a dictionary!"
 
         # if self.fp16:
-        assert self.optimizer is not None, "You must set the optimizer using set_optimizer()"        
-        
+        assert self.optimizer is not None, "You must set the optimizer using set_optimizer()"
+
         # Divide a mini-batch into micro-batches.
         batches = utils.scatter(inputs, int(self.batch_size),self.micro_batch_size)
-        
+
         self.config["make_logfile"] = bool(self.config["make_logfile"] and self.current_step < 5)
         batch_time = time.time()
 
@@ -278,12 +278,12 @@ class Varuna(Module):
 
         if log_verbose:
             print(f'{self.stage} {self.rank_within_stage} going to share embedding grads')
-        
+
         if self.shared_weights is not None:
             embed_comm_start = time.time()
             self.share_weight_grads()
             embed_comm_time = time.time() - embed_comm_start
-        
+
         if log_verbose:
             print(f'{self.rank} {self.rank_within_stage} shared embedding grads')
             print(f'{self.rank} {self.rank_within_stage} all-reduce')
@@ -294,20 +294,20 @@ class Varuna(Module):
         else:
             overflow = False; grad_norm = 1
         sync_time =  time.time() - sync_start_time
-    
+
         if log_verbose:
             print(f'{self.rank} {self.rank_within_stage} all-reduce done;')
 
         batch_time = time.time() - batch_time
         self.iteration += 1
         self.current_step += 1
-        
+
         if self.current_step <= 5:
             message = "slowcheck {} {} {} {}".\
                         format(self.current_step, self.stage, self.rank_within_stage,fwd_time)
             utils.heartbeat(message, self.manager_ip, self.manager_port)
-            
-                    
+
+
         if self.rank == 0 and self.iteration%5==0:
             message = "progress {} {}".format(batch_time, self.iteration)
             utils.heartbeat(message, self.manager_ip, self.manager_port)
@@ -322,7 +322,7 @@ class Varuna(Module):
             return None
         scaler = _amp_state.loss_scalers[0]
         loss_scale = scaler.loss_scale()
-        return loss_scale    
+        return loss_scale
 
     def evaluate(self, inputs, batch_size=None):
         r"""Evaluate the model on the given inputs. This must be called on all workers
@@ -342,21 +342,21 @@ class Varuna(Module):
 
         if batch_size is None:
             batch_size = self.batch_size
-        
+
         fwd_inp_shape = None
         if self.fwd_inp_shape is not None:
             fwd_inp_shape = list(self.fwd_inp_shape)
             fwd_inp_shape[0] = self.micro_batch_size
-        
+
         batches = utils.scatter(inputs, int(batch_size),self.micro_batch_size)
-        
+
         with torch.no_grad():
             avg_output = None
             chunks = len(batches)
             for i, mb in enumerate(batches):
                 if i==(chunks-1) and self.last_chunk_size > 0 and fwd_inp_shape is not None:
                     fwd_inp_shape[0] = self.last_chunk_size
-                
+
                 if self.stage > 0:
                     self.partitioned_model.set_recv_acts(fwd_inp_shape, self.receive_rank)
                 output = self.partitioned_model(mb)
@@ -365,7 +365,7 @@ class Varuna(Module):
 
                 avg_output = output if avg_output is None else avg_output + output
             self.partitioned_model.clear_recv_fn()
-            
+
         if self.stage == self.partitions - 1:
             output = avg_output / len(batches)
         else:
@@ -378,7 +378,7 @@ class Varuna(Module):
 
     def eval(self):
         self.model.eval()
-    
+
     def train(self):
         self.model.train()
 
@@ -389,7 +389,7 @@ class Varuna(Module):
 
         :param optimizer: the optimizer for training.
         :type optimizer: torch.nn.Optimizer
-        :param loss_scale: A floating point number for a static loss scale 
+        :param loss_scale: A floating point number for a static loss scale
             or the string "dynamic" for dynamic loss scaling.
         :type loss_scale: float or "dynamic", optional
         :param init_loss_scale: Initial loss scale (for dynamic scaling)
@@ -399,7 +399,7 @@ class Varuna(Module):
         """
         amp_opt_level="O2"
         self.optimizer = optimizer
-        
+
         basemodel = self.partitioned_model.module
         parameter_names_ = dict()
         for n,p in basemodel.named_parameters():
@@ -408,12 +408,12 @@ class Varuna(Module):
         if self.fp16:
             assert  loss_scale == 'dynamic' or type(loss) == float, \
                     "Loss scale must either be a floating point or the string 'dynamic'"
-            
-            basemodel, optimizer = amp.initialize(  basemodel, self.optimizer, opt_level=amp_opt_level, 
+
+            basemodel, optimizer = amp.initialize(  basemodel, self.optimizer, opt_level=amp_opt_level,
                                                     loss_scale=loss_scale, min_loss_scale=min_loss_scale )
             if loss_scale == 'dynamic':
                 amp._amp_state.loss_scalers[0]._loss_scale = init_loss_scale
-            
+
             self.partitioned_model.module = basemodel
             self.optimizer = optimizer
 
@@ -423,7 +423,7 @@ class Varuna(Module):
             fp16_model_params = optimizer._amp_stash.all_fp16_params
             fp32_master_params = optimizer._amp_stash.all_fp32_from_fp16_params
             # print("stash lens",len(fp16_model_params), len(fp32_master_params))
-            
+
             count = 0
             parameter_names = dict()
             for p_model, p_master in zip(fp16_model_params, fp32_master_params):
@@ -448,10 +448,10 @@ class Varuna(Module):
             param.grad = None
 
     def checkpoint(self, global_store, step=None, tempdir=None, shard=False, on_demand=False):
-        r""" Writes a varuna checkpoint with model parameters, optimizer state etc. 
+        r""" Writes a varuna checkpoint with model parameters, optimizer state etc.
         Each checkpoint is a directory, written under the given path.
-        
-        :param global_store: path to a folder accessible by all nodes/ranks in the training job. 
+
+        :param global_store: path to a folder accessible by all nodes/ranks in the training job.
             For example, path to a mounted blob storage. This is where the varuna checkpoint folder is written.
         :type global_store: dict
         :param step: iteration number for checkpoint. If None, it'll be taken from varuna's tracked progress.
@@ -459,17 +459,17 @@ class Varuna(Module):
         :param tempdir: path to a local directory to which to write checkpoints temporarily, and sync
             with the global store in the background. Lowers checkpoint write time in the critical path.
         :type tempdir: str, optional
-        :param shard: whether to shard checkpoint writes over data parallel workers as well. Speeds up checkpoint 
+        :param shard: whether to shard checkpoint writes over data parallel workers as well. Speeds up checkpoint
         :type shard: bool, optional
         """
         if step is None:
             step = self.iteration
 
-        ckpt_future = write_varuna_checkpoint(self, global_store, step, 
+        ckpt_future = write_varuna_checkpoint(self, global_store, step,
                                 tempdir=tempdir, shard=shard)
-        
+
         return ckpt_future
-    
+
     def to(self, device):
         self.model.to(device)
 
@@ -477,15 +477,15 @@ class Varuna(Module):
         r"""Loads a varuna checkpoint from a shared directory. Each varuna checkpoint is a directory
         named as "varuna_ckpt_<iteration>". So the path under which all such checkpoints were written
         should be specified.
-            
-        :param global_store: path under which varuna checkpoints were written. 
+
+        :param global_store: path under which varuna checkpoints were written.
             Should be accessible by all workers.
         :type global_store: str
         :param iteration: Which iteration checkpoint to load.
         :type iteration: int
         :param check_complete: Check that the checkpoint is complete before loading it.
-            A checkpoint can be incomplete if the write was interrupted.  
-        :type check_complete: bool, optional 
+            A checkpoint can be incomplete if the write was interrupted.
+        :type check_complete: bool, optional
         """
         cp_dir_name = os.path.join(global_store, "varuna_ckpt_{}".format(iteration))
 
@@ -500,27 +500,28 @@ class Varuna(Module):
 
         total_num_pstages = self.partitioned_model.num_cutpoints + 1
 
-        model_state_dict = load_varuna_checkpoint(self.stage, self.partitions, 
+        model_state_dict = load_varuna_checkpoint(self.stage, self.partitions,
                                                 total_num_pstages,  cp_dir_name)
 
         # TODO: this should be strict and should raise error in the lm_head_weight case
         self.partitioned_model.module.load_state_dict(model_state_dict)
 
-        load_varuna_optimizer(self.optimizer, self.stage, self.partitions, 
-                              total_num_pstages, self.parameter_names, 
+        load_varuna_optimizer(self.optimizer, self.stage, self.partitions,
+                              total_num_pstages, self.parameter_names,
                               cp_dir_name, device=self.device)
         # reload master params for mixed precision
         if self.fp16:
-            for p in amp.master_params(self.optimizer):
-                name = self.parameter_names[p]
-                if name in model_state_dict:
-                    p.data.copy_(model_state_dict[name].data)
+            with torch.no_grad():
+                for p in amp.master_params(self.optimizer):
+                    name = self.parameter_names[p]
+                    if name in model_state_dict:
+                        p.data.copy_(model_state_dict[name].data)
 
         with open(get_local_ckpt_tracker(self.local_rank),"w") as f:
             # print("writing", iteration)
             f.write(str(iteration))
 
-        self.iteration = iteration    
+        self.iteration = iteration
 
     def share_weight_grads(self):
         parameter_names = self.parameter_names
@@ -548,10 +549,10 @@ class Varuna(Module):
         allred_init_start = time.time()
         master_grads = [p.grad for p in params if p.grad is not None]
         flat_grad_size = sum(p.numel() for p in master_grads)
-        flat_raw = torch.empty( flat_grad_size, device=self.device, 
+        flat_raw = torch.empty( flat_grad_size, device=self.device,
                                 dtype=torch.float16 if self.fp16 else torch.float32)
 
-        if self.fp16:        
+        if self.fp16:
             scaler = _amp_state.loss_scalers[0]
             loss_scale = scaler.loss_scale()
         else:
@@ -570,10 +571,10 @@ class Varuna(Module):
         if self.data_parallel:
             allred_time_start = time.time()
             torch.distributed.all_reduce(flat_raw, group=self.dp_group)
-        
+
         if log_verbose:
             print(f'{self.rank} {self.rank_within_stage} gradient all-reduce done')
-            
+
         if self.fp16:
             amp_C.multi_tensor_scale(65536,
                 overflow_buf,
@@ -590,13 +591,13 @@ class Varuna(Module):
             params = []
             for group in self.optimizer.param_groups:
                 params.extend(group['params'])
-        
+
         master_grads, overflow_buf = self.all_reduce_dp_grads(params)
 
         overflow_buf = overflow_buf.to(torch.float32)
         if overflow_buf.item():
             print(f"{self.rank} Overflow !!")
-        overflow_buf, global_grad_norm, reduced_loss = self.all_reduce_pipeline_meta(master_grads, 
+        overflow_buf, global_grad_norm, reduced_loss = self.all_reduce_pipeline_meta(master_grads,
                                                                     overflow_buf if self.fp16 else None)
         global_grad_norm_sq = global_grad_norm ** 2
         self.average_loss = reduced_loss
@@ -620,11 +621,11 @@ class Varuna(Module):
 
     """ reduces overflow, norm and loss across pipeline stages """
     def all_reduce_pipeline_meta(self, master_grads, overflow_buf=None):
-        
+
         local_grad_norm = multi_tensor_applier(amp_C.multi_tensor_l2norm,
                                              torch.cuda.IntTensor([0]),
                                              [master_grads], False)[0]
-        
+
         local_grad_norm_sq = (local_grad_norm ** 2) - self.extra_grad_norm_sq()
 
         loss_tensor = torch.Tensor([self.average_loss]).to(self.device)
@@ -639,7 +640,7 @@ class Varuna(Module):
             torch.distributed.all_reduce(allred_tensor, group=self.pipeline_group)
             if log_verbose:
                 print(f'{self.rank} {self.rank_within_stage} overflow all_reduce done')
-            
+
             if overflow_buf is not None:
                 overflow_buf, global_grad_norm_sq, loss_tensor = allred_tensor
             else:
@@ -651,7 +652,7 @@ class Varuna(Module):
             global_grad_norm = global_grad_norm_sq ** 0.5
 
         return overflow_buf, global_grad_norm, loss_tensor.item()
-        
+
     def extra_grad_norm_sq(self):
         extra_norm_sq = 0.0
         for i,w in enumerate(self.shared_weights):

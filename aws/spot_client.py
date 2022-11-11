@@ -26,13 +26,17 @@ args = parser.parse_args()
 class FakeLogging:
     pass
 
+def myprint(msg):
+    print(msg, flush=True)
+
 logger = FakeLogging()
-logger.info = print
+logger.info = myprint
+
 
 
 HOSTFILE = args.hostfile
 GRACE_PERIOD = 10_000 # ms
-AVAILABLE_MACHINE_FILE = '/home/ubuntu/varuna/aws/available_machines.out'
+AVAILABLE_MACHINE_FILE = '/home/ubuntu/varuna/aws/hosts/available_machines.out'
 TRAIN_SCRIPT = args.train_script
 MANAGER_IP = '172.31.28.108'
 MANAGER_PORT = 4200

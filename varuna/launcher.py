@@ -108,6 +108,19 @@ def get_last_iter(num_local_processes):
             last_iter = min(last_iter, last_iter_)
     return last_iter
 
+def clean_gpu_processes():
+    try:
+        import GPUtil
+    except:
+        os.system('sudo /opt/conda/envs/varuna/bin/pip install GPUtil')
+        import GPUtil
+    gpus = GPUtil.getGPUs()
+    for gpu in gpus:
+        if gpu.memoryUtil > 0.05:
+            cmd = "nvidia-smi | grep 'python' | awk '{ print $5 }' | xargs -n1 kill -9"
+            print(f'Killing process on gpu with {cmd}')
+            os.system(cmd)
+
 def parse_args():
     """
     Helper function parsing the command line options
@@ -143,7 +156,7 @@ def parse_args():
                              "the IP address or the hostname of node 0, for "
                              "single node multi-proc training, the "
                              "--master_addr can simply be 127.0.0.1")
-    parser.add_argument("--master_port", default=29500, type=int,
+    parser.add_argument("--master_port", default=12960, type=int,
                         help="Master node (rank 0)'s free port that needs to "
                              "be used for communciation during distributed "
                              "training")
@@ -207,6 +220,8 @@ if __name__ == "__main__":
     # change working dir
     if args.code_dir is not None:
         os.chdir(args.code_dir)
+
+    clean_gpu_processes()
 
     dist_world_size, stage_to_rank_map, ranks_in_server, \
         total_batch_size, gpus_per_stage = calculate_config(args)

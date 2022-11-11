@@ -13,7 +13,7 @@ MORPH_PORT = 4200
 
 launch_args_filename = "launch_args"
 # TODO move this to args/utils
-running_machines_list = "/home/ubuntu/varuna/aws/varuna_current_machines"
+running_machines_list = "/home/ubuntu/varuna/aws/hosts/varuna_current_machines"
 
 def check_morph_listeners(manager_ip):
     running = True
@@ -182,8 +182,8 @@ if __name__ == "__main__":
 
     for i,machine in enumerate(reachable_machines):
         launch_cmd = launch_cmd_format.format(i, reachable_count, master_addr)
-        out_file = open(f"ssh_logs/ssh_out_{i}", "w")
-        err_file = open(f"ssh_logs/ssh_err_{i}", "w")
+        out_file = open(f"ssh_logs/ssh_out_{i}.log", "w")
+        err_file = open(f"ssh_logs/ssh_err_{i}.log", "w")
 
         if machine == "127.0.0.1":
             cmd = launch_cmd.split(" ")

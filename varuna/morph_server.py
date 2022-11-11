@@ -72,9 +72,11 @@ class Handler(socketserver.BaseRequestHandler):
     @staticmethod
     def start_remote(resume=-1):
         global available_machines_list, my_ip
-        print("restarting", resume, flush=True)
+        print(">>> restarting with resume setp", resume, flush=True)
         cmd = "python -m varuna.run_varuna --resume " + \
-             f"--resume_step {resume} --machine_list {available_machines_list} --manager_ip {my_ip}"
+             f"--machine_list {available_machines_list} --manager_ip {my_ip}"
+        if resume != -1:
+            cmd += f" --resume_step {resume}"
         os.system(cmd)
 
     def handle(self):

@@ -208,7 +208,8 @@ class AutoConfig:
 
         max_micro_bs = max([len(profile) for profile in self.compute_profile])
         start = 1; end = max_micro_bs
-        limit = self.gpu_memory_capacity
+        # FIXME(replay): reserve 5% of memory for work / fragment and all others
+        limit = self.gpu_memory_capacity * 0.95
 
         while start < end:
             mid = int(math.ceil((start+end) / 2))

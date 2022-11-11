@@ -309,21 +309,23 @@ def load_varuna_optimizer(optimizer, my_stage, num_stages, total_num_pstages, pa
     for i in pstages_to_read:
         f = os.path.join(common_store, opt_state_format.format(i))
         if f.startswith('s3://') or os.path.exists(f):
-            state_ = smart_load_checkpoint(f,map_location=device)
+            state_ = smart_load_checkpoint(f,map_location='cpu')
+            # state_ = smart_load_checkpoint(f,map_location=device)
             opt_state.update(state_)
         else:
             shards = [os.path.join(common_store,f) for f in list_files(common_store) \
                         if f.startswith(opt_state_format.format(i) + "_")]
             for filename in shards:
-                state_ = smart_load_checkpoint(filename,map_location=device)
+                state_ = smart_load_checkpoint(filename,map_location='cpu')
+                # state_ = smart_load_checkpoint(filename,map_location=device)
                 opt_state.update(state_)
 
-    for p in amp.master_params(optimizer):
-        name = parameter_names[p]
-        if name in opt_state:
-            optimizer.state[p] = opt_state[name]
-        else:
-            print(f"checkpoint didn't find state for {name}")
+    with torch.no_grad():
+        for p in amp.master_params(optimizer):
+            name = parameter_names[p]
+            if name in opt_state:
+                for key, value in opt_state[name].items():
+                    optimizer.state[p][key] = value.clone().detach().to(device)
 
     extra_state = smart_load_checkpoint(os.path.join(common_store, opt_extra_state_name))
     for i,g in enumerate(extra_state['param_groups']):
@@ -331,6 +333,9 @@ def load_varuna_optimizer(optimizer, my_stage, num_stages, total_num_pstages, pa
             if k != 'params':
                 optimizer.param_groups[i][k] = v
 
+    del extra_state, opt_state
+    torch.cuda.synchronize()
+    torch.cuda.empty_cache()
 
 def get_local_ckpt_tracker(local_rank):
     return os.path.join(VARUNA_TEMP_FOLDER, f"ckpt_tracker_{local_rank}.txt")

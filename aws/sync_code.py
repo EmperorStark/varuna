@@ -21,7 +21,7 @@ MASTER = ['ip-172-31-28-108', '172.31.28.108']
 
 global NNodes, HOSTFILE
 NNodes = None
-HOSTFILE = '/home/ubuntu/spotdl/aws/hostname'
+HOSTFILE = '/home/ubuntu/varuna/aws/hosts/hostname'
 
 
 def poll_aws_instances(exclude_master=False):
@@ -114,7 +114,7 @@ def sync_example(hosts):
 if __name__ == '__main__':
     args = parse_args()
 
-    poll_aws_instances()
+    # poll_aws_instances()
 
     hosts = get_hosts()
     if args.update_env:

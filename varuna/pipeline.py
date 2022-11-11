@@ -87,7 +87,7 @@ class Pipeline:
         self.receive_rank = config["receive_rank"]
         self.send_rank = config["send_rank"]
         self.last_chunk_size = config["last_chunk_size"]
-    
+
     def spawn_receive_workers(self):
         self.acts_receive_thread = None
         self.grads_receive_thread = None
@@ -101,7 +101,7 @@ class Pipeline:
             self.grads_receive_thread = Thread(target=self.grads_receiver, args=())
             self.grads_receive_thread.daemon=True
             self.grads_receive_thread.start()
-    
+
     def spawn_send_workers(self):
         self.grads_send_queue = Queue()
         self.acts_send_queue = Queue()
@@ -116,8 +116,8 @@ class Pipeline:
         if self.stage > 0:
             self.grads_send_thread = Thread(target=self.grads_sender, args=())
             self.grads_send_thread.daemon=True
-            self.grads_send_thread.start() 
-    
+            self.grads_send_thread.start()
+
     def acts_receiver(self):
         chunks = len(self.batches)
         dtype = torch.float16 if self.fp16 else torch.float32
@@ -142,7 +142,7 @@ class Pipeline:
             handle.wait()
             self.acts_queue.put(tensor)
         del acts_tensor
-    
+
     def grads_receiver(self):
         chunks = len(self.batches)
         dtype = torch.float16 if self.fp16 else torch.float32
@@ -191,7 +191,7 @@ class Pipeline:
         for task,index in self.schedule:
             if task == 2:
                 count += 1
-        
+
         send_handles = Queue()
 
         while count > 0:
@@ -206,13 +206,13 @@ class Pipeline:
         while not send_handles.empty():
             handle = send_handles.get()
             handle.wait()
-        
+
     def close_comm_threads(self):
         if self.acts_receive_thread is not None:
             self.acts_receive_thread.join()
         if self.grads_receive_thread is not None:
             self.grads_receive_thread.join()
-        
+
         if self.acts_send_thread is not None:
             self.acts_send_thread.join()
         if self.grads_send_thread is not None:
@@ -242,7 +242,7 @@ class Pipeline:
             torch.set_grad_enabled(True)
             output = self.model(inputs_as_dict, recompute=True, handle_comm=True)
             self.loss = output[0] if isinstance(output,tuple) else output
-        
+
         # backward
         else:
             grads = torch.ones(self.loss.size(), dtype = torch.float32).to(self.device)
@@ -253,7 +253,7 @@ class Pipeline:
                 self.average_loss += (self.loss.item())
 
             if self.fp16:
-                with amp.scale_loss(self.loss, self.optimizer, delay_overflow_check=True, 
+                with amp.scale_loss(self.loss, self.optimizer, delay_overflow_check=True,
                             last_partition=(self.stage == self.partitions-1)) as scaled_loss:
                     scaled_loss.backward(grads)
             else:
@@ -261,10 +261,10 @@ class Pipeline:
 
             del self.loss
             self.loss = None
-        
+
     def run(self):
         if self.verbose:
-            print(f'{self.rank} {self.rank_within_stage} starting pipeline')        
+            print(f'{self.rank} {self.rank_within_stage} starting pipeline')
 
         self.spawn_receive_workers()
         batchstart = time.time()
@@ -290,13 +290,13 @@ class Pipeline:
                 count_fwd+=1
                 if (self.schedule[index+1][0]==2):      # if next task in schedule is backward  -- no recomputation
                     grad_mode=True
-            
+
             if self.verbose:
                 print(f'{self.stage} {self.rank_within_stage} task:{task[0]} {task[1]}/{len(self.batches)}\n', end="")
             self.worker(task[0], grad_mode, self.batches[task[1]])
 
             i+=1
-        
+
         if self.device != "cpu":
             torch.cuda.synchronize(self.device)
             if len(self.pre_fwd_events) > 0:
@@ -313,4 +313,3 @@ class Pipeline:
         self.close_comm_threads()
         dist.barrier()
         return self.average_loss, self.avg_fwd_time
-        
