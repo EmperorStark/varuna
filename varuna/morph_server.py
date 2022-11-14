@@ -24,9 +24,9 @@ last_preempt_handled = None
 # if len(sys.argv) > 2:
 #     checkpointed = int(sys.argv[2])
 
-available_machines_list = sys.argv[1]
-running_machines_list = sys.argv[2]     # TODO coord this with run_varuna
-PORT = int(sys.argv[3])
+available_machines_list = None
+running_machines_list = None
+PORT = None
 my_ip = socket.gethostbyname(socket.gethostname())
 HOST = my_ip
 
@@ -57,13 +57,15 @@ class Handler(socketserver.BaseRequestHandler):
                 p.kill()
 
     @staticmethod
-    def kill_all():
-        global running_machines_list
+    def kill_all(runnnig_list=None):
+        if runnnig_list is None:
+            global running_machines_list
+            runnnig_list = running_machines_list
         print("killing all", flush=True)
         sh = os.path.join(Handler.scripts_folder, "kill_all.sh")
         p = None
         try:
-            p = subprocess.call(['bash', sh, running_machines_list], timeout=120)
+            p = subprocess.call(['bash', sh, runnnig_list], timeout=120)
         except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
             print("kill errored/timed out: ", e)
             if p is not None:
@@ -71,11 +73,12 @@ class Handler(socketserver.BaseRequestHandler):
 
     @staticmethod
     def start_remote(resume=-1):
-        global available_machines_list, my_ip
+        global available_machines_list, my_ip, checkpointed
+        resume = max(resume, checkpointed)
         print(">>> restarting with resume setp", resume, flush=True)
         cmd = "python -m varuna.run_varuna --resume " + \
              f"--machine_list {available_machines_list} --manager_ip {my_ip}"
-        if resume != -1:
+        if resume > 0:
             cmd += f" --resume_step {resume}"
         os.system(cmd)
 
@@ -138,7 +141,8 @@ class Handler(socketserver.BaseRequestHandler):
                     checkpointed = last_iter
                 if is_preempting:
                     print('Preempt successful {}'.format(last_iter), flush=True)
-                    time.sleep(120)     # wait for scheduled event to occur
+                    # time.sleep(120)     # wait for scheduled event to occur
+                    # time.sleep(30)     # wait for scheduled event to occur
                     Handler.kill_all()
                     curr_world_size = 0
                     # Handler.update_available()
@@ -156,7 +160,7 @@ class Handler(socketserver.BaseRequestHandler):
                     (recv_time - last_ckpt_signal).total_seconds() > 100:
                         print("Handling restart", last_ckpt_signal)
                         last_iter = int(str(data).split(" ")[-1])
-                        time.sleep(60)    # wait for transient errors to pass
+                        # time.sleep(60)    # wait for transient errors to pass
                         Handler.kill_all()
                         curr_world_size = 0
                         # Handler.update_available()
@@ -201,14 +205,37 @@ class Handler(socketserver.BaseRequestHandler):
             Handler.triggermorph.acquire()
             progress_iter = int(data.split(" ")[-1].strip())
             Handler.triggermorph.release()
+
+        elif 'force kill' in data:
+            # force kill by catch_all
+            Handler.triggermorph.acquire()
+            print("Lock acquired by force-kill:", is_restarting, is_morphing, is_preempting, flush=True)
+            Handler.kill_all()
+            curr_world_size = 0
+            Handler.start_remote(checkpointed)
+            is_restarting = False
+            is_morphing = False
+            is_preempting = False
+            Handler.triggermorph.release()
+
         print("handle done for", data, recv_time,  flush=True)
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
-if __name__ == "__main__":
+
+def main():
+    global available_machines_list, running_machines_list, PORT
+
+    available_machines_list = sys.argv[1]
+    running_machines_list = sys.argv[2]     # TODO coord this with run_varuna
+    PORT = int(sys.argv[3])
+
     server = ThreadedTCPServer((HOST, PORT), Handler)
 
     with server:
         server.serve_forever()
+
+if __name__ == "__main__":
+    main()

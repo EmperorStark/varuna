@@ -107,6 +107,7 @@ class TraceEvent:
         elif event[1] == 'remove':
             for node in event[2]['nodes']:
                 self.cur_machine_list.remove(node)
+        logger.info(f'>>> [{self.timer()/1000:.3f}]      node to be {event[1]}: {event[2]["nodes"]}')
         return self.cur_machine_list
 
     def sleep(self, sec):
@@ -164,7 +165,7 @@ class TraceEvent:
                             message = f'preempt {self.timer()/1000}'
                         client(MANAGER_IP, MANAGER_PORT, message)
                 logger.info(f'>>> [{self.timer()/1000:.3f}] nnodes: {len(self.cur_machine_list)}, message: {message}')
-                logger.info(f'               nodes: {self.cur_machine_list}')
+                logger.info(f'               remain nodes: {self.cur_machine_list}')
 
         # final, clean all machines
         final_event = self.trace[-1]

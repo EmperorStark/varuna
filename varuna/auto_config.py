@@ -204,12 +204,13 @@ class AutoConfig:
                 last_cp = ( pstages_per_stage * (stage + 1) ) - 1
                 mem_usage += self.compute_profile[last_cp][mbs]["acts_size"]
                 max_memory_used = max(mem_usage,max_memory_used)
+            print(mbs, max_memory_used)
             return max_memory_used
 
         max_micro_bs = max([len(profile) for profile in self.compute_profile])
         start = 1; end = max_micro_bs
-        # FIXME(replay): reserve 5% of memory for work / fragment and all others
-        limit = self.gpu_memory_capacity * 0.95
+        # FIXME(replay): reserve 8% of memory for work / fragment and all others
+        limit = self.gpu_memory_capacity * 0.92
 
         while start < end:
             mid = int(math.ceil((start+end) / 2))

@@ -280,6 +280,8 @@ if __name__ == "__main__":
                     p.kill()
     except Exception as e:
         print("run_varuna subprocesses quit with error:", e)
+    except:
+        print('run_varuna: unknown error')
 
 
     last_iter = get_last_iter(len(ranks_in_server))

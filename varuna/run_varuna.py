@@ -166,7 +166,8 @@ if __name__ == "__main__":
         assert os.path.exists(arg_file), "Args file not found for resumed run!"
         with open(arg_file, "r") as f:
             launch_cmd_format = f.read()
-        launch_cmd_format += f' --resume_step {args.resume_step}'
+        if args.resume_step is not None:
+            launch_cmd_format += f' --resume_step {args.resume_step}'
     else:
         launch_cmd_format = get_launch_cmd_format(args)
         with open(arg_file, "w") as f:
