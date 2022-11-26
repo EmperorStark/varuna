@@ -181,10 +181,13 @@ if __name__ == "__main__":
     current_env[MORPH_PORT_ENV_VAR] = str(MORPH_PORT)
    # current_env["PATH"] = "PATH=\"/home/varuna/anaconda3/bin:$PATH\""
 
+    if not args.resume:
+        os.system('rm -rf ssh_logs/*')
+
     for i,machine in enumerate(reachable_machines):
         launch_cmd = launch_cmd_format.format(i, reachable_count, master_addr)
-        out_file = open(f"ssh_logs/ssh_out_{i}.log", "w")
-        err_file = open(f"ssh_logs/ssh_err_{i}.log", "w")
+        out_file = open(f"ssh_logs/ssh_out_{i}.log", "a")
+        err_file = open(f"ssh_logs/ssh_err_{i}.log", "a")
 
         if machine == "127.0.0.1":
             cmd = launch_cmd.split(" ")

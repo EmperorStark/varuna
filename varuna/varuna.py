@@ -118,7 +118,10 @@ class Varuna(Module):
             self.device = torch.device("cpu")
         else:
             torch.cuda.set_device(device)
-            self.device = torch.device("cuda", device)
+            if isinstance(device, int):
+                self.device = torch.device("cuda", device)
+            else:
+                self.device = torch.device(device)
 
         self.optimizer = None
         self.fp16 = fp16
@@ -447,7 +450,7 @@ class Varuna(Module):
         for param in self.model.parameters():
             param.grad = None
 
-    def checkpoint(self, global_store, step=None, tempdir=None, shard=False, on_demand=False):
+    def checkpoint(self, global_store, step=None, tempdir=None, shard=True, on_demand=False):
         r""" Writes a varuna checkpoint with model parameters, optimizer state etc.
         Each checkpoint is a directory, written under the given path.
 

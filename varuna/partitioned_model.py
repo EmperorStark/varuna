@@ -199,7 +199,10 @@ class PartitionedModel(Module):
             self.device = torch.device("cpu")
         else:
             torch.cuda.set_device(device)
-            self.device = torch.device("cuda", device)
+            if isinstance(device, int):
+                self.device = torch.device("cuda", device)
+            else:
+                self.device = torch.device(device)
 
         self.ret_val = None
         self.pre_cp = None

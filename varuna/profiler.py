@@ -451,6 +451,10 @@ class Profiler:
             self.trim_model(self.stage, self.stage + 1)
             self.check_unused_parameters(self.dummy_inputs)
             self.model.to(self.device)
+        else:
+            self.stage = None
+            self.prev_stage = None
+            self.next_stage = None
 
     def restore_orig_model(self):
         keys = list(self.ordered_modules.keys())[::-1]

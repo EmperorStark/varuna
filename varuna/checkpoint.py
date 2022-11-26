@@ -284,14 +284,15 @@ def load_varuna_checkpoint(my_stage, num_stages, total_num_pstages, common_store
     if pstages_to_read is None:
         stages_per_worker = total_num_pstages // num_stages
         pstages_to_read = range(stages_per_worker * my_stage, stages_per_worker * (my_stage + 1) )
+    shard = True
     for i in pstages_to_read:
+        shards = [os.path.join(common_store,f) for f in list_files(common_store) \
+                    if f.startswith(params_format.format(i) + "_")]
         cp_file = os.path.join(common_store, params_format.format(i))
-        if cp_file.startswith('s3://') or os.path.exists(cp_file):
+        if len(shards) == 0 and (cp_file.startswith('s3://') or os.path.exists(cp_file)):
             state_dict_ = smart_load_checkpoint(cp_file,map_location=device)
             state_dict.update(state_dict_)
         else:
-            shards = [os.path.join(common_store,f) for f in list_files(common_store) \
-                        if f.startswith(params_format.format(i) + "_")]
             for cp_file in shards:
                 state_dict_ = smart_load_checkpoint(cp_file,map_location=device)
                 state_dict.update(state_dict_)
@@ -308,13 +309,13 @@ def load_varuna_optimizer(optimizer, my_stage, num_stages, total_num_pstages, pa
     opt_state = {}
     for i in pstages_to_read:
         f = os.path.join(common_store, opt_state_format.format(i))
-        if f.startswith('s3://') or os.path.exists(f):
+        shards = [os.path.join(common_store,ft) for ft in list_files(common_store) \
+                        if ft.startswith(opt_state_format.format(i) + "_")]
+        if len(shards) == 0 and (f.startswith('s3://') or os.path.exists(f)):
             state_ = smart_load_checkpoint(f,map_location='cpu')
             # state_ = smart_load_checkpoint(f,map_location=device)
             opt_state.update(state_)
         else:
-            shards = [os.path.join(common_store,f) for f in list_files(common_store) \
-                        if f.startswith(opt_state_format.format(i) + "_")]
             for filename in shards:
                 state_ = smart_load_checkpoint(filename,map_location='cpu')
                 # state_ = smart_load_checkpoint(filename,map_location=device)

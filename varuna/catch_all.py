@@ -54,11 +54,10 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 def check_progress():
     global completed_steps, running_machines_list
     last_checked_iter = -1
+    unchange_count = 0
     while True:
         try:
             if last_checked_iter == completed_steps:
-                print('{}: Training stuck at {}. Restarting!'.format(datetime.now(), last_checked_iter), flush=True)
-
                 # os.system("sudo pkill -f varuna.morph")
                 # os.system("sudo pkill -f varuna.poll")
                 # kill_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'kill_all.sh')
@@ -66,7 +65,13 @@ def check_progress():
 
                 # MorphHandler.kill_all()
                 # MorphHandler.start_remote()
-                client(MANAGER_IP, MANAGER_PORT, 'force kill')
+                if unchange_count > 1:
+                    print('{}: Training stuck at {}. Restarting!'.format(datetime.now(), last_checked_iter), flush=True)
+                    client(MANAGER_IP, MANAGER_PORT, 'force kill')
+                    unchange_count = 0
+                else:
+                    print('{}: Find training may stuck at {}'.format(datetime.now(), last_checked_iter), flush=True)
+                    unchange_count += 1
 
                 # all_ckpt = [int(f.split("_")[-1]) for f in os.listdir(ckpt_dir) if "opt_ckpt" in f]
                 # all_ckpt = sorted(all_ckpt)
@@ -84,10 +89,11 @@ def check_progress():
                 # print("Restart done!", flush=True)
             else:
                 print(datetime.now(),"Got timely update!", completed_steps, flush=True)
+                unchange_count = 0
             last_checked_iter = completed_steps
         except Exception as e:
             print("Caught exception in progress thread:", e, flush=True)
-        time.sleep(60*5)
+        time.sleep(60*3)
 
 if __name__ == "__main__":
 

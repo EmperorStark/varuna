@@ -9,7 +9,7 @@ class AutoConfig:
 
     def __init__(self, num_gpus, gpus_per_vm, batch_size,
                 profile_folder, gpu_memory_capacity=None, verbose=True,
-                autofill_missing_compute=False):
+                autofill_missing_compute=False, chunk_size=None):
 
         self.num_gpus = num_gpus
         self.batch_size = batch_size
@@ -17,6 +17,7 @@ class AutoConfig:
         if gpu_memory_capacity is None:
             gpu_memory_capacity = torch.cuda.get_device_properties(0).total_memory
         self.gpu_memory_capacity = gpu_memory_capacity
+        self.chunk_size = chunk_size
 
         self.read_model_structure(verbose=verbose)
         self.read_profile(profile_folder, autofill_missing_compute)
@@ -129,7 +130,7 @@ class AutoConfig:
         min_time = 1000000000000
         best_pp = -1; best_mbs = -1
         for pp_size in self.batch_times:
-            if min_time > self.batch_times[pp_size]:
+            if min_time > self.batch_times[pp_size] and pp_size > 1:
                 best_pp = pp_size
                 best_mbs = self.micro_batch[pp_size]
                 min_time = self.batch_times[pp_size]
@@ -204,13 +205,20 @@ class AutoConfig:
                 last_cp = ( pstages_per_stage * (stage + 1) ) - 1
                 mem_usage += self.compute_profile[last_cp][mbs]["acts_size"]
                 max_memory_used = max(mem_usage,max_memory_used)
-            print(mbs, max_memory_used)
+            print('Micro-bs', mbs, 'Max mem:', max_memory_used)
             return max_memory_used
 
         max_micro_bs = max([len(profile) for profile in self.compute_profile])
         start = 1; end = max_micro_bs
         # FIXME(replay): reserve 8% of memory for work / fragment and all others
-        limit = self.gpu_memory_capacity * 0.92
+        limit = self.gpu_memory_capacity * 0.90
+
+        # Fix microbatch size to compare with varuna
+        if self.chunk_size is not None:
+            max_mem = get_max_mem(self.chunk_size)
+            if max_mem > limit:
+                return -1
+            return self.chunk_size
 
         while start < end:
             mid = int(math.ceil((start+end) / 2))

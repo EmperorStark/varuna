@@ -5,6 +5,7 @@ import os
 import json
 import time
 import subprocess
+from datetime import datetime
 
 
 parser = argparse.ArgumentParser()
@@ -27,6 +28,7 @@ class FakeLogging:
     pass
 
 def myprint(msg):
+    msg = f'[{datetime.now()}] {msg}'
     print(msg, flush=True)
 
 logger = FakeLogging()
@@ -35,7 +37,7 @@ logger.info = myprint
 
 
 HOSTFILE = args.hostfile
-GRACE_PERIOD = 10_000 # ms
+GRACE_PERIOD = 30_000 # ms
 AVAILABLE_MACHINE_FILE = '/home/ubuntu/varuna/aws/hosts/available_machines.out'
 TRAIN_SCRIPT = args.train_script
 MANAGER_IP = '172.31.28.108'
@@ -126,11 +128,20 @@ class TraceEvent:
             for m in machine_list:
                 of.write(f'{m}\n')
 
+    def remove_node(self, ip):
+        cmd = ['ssh', '-q', f'ubuntu@{ip}']
+        cmd.append('bash /home/ubuntu/varuna/aws/remove_node.sh')
+
+        logger.info(f'>>> [{self.timer()/1000:.3f}] Remove node {ip}, CMD: {" ".join(cmd)}')
+        if not self.dry_run:
+            subprocess.Popen(cmd)
+
     def init_start_training(self):
         cmd = f'bash {TRAIN_SCRIPT}'
         self.root_process = subprocess.Popen(cmd, shell=True)
 
     def replay(self):
+        self.add = 0
         self.cur_machine_list = []
         self.timer(init=True)
         logger.info(f'Begin to replay trace {self.trace_file}')
@@ -141,7 +152,7 @@ class TraceEvent:
             if operation == 'remove':
                 cur_time_stamp = self.timer()
                 if cur_time_stamp < tstamp - GRACE_PERIOD:
-                    self.sleep((tstamp - cur_time_stamp) / 1000)
+                    self.sleep((tstamp - GRACE_PERIOD - cur_time_stamp) / 1000)
             else:
                 cur_time_stamp = self.timer()
                 if cur_time_stamp < tstamp:
@@ -154,18 +165,35 @@ class TraceEvent:
                 machine_list = self.get_machine_list(event)
                 self.write_machine_list(machine_list)
                 message = ''
-                if not self.dry_run:
-                    if tstamp == 0:
-                        # start training
+                if tstamp == 0:
+                    # start training
+                    if not self.dry_run:
                         self.init_start_training()
-                    else:
-                        if operation == 'add':
+                else:
+                    if operation == 'add':
+                        message = 'skip-add'
+                        self.add += len(event[2]['nodes'])
+                        if self.add > 0 or self.add % 2 == 0:
                             message = 'morph'
+                            if not self.dry_run:
+                                client(MANAGER_IP, MANAGER_PORT, message)
+                            self.add = 0
                         else:
-                            message = f'preempt {self.timer()/1000}'
-                        client(MANAGER_IP, MANAGER_PORT, message)
+                            logger.info(f'>>> [{self.timer()/1000:.3f}] -------------------------skip add due to a no enough nodes')
+                    else:
+                        message = f'preempt {self.timer()/1000}'
+                        self.add = 0
+                        if not self.dry_run:
+                            client(MANAGER_IP, MANAGER_PORT, message)
                 logger.info(f'>>> [{self.timer()/1000:.3f}] nnodes: {len(self.cur_machine_list)}, message: {message}')
                 logger.info(f'               remain nodes: {self.cur_machine_list}')
+
+                if operation == 'remove':
+                    cur_time_stamp = self.timer()
+                    if tstamp > cur_time_stamp:
+                        self.sleep((tstamp - cur_time_stamp) / 1000)
+                    for ip in event[2]['nodes']:
+                        self.remove_node(ip)
 
         # final, clean all machines
         final_event = self.trace[-1]
@@ -179,7 +207,8 @@ class TraceEvent:
             client(MANAGER_IP, MANAGER_PORT, message)
         logger.info(f'>>> [{self.timer()/1000:.3f}] nnodes: {len(self.cur_machine_list)}, message: {message}')
         logger.info(f'          Finally kill all')
-        os.system('bash kill_all.sh')
+        if not self.dry_run:
+            os.system('bash kill_all.sh')
 
 
 if __name__ == "__main__":

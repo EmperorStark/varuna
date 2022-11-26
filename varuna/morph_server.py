@@ -18,6 +18,7 @@ curr_world_size = 0
 last_iter = -1
 progress_iter = 0
 last_preempt_handled = None
+is_init = True
 
 # if len(sys.argv) > 1:
 #     curr_world_size = int(sys.argv[1])
@@ -83,7 +84,7 @@ class Handler(socketserver.BaseRequestHandler):
         os.system(cmd)
 
     def handle(self):
-        global checkpointed, is_preempting, is_restarting, is_morphing, last_ckpt_signal, curr_world_size, last_iter, last_preempt_handled
+        global checkpointed, is_preempting, is_restarting, is_morphing, last_ckpt_signal, curr_world_size, last_iter, last_preempt_handled, is_init
         data = str(self.request.recv(1024), 'ascii')
         cur_thread = threading.current_thread()
         recv_time = datetime.now()
@@ -110,7 +111,7 @@ class Handler(socketserver.BaseRequestHandler):
             try:
                 if not is_morphing and not is_preempting and not is_restarting:
                     fields = data.split(" ")
-                    notbefore = fields[-1]
+                    notbefore = float(fields[-1])
                     # FIXME(replay): hack for trace replay
                     # notbefore = datetime.strptime(notbefore,"%a,_%d_%b_%Y_%H:%M:%S_%Z")
                     if last_preempt_handled is None or last_preempt_handled < notbefore:
@@ -142,7 +143,7 @@ class Handler(socketserver.BaseRequestHandler):
                 if is_preempting:
                     print('Preempt successful {}'.format(last_iter), flush=True)
                     # time.sleep(120)     # wait for scheduled event to occur
-                    # time.sleep(30)     # wait for scheduled event to occur
+                    time.sleep(30)     # wait for scheduled event to occur
                     Handler.kill_all()
                     curr_world_size = 0
                     # Handler.update_available()
@@ -156,11 +157,13 @@ class Handler(socketserver.BaseRequestHandler):
                     is_morphing = False
                     is_restarting = False
                 elif not is_restarting:
-                    if last_ckpt_signal is None or \
+                    if is_init:
+                        is_init = False
+                    elif last_ckpt_signal is None or \
                     (recv_time - last_ckpt_signal).total_seconds() > 100:
                         print("Handling restart", last_ckpt_signal)
                         last_iter = int(str(data).split(" ")[-1])
-                        # time.sleep(60)    # wait for transient errors to pass
+                        time.sleep(60)    # wait for transient errors to pass
                         Handler.kill_all()
                         curr_world_size = 0
                         # Handler.update_available()

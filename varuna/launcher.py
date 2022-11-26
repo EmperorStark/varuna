@@ -19,7 +19,7 @@ def calculate_config(args):
     # world size in terms of number of processes
     gpus_available = args.ngpus_per_server * args.nservers
     if args.nstages is None:
-        args.nstages, args.chunk_size = num_partitions(gpus_available, args.ngpus_per_server, args.batch_size, args.profile_folder)
+        args.nstages, args.chunk_size = num_partitions(gpus_available, args.ngpus_per_server, args.batch_size, args.profile_folder, args.chunk_size)
     gpus_per_stage = (gpus_available // args.nstages) if args.gpus_per_stage == 0 else args.gpus_per_stage
     # args.gpus_per_stage = gpus_per_stage
     print(gpus_per_stage, "per stage")
@@ -77,8 +77,8 @@ def calculate_config(args):
 
     return dist_world_size, stage_to_rank_map, ranks_in_server, total_batch_size, gpus_per_stage
 
-def num_partitions(world_size, ngpus_per_server, batch_size, profile_folder):
-    auto = AutoConfig(world_size, ngpus_per_server, batch_size, profile_folder)
+def num_partitions(world_size, ngpus_per_server, batch_size, profile_folder, chunk_size=None):
+    auto = AutoConfig(world_size, ngpus_per_server, batch_size, profile_folder, chunk_size=chunk_size)
     num_partitions, chunk_size, time = auto.get_min()
     print("best config is:", num_partitions, chunk_size)
     print("expected time is", time, flush=True)
@@ -156,7 +156,7 @@ def parse_args():
                              "the IP address or the hostname of node 0, for "
                              "single node multi-proc training, the "
                              "--master_addr can simply be 127.0.0.1")
-    parser.add_argument("--master_port", default=12960, type=int,
+    parser.add_argument("--master_port", default=12890, type=int,
                         help="Master node (rank 0)'s free port that needs to "
                              "be used for communciation during distributed "
                              "training")
@@ -285,4 +285,5 @@ if __name__ == "__main__":
 
 
     last_iter = get_last_iter(len(ranks_in_server))
-    send_to_manager("checkpoint done {}".format(last_iter), manager_ip, manager_port)
+    if last_iter > 0:
+        send_to_manager("checkpoint done {}".format(last_iter), manager_ip, manager_port)
