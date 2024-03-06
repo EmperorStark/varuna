@@ -433,6 +433,11 @@ class Varuna(Module):
                 if p_model in parameter_names_:
                     parameter_names[p_master] = parameter_names_.pop(p_model)
                     count += p_master.numel()
+
+            # remain BN params
+            for n,p in basemodel.named_parameters():
+                if p in parameter_names_:
+                    parameter_names[p] = n
             # print(count, "params found in rank", self.rank)
 
             self.parameter_names = parameter_names
@@ -507,7 +512,7 @@ class Varuna(Module):
                                                 total_num_pstages,  cp_dir_name)
 
         # TODO: this should be strict and should raise error in the lm_head_weight case
-        self.partitioned_model.module.load_state_dict(model_state_dict)
+        self.partitioned_model.module.load_state_dict(model_state_dict, strict=False)
 
         load_varuna_optimizer(self.optimizer, self.stage, self.partitions,
                               total_num_pstages, self.parameter_names,

@@ -61,6 +61,7 @@ def get_launch_cmd_format(args):
         +  f" --ngpus_per_server {args.gpus_per_node}  " \
         +  " --node_rank {} --nservers {} --master_addr {}"
         +  f" --batch_size {args.batch_size}" \
+        +  f" --master_port {args.master_port}" \
         +  f" --chunk_size {args.chunk_size} --code_dir {args.code_dir}" \
         + nstage)
     launch_cmd.append(args.training_script)
@@ -97,6 +98,10 @@ def parse_args():
                         help = "disable varuna's support for job morphing on a changing resource set.")
     parser.add_argument("--env_file", type=str, default="varuna.env",
                         help = "file with environment variables for varuna command")
+    parser.add_argument("--master_port", default=16229, type=int,
+                        help="Master node (rank 0)'s free port that needs to "
+                             "be used for communciation during distributed "
+                             "training")
 
     # launch worker args
     parser.add_argument("--nstages", type=int, default=None,

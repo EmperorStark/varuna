@@ -310,7 +310,7 @@ class EfficientNet(nn.Module):
     def forward(self, inputs, target):
         """EfficientNet's forward function.
            Calls extract_features to extract features, applies final linear layer, and returns logits.
-
+0
         Args:
             inputs (tensor): Input tensor.
 

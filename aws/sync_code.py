@@ -21,6 +21,7 @@ MASTER = ['ip-172-31-28-108', '172.31.28.108']
 
 global NNodes, HOSTFILE
 NNodes = None
+HOSTFILE = '/home/ubuntu/varuna/aws/hosts/hostname_multi'
 HOSTFILE = '/home/ubuntu/varuna/aws/hosts/hostname'
 
 

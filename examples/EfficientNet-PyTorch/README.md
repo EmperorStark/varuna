@@ -33,7 +33,7 @@ Running on CPU on a single machine:
 Running on 1 GPU on a single machine:
 
 ```bash
- python3 -m varuna.run_varuna --machine_list list --no_morphing --gpus_per_node 1 --batch_size 2 --nstages 1 --chunk_size 1 --code_dir . main.py data -e -a 'efficientnet-b0' --pretrained --varuna --lr 0.001 --epochs 1
+ /opt/conda/envs/varuna/bin/python -m varuna.run_varuna --machine_list list --no_morphing --gpus_per_node 1 --batch_size 2 --nstages 1 --chunk_size 1 --code_dir . main.py data -e -a 'resnet152' --pretrained --varuna --lr 0.001 --epochs 1
 
 ```
 

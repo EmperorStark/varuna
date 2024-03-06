@@ -356,6 +356,10 @@ class PartitionedModel(Module):
 
         self.shared_weight_stages = shared_weight_stages
 
+    # ResNet hack
+    def move_blocks(self, device):
+        if str(type(self.module)) == '<class \'resnet_pytorch.model.ResNet\'>':
+            self.module.move_blocks(device)
 
 # """ setting actual cutpoint functions for comunication. """
     def prep_cutpoints(self):
@@ -370,6 +374,12 @@ class PartitionedModel(Module):
             cutpoint.set_cp_func()
 
         self.cuts_per_stage = (self.num_cutpoints + 1) // self.num_stages
+
+        # chunks = [self.cuts_per_stage] * self.num_stages
+        # for i in range(self.num_cutpoints + 1 - sum(chunks)):
+        #     chunks[i + 1] += 1
+        # # prefix sum
+        # all_cuts = [0] + [sum(chunks[:i + 1]) for i in range(len(chunks))]
 
         modules = self.ordered_modules
         index = 1

@@ -2,7 +2,7 @@ export PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH
 
 mkdir -p log
 
-TRAIN_SCRIPT='/home/ubuntu/varuna_examples/ResNet/resnet_varuna.sh'
+TRAIN_SCRIPT='/home/ubuntu/varuna_examples/ResNet/vgg_varuna.sh'
 
 nnode=$1
 tracefile=$2
@@ -16,7 +16,7 @@ replayer_logfile="replayer_${logtag}.log"
 python sync_code.py --n ${nnode} --hostfile ${HOSTFILE}
 
 # profile script
-cmd="bash /home/ubuntu/varuna_examples/ResNet/resnet_varuna_profile.sh"
+cmd="bash /home/ubuntu/varuna_examples/ResNet/vgg_varuna_profile.sh"
 # echo ${cmd}
 # eval ${cmd}
 

@@ -24,6 +24,8 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import torchvision.models as models
 
+import sys
+sys.path.append('/home/ubuntu/varuna/')
 from efficientnet_pytorch import EfficientNet
 
 from varuna import Varuna
@@ -217,14 +219,28 @@ def main_worker(gpu, ngpus_per_node, args):
     else:
         image_size = args.image_size
 
-    train_dataset = datasets.ImageFolder(
-        traindir,
-        transforms.Compose([
-            transforms.RandomResizedCrop(image_size),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            normalize,
-        ]))
+    # train_dataset = datasets.ImageFolder(
+    #     traindir,
+    #     transforms.Compose([
+    #         transforms.RandomResizedCrop(image_size),
+    #         transforms.RandomHorizontalFlip(),
+    #         transforms.ToTensor(),
+    #         normalize,
+    #     ]))
+
+    inps = torch.arange(1000 * 3 * 224 * 224, dtype=torch.float32).view(1000, 3, 224, 224)
+    tgts = torch.arange(1000, dtype=torch.long).view(1000)
+
+    # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    # inps, tgts = inps.to(device), tgts.to(device)
+
+    train_dataset = torch.utils.data.TensorDataset(inps, tgts)
+    val_dataset = torch.utils.data.TensorDataset(inps, tgts)
+
+    loader_ = torch.utils.data.DataLoader(train_dataset)
+    image, target  = next(iter(loader_))
+    print(image.dtype)
+    print(target.dtype)
 
     if args.varuna:
         def get_batch_fn(size, device=None):
@@ -285,7 +301,7 @@ def main_worker(gpu, ngpus_per_node, args):
     print('Using image size', image_size)
 
     val_loader = torch.utils.data.DataLoader(
-        datasets.ImageFolder(valdir, val_transforms),
+        val_dataset,
         batch_size=args.batch_size, shuffle=False,
         num_workers=args.workers, pin_memory=True)
 

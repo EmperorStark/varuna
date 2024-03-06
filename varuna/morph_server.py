@@ -30,6 +30,7 @@ running_machines_list = None
 PORT = None
 my_ip = socket.gethostbyname(socket.gethostname())
 HOST = my_ip
+COMM_PORT = 12785
 
 class Handler(socketserver.BaseRequestHandler):
 
@@ -74,11 +75,12 @@ class Handler(socketserver.BaseRequestHandler):
 
     @staticmethod
     def start_remote(resume=-1):
-        global available_machines_list, my_ip, checkpointed
+        global available_machines_list, my_ip, checkpointed, COMM_PORT
         resume = max(resume, checkpointed)
         print(">>> restarting with resume setp", resume, flush=True)
-        cmd = "python -m varuna.run_varuna --resume " + \
-             f"--machine_list {available_machines_list} --manager_ip {my_ip}"
+        COMM_PORT += 2
+        cmd = "/opt/conda/envs/varuna/bin/python -m varuna.run_varuna --resume " + \
+             f"--machine_list {available_machines_list} --manager_ip {my_ip} --master_port {COMM_PORT}"
         if resume > 0:
             cmd += f" --resume_step {resume}"
         os.system(cmd)

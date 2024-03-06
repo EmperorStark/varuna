@@ -6,7 +6,7 @@ TRAIN_SCRIPT='/home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/Language
 
 nnode=$1
 tracefile=$2
-HOSTFILE="/home/ubuntu/varuna/aws/hosts/hostname"
+HOSTFILE="/home/ubuntu/varuna/aws/hosts/hostname_multi"
 logtag=${3:-"test"}
 DRY_RUN= #"--dry-run"
 

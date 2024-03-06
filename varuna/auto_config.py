@@ -40,6 +40,10 @@ class AutoConfig:
             cuts_per_stage = self.num_pstages // pp_size
             num_microbatches = math.ceil((batch_size // dp_size ) / mbs)
 
+            if mbs < 0:
+                self.batch_times[pp_size] = math.inf
+                continue
+
             self.calc_and_write_compute_times(pp_size, mbs)
             # TODO: comm profile for last cp in stage for each stage
             # TODO: comm profile missing send/long-send

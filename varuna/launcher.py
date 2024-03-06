@@ -156,7 +156,7 @@ def parse_args():
                              "the IP address or the hostname of node 0, for "
                              "single node multi-proc training, the "
                              "--master_addr can simply be 127.0.0.1")
-    parser.add_argument("--master_port", default=12890, type=int,
+    parser.add_argument("--master_port", default=16229, type=int,
                         help="Master node (rank 0)'s free port that needs to "
                              "be used for communciation during distributed "
                              "training")
@@ -256,7 +256,8 @@ if __name__ == "__main__":
         cmd = [sys.executable, "-u"]
         cmd.append(args.training_script)
 
-        per_process_batch_size = total_batch_size // gpus_per_stage
+        # per_process_batch_size = total_batch_size // gpus_per_stage
+        per_process_batch_size = math.ceil((total_batch_size // args.chunk_size) / gpus_per_stage) * args.chunk_size
 
         cmd.append("--rank={}".format(str(rank)))
         cmd.append("--chunk_size={}".format(str(args.chunk_size)))

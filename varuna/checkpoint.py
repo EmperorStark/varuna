@@ -50,11 +50,19 @@ def list_files(dirname):
         bucket_name, dirname = dirname[5:].split('/', 1)
         if dirname[-1] != '/':
             dirname += '/'
-        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=dirname, Delimiter='/')
+
+        paginator = s3_client.get_paginator('list_objects_v2')
+        response = paginator.paginate(Bucket=bucket_name, Prefix=dirname)
         dirs = []
-        for content in response.get('Contents', []):
-            key = content.get('Key')
-            dirs.append(key[len(dirname):])
+        for page in response:
+            for content in page.get('Contents', []):
+                key = content.get('Key')
+                dirs.append(key[len(dirname):])
+        # response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=dirname, Delimiter='/', MaxKeys=2000)
+        # dirs = []
+        # for content in response.get('Contents', []):
+        #     key = content.get('Key')
+        #     dirs.append(key[len(dirname):])
         return dirs
     else:
         return os.listdir(dirname)
