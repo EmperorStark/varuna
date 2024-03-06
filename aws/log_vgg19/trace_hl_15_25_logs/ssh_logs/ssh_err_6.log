@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 567, in <module>
+    main()
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 156, in main
+    main_worker(args.gpu, ngpus_per_node, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 347, in main_worker
+    train(train_loader, model, optimizer, epoch, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 390, in train
+    dist.all_reduce(flag)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 1321, in all_reduce
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.16.100]:679
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 567, in <module>
+    main()
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 156, in main
+    main_worker(args.gpu, ngpus_per_node, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 181, in main_worker
+    dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 602, in init_process_group
+    default_pg = _new_process_group_helper(
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 703, in _new_process_group_helper
+    pg = ProcessGroupGloo(prefix_store, rank, world_size, timeout=timeout)
+RuntimeError: [enforce fail at /opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/address.cc:45] sizeof(impl_) == bytes.size(). 136 vs 148

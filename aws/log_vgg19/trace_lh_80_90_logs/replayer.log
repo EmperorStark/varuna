@@ -1,0 +1,195 @@
+[2022-12-01 17:30:34.223697] Begin to replay trace traces/trace_lh_80_90.txt
+[2022-12-01 17:30:34.223750] >>> [0.000] next_event: add at 0
+[2022-12-01 17:30:34.223774] >>> [0.000]      node to be add: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.24.208', '172.31.30.99', '172.31.16.5', '172.31.16.100', '172.31.22.229', '172.31.22.165', '172.31.31.40', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.21.109', '172.31.19.112', '172.31.21.254']
+[2022-12-01 17:30:34.224878] >>> [0.001] nnodes: 18, message: 
+[2022-12-01 17:30:34.224960]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.24.208', '172.31.30.99', '172.31.16.5', '172.31.16.100', '172.31.22.229', '172.31.22.165', '172.31.31.40', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.21.109', '172.31.19.112', '172.31.21.254']
+[2022-12-01 17:30:34.224988] >>> [0.001] next_event: no-op at 60000
+/opt/conda/envs/varuna/bin/python -m varuna.run_varuna --batch_size 2048 --chunk_size 32 --gpus_per_node 1 --machine_list /home/ubuntu/varuna/aws/hosts/available_machines.out --profile_folder s3://spot-checkpoints/vgg19-profile --code_dir /home/ubuntu/varuna_examples/ResNet main.py data -a 'vgg19' --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19
+reachable machines: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.24.208', '172.31.30.99', '172.31.16.5', '172.31.16.100', '172.31.22.229', '172.31.22.165', '172.31.31.40', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.21.109', '172.31.19.112', '172.31.21.254']
+/opt/conda/envs/varuna/bin/python -m varuna.morph_server /home/ubuntu/varuna/aws/hosts/available_machines.out /home/ubuntu/varuna/aws/hosts/varuna_current_machines 4200  > varuna_morph.out 2>varuna_morph.err &
+/opt/conda/envs/varuna/bin/python -m varuna.catch_all /home/ubuntu/varuna/aws/hosts/varuna_current_machines 5000  > varuna_catch.out 2>varuna_catch.err &
+ssh ubuntu@172.31.28.108 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 0 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.20.223 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 1 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.18.152 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 2 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.27.216 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 3 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.24.208 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 4 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.30.99 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 5 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.16.5 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 6 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.16.100 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 7 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.22.229 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 8 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.22.165 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 9 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.31.40 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 10 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.19.171 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 11 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.17.44 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 12 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.28.236 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 13 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.21.45 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 14 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.21.109 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 15 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.19.112 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 16 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+ssh ubuntu@172.31.21.254 echo "/opt/conda/envs/varuna/bin/python  -u -m varuna.launcher --ngpus_per_server 1   --node_rank 17 --nservers 18 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19" > launch_varuna.sh;  VARUNA_MANAGER_IP=172.31.28.108 VARUNA_MORPH_PORT=4200 VARUNA_HEARTBEAT_PORT=5000 PYTHONPATH=/home/ubuntu/varuna:$PYTHONPATH  bash launch_varuna.sh
+[2022-12-01 17:31:34.283765] >>> [60.060] nnodes: 18, no morph
+[2022-12-01 17:31:34.283827] >>> [60.060] next_event: no-op at 120000
+[2022-12-01 17:32:34.280717] >>> [120.057] nnodes: 18, no morph
+[2022-12-01 17:32:34.280803] >>> [120.057] next_event: no-op at 180000
+[2022-12-01 17:33:34.283749] >>> [180.060] nnodes: 18, no morph
+[2022-12-01 17:33:34.283836] >>> [180.060] next_event: add at 240000
+[2022-12-01 17:34:34.280736] >>> [240.057]      node to be add: ['172.31.24.191', '172.31.30.133']
+[2022-12-01 17:34:34.281582] >>> [240.058] nnodes: 20, message: morph
+[2022-12-01 17:34:34.281636]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.24.208', '172.31.30.99', '172.31.16.5', '172.31.16.100', '172.31.22.229', '172.31.22.165', '172.31.31.40', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.21.109', '172.31.19.112', '172.31.21.254', '172.31.24.191', '172.31.30.133']
+[2022-12-01 17:34:34.281665] >>> [240.058] next_event: no-op at 300000
+[2022-12-01 17:35:34.224718] >>> [300.001] nnodes: 20, no morph
+[2022-12-01 17:35:34.224788] >>> [300.001] next_event: add at 360000
+[2022-12-01 17:36:34.278630] >>> [360.055]      node to be add: ['172.31.23.137']
+[2022-12-01 17:36:34.279182] >>> [360.055] nnodes: 21, message: morph
+[2022-12-01 17:36:34.279235]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.24.208', '172.31.30.99', '172.31.16.5', '172.31.16.100', '172.31.22.229', '172.31.22.165', '172.31.31.40', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.21.109', '172.31.19.112', '172.31.21.254', '172.31.24.191', '172.31.30.133', '172.31.23.137']
+[2022-12-01 17:36:34.279262] >>> [360.056] next_event: add at 420000
+[2022-12-01 17:37:34.260980] >>> [420.037]      node to be add: ['172.31.21.137']
+[2022-12-01 17:37:34.261546] >>> [420.038] nnodes: 22, message: morph
+[2022-12-01 17:37:34.261584]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.24.208', '172.31.30.99', '172.31.16.5', '172.31.16.100', '172.31.22.229', '172.31.22.165', '172.31.31.40', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.21.109', '172.31.19.112', '172.31.21.254', '172.31.24.191', '172.31.30.133', '172.31.23.137', '172.31.21.137']
+[2022-12-01 17:37:34.261600] >>> [420.038] next_event: no-op at 480000
+[2022-12-01 17:38:34.283757] >>> [480.060] nnodes: 22, no morph
+[2022-12-01 17:38:34.283814] >>> [480.060] next_event: no-op at 540000
+[2022-12-01 17:39:34.280704] >>> [540.057] nnodes: 22, no morph
+[2022-12-01 17:39:34.280777] >>> [540.057] next_event: add at 600000
+[2022-12-01 17:40:34.280730] >>> [600.057]      node to be add: ['172.31.26.140']
+[2022-12-01 17:40:34.281725] >>> [600.058] nnodes: 23, message: morph
+[2022-12-01 17:40:34.281788]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.24.208', '172.31.30.99', '172.31.16.5', '172.31.16.100', '172.31.22.229', '172.31.22.165', '172.31.31.40', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.21.109', '172.31.19.112', '172.31.21.254', '172.31.24.191', '172.31.30.133', '172.31.23.137', '172.31.21.137', '172.31.26.140']
+[2022-12-01 17:40:34.281817] >>> [600.058] next_event: add at 660000
+[2022-12-01 17:41:34.280722] >>> [660.057]      node to be add: ['172.31.28.143']
+[2022-12-01 17:41:34.281489] >>> [660.058] nnodes: 24, message: morph
+[2022-12-01 17:41:34.281541]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.24.208', '172.31.30.99', '172.31.16.5', '172.31.16.100', '172.31.22.229', '172.31.22.165', '172.31.31.40', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.21.109', '172.31.19.112', '172.31.21.254', '172.31.24.191', '172.31.30.133', '172.31.23.137', '172.31.21.137', '172.31.26.140', '172.31.28.143']
+[2022-12-01 17:41:34.281578] >>> [660.058] next_event: no-op at 720000
+[2022-12-01 17:42:34.243582] >>> [720.020] nnodes: 24, no morph
+[2022-12-01 17:42:34.243667] >>> [720.020] next_event: no-op at 780000
+[2022-12-01 17:43:34.283792] >>> [780.060] nnodes: 24, no morph
+[2022-12-01 17:43:34.283894] >>> [780.060] next_event: no-op at 840000
+[2022-12-01 17:44:34.283528] >>> [840.060] nnodes: 24, no morph
+[2022-12-01 17:44:34.283604] >>> [840.060] next_event: remove at 900000
+[2022-12-01 17:45:04.234209] >>> [870.010]      node to be remove: ['172.31.22.165', '172.31.16.5', '172.31.31.40', '172.31.24.208']
+[2022-12-01 17:45:04.234860] >>> [870.011] nnodes: 20, message: preempt 870.010927438736
+[2022-12-01 17:45:04.234912]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.30.99', '172.31.16.100', '172.31.22.229', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.21.109', '172.31.19.112', '172.31.21.254', '172.31.24.191', '172.31.30.133', '172.31.23.137', '172.31.21.137', '172.31.26.140', '172.31.28.143']
+[2022-12-01 17:45:34.253761] >>> [900.030] Remove node 172.31.22.165, CMD: ssh -q ubuntu@172.31.22.165 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:45:34.255559] >>> [900.032] Remove node 172.31.16.5, CMD: ssh -q ubuntu@172.31.16.5 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:45:34.257207] >>> [900.033] Remove node 172.31.31.40, CMD: ssh -q ubuntu@172.31.31.40 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:45:34.258821] >>> [900.035] Remove node 172.31.24.208, CMD: ssh -q ubuntu@172.31.24.208 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:45:34.260583] >>> [900.037] next_event: no-op at 960000
+[2022-12-01 17:46:34.228183] >>> [960.004] nnodes: 20, no morph
+[2022-12-01 17:46:34.228284] >>> [960.005] next_event: remove at 1020000
+[2022-12-01 17:47:04.252089] >>> [990.028]      node to be remove: ['172.31.21.109', '172.31.21.254', '172.31.24.191', '172.31.30.133']
+[2022-12-01 17:47:04.252873] >>> [990.029] nnodes: 16, message: preempt 990.0288853645325
+[2022-12-01 17:47:04.252930]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.30.99', '172.31.16.100', '172.31.22.229', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.21.137', '172.31.26.140', '172.31.28.143']
+[2022-12-01 17:47:34.253784] >>> [1020.030] Remove node 172.31.21.109, CMD: ssh -q ubuntu@172.31.21.109 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:47:34.255652] >>> [1020.032] Remove node 172.31.21.254, CMD: ssh -q ubuntu@172.31.21.254 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:47:34.257265] >>> [1020.034] Remove node 172.31.24.191, CMD: ssh -q ubuntu@172.31.24.191 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:47:34.258993] >>> [1020.035] Remove node 172.31.30.133, CMD: ssh -q ubuntu@172.31.30.133 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:47:34.260781] >>> [1020.037] next_event: no-op at 1080000
+[2022-12-01 17:48:34.274781] >>> [1080.051] nnodes: 16, no morph
+[2022-12-01 17:48:34.274846] >>> [1080.051] next_event: remove at 1140000
+[2022-12-01 17:49:04.252749] >>> [1110.029]      node to be remove: ['172.31.16.100', '172.31.21.137']
+[2022-12-01 17:49:04.253519] >>> [1110.030] nnodes: 14, message: preempt 1110.0295419692993
+[2022-12-01 17:49:04.253571]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.30.99', '172.31.22.229', '172.31.19.171', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.26.140', '172.31.28.143']
+[2022-12-01 17:49:34.253745] >>> [1140.030] Remove node 172.31.16.100, CMD: ssh -q ubuntu@172.31.16.100 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:49:34.255612] >>> [1140.032] Remove node 172.31.21.137, CMD: ssh -q ubuntu@172.31.21.137 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:49:34.257364] >>> [1140.034] next_event: no-op at 1200000
+[2022-12-01 17:50:34.280692] >>> [1200.057] nnodes: 14, no morph
+[2022-12-01 17:50:34.280745] >>> [1200.057] next_event: remove at 1260000
+[2022-12-01 17:51:04.253232] >>> [1230.030]      node to be remove: ['172.31.30.99', '172.31.19.171']
+[2022-12-01 17:51:04.253937] >>> [1230.030] nnodes: 12, message: preempt 1230.0299870967865
+[2022-12-01 17:51:04.253978]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.26.140', '172.31.28.143']
+[2022-12-01 17:51:34.252698] >>> [1260.029] Remove node 172.31.30.99, CMD: ssh -q ubuntu@172.31.30.99 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:51:34.254406] >>> [1260.031] Remove node 172.31.19.171, CMD: ssh -q ubuntu@172.31.19.171 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:51:34.256364] >>> [1260.033] next_event: no-op at 1320000
+[2022-12-01 17:52:34.280731] >>> [1320.057] nnodes: 12, no morph
+[2022-12-01 17:52:34.280807] >>> [1320.057] next_event: remove at 1380000
+[2022-12-01 17:53:04.253724] >>> [1350.030]      node to be remove: ['172.31.26.140']
+[2022-12-01 17:53:04.254366] >>> [1350.031] nnodes: 11, message: preempt 1350.0304670333862
+[2022-12-01 17:53:04.254407]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.143']
+[2022-12-01 17:53:34.252705] >>> [1380.029] Remove node 172.31.26.140, CMD: ssh -q ubuntu@172.31.26.140 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:53:34.254488] >>> [1380.031] next_event: no-op at 1440000
+[2022-12-01 17:54:34.280739] >>> [1440.057] nnodes: 11, no morph
+[2022-12-01 17:54:34.280829] >>> [1440.057] next_event: no-op at 1500000
+[2022-12-01 17:55:34.280707] >>> [1500.057] nnodes: 11, no morph
+[2022-12-01 17:55:34.280762] >>> [1500.057] next_event: add at 1560000
+[2022-12-01 17:56:34.281389] >>> [1560.057]      node to be add: ['172.31.28.16']
+[2022-12-01 17:56:34.284683] >>> [1560.061] nnodes: 12, message: morph
+[2022-12-01 17:56:34.284736]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.143', '172.31.28.16']
+[2022-12-01 17:56:34.284767] >>> [1560.061] next_event: add at 1620000
+[2022-12-01 17:57:34.283707] >>> [1620.060]      node to be add: ['172.31.17.209']
+[2022-12-01 17:57:34.284252] >>> [1620.061] nnodes: 13, message: morph
+[2022-12-01 17:57:34.284295]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.18.152', '172.31.27.216', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.143', '172.31.28.16', '172.31.17.209']
+[2022-12-01 17:57:34.284326] >>> [1620.061] next_event: no-op at 1680000
+[2022-12-01 17:58:34.280716] >>> [1680.057] nnodes: 13, no morph
+[2022-12-01 17:58:34.280788] >>> [1680.057] next_event: remove at 1740000
+[2022-12-01 17:59:04.253713] >>> [1710.030]      node to be remove: ['172.31.18.152']
+[2022-12-01 17:59:04.254317] >>> [1710.031] nnodes: 12, message: preempt 1710.0303659439087
+[2022-12-01 17:59:04.254359]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.27.216', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.143', '172.31.28.16', '172.31.17.209']
+[2022-12-01 17:59:34.248702] >>> [1740.025] Remove node 172.31.18.152, CMD: ssh -q ubuntu@172.31.18.152 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 17:59:34.250549] >>> [1740.027] next_event: add at 1800000
+[2022-12-01 18:00:34.232723] >>> [1800.009]      node to be add: ['172.31.24.82']
+[2022-12-01 18:00:34.233314] >>> [1800.010] nnodes: 13, message: morph
+[2022-12-01 18:00:34.233356]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.27.216', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.143', '172.31.28.16', '172.31.17.209', '172.31.24.82']
+[2022-12-01 18:00:34.233383] >>> [1800.010] next_event: no-op at 1860000
+[2022-12-01 18:01:34.280733] >>> [1860.057] nnodes: 13, no morph
+[2022-12-01 18:01:34.280832] >>> [1860.057] next_event: no-op at 1920000
+[2022-12-01 18:02:34.280720] >>> [1920.057] nnodes: 13, no morph
+[2022-12-01 18:02:34.280812] >>> [1920.057] next_event: no-op at 1980000
+[2022-12-01 18:03:34.280706] >>> [1980.057] nnodes: 13, no morph
+[2022-12-01 18:03:34.280766] >>> [1980.057] next_event: add at 2040000
+[2022-12-01 18:04:34.283708] >>> [2040.060]      node to be add: ['172.31.29.147']
+[2022-12-01 18:04:34.284259] >>> [2040.061] nnodes: 14, message: morph
+[2022-12-01 18:04:34.284297]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.27.216', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.143', '172.31.28.16', '172.31.17.209', '172.31.24.82', '172.31.29.147']
+[2022-12-01 18:04:34.284327] >>> [2040.061] next_event: no-op at 2100000
+[2022-12-01 18:05:34.272756] >>> [2100.049] nnodes: 14, no morph
+[2022-12-01 18:05:34.272844] >>> [2100.049] next_event: add at 2160000
+[2022-12-01 18:06:34.283769] >>> [2160.060]      node to be add: ['172.31.27.21', '172.31.30.89', '172.31.25.155', '172.31.27.155']
+[2022-12-01 18:06:34.284564] >>> [2160.061] nnodes: 18, message: morph
+[2022-12-01 18:06:34.284617]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.27.216', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.143', '172.31.28.16', '172.31.17.209', '172.31.24.82', '172.31.29.147', '172.31.27.21', '172.31.30.89', '172.31.25.155', '172.31.27.155']
+[2022-12-01 18:06:34.285317] >>> [2160.062] next_event: no-op at 2220000
+[2022-12-01 18:07:34.280687] >>> [2220.057] nnodes: 18, no morph
+[2022-12-01 18:07:34.280742] >>> [2220.057] next_event: no-op at 2280000
+[2022-12-01 18:08:34.271085] >>> [2280.047] nnodes: 18, no morph
+[2022-12-01 18:08:34.271163] >>> [2280.047] next_event: add at 2340000
+[2022-12-01 18:09:34.280729] >>> [2340.057]      node to be add: ['172.31.22.165']
+[2022-12-01 18:09:34.281521] >>> [2340.058] nnodes: 19, message: morph
+[2022-12-01 18:09:34.281564]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.27.216', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.143', '172.31.28.16', '172.31.17.209', '172.31.24.82', '172.31.29.147', '172.31.27.21', '172.31.30.89', '172.31.25.155', '172.31.27.155', '172.31.22.165']
+[2022-12-01 18:09:34.281608] >>> [2340.058] next_event: no-op at 2400000
+[2022-12-01 18:10:34.280714] >>> [2400.057] nnodes: 19, no morph
+[2022-12-01 18:10:34.280810] >>> [2400.057] next_event: no-op at 2460000
+[2022-12-01 18:11:34.280716] >>> [2460.057] nnodes: 19, no morph
+[2022-12-01 18:11:34.280791] >>> [2460.057] next_event: remove at 2520000
+[2022-12-01 18:12:04.252727] >>> [2490.029]      node to be remove: ['172.31.25.155', '172.31.28.143', '172.31.27.216']
+[2022-12-01 18:12:04.253413] >>> [2490.030] nnodes: 16, message: preempt 2490.029463291168
+[2022-12-01 18:12:04.253464]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.22.229', '172.31.17.44', '172.31.28.236', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.16', '172.31.17.209', '172.31.24.82', '172.31.29.147', '172.31.27.21', '172.31.30.89', '172.31.27.155', '172.31.22.165']
+[2022-12-01 18:12:34.233012] >>> [2520.009] Remove node 172.31.25.155, CMD: ssh -q ubuntu@172.31.25.155 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 18:12:34.234871] >>> [2520.011] Remove node 172.31.28.143, CMD: ssh -q ubuntu@172.31.28.143 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 18:12:34.236440] >>> [2520.013] Remove node 172.31.27.216, CMD: ssh -q ubuntu@172.31.27.216 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 18:12:34.238293] >>> [2520.015] next_event: no-op at 2580000
+[2022-12-01 18:13:34.264245] >>> [2580.041] nnodes: 16, no morph
+[2022-12-01 18:13:34.264332] >>> [2580.041] next_event: remove at 2640000
+[2022-12-01 18:14:04.228759] >>> [2610.005]      node to be remove: ['172.31.28.236']
+[2022-12-01 18:14:04.229441] >>> [2610.006] nnodes: 15, message: preempt 2610.00549864769
+[2022-12-01 18:14:04.229497]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.22.229', '172.31.17.44', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.16', '172.31.17.209', '172.31.24.82', '172.31.29.147', '172.31.27.21', '172.31.30.89', '172.31.27.155', '172.31.22.165']
+[2022-12-01 18:14:34.253766] >>> [2640.030] Remove node 172.31.28.236, CMD: ssh -q ubuntu@172.31.28.236 bash /home/ubuntu/varuna/aws/remove_node.sh
+[2022-12-01 18:14:34.255595] >>> [2640.032] next_event: no-op at 2700000
+[2022-12-01 18:15:34.280763] >>> [2700.057] nnodes: 15, no morph
+[2022-12-01 18:15:34.280861] >>> [2700.057] next_event: no-op at 2760000
+[2022-12-01 18:16:34.283055] >>> [2760.059] nnodes: 15, no morph
+[2022-12-01 18:16:34.283126] >>> [2760.059] next_event: no-op at 2820000
+[2022-12-01 18:17:34.280710] >>> [2820.057] nnodes: 15, no morph
+[2022-12-01 18:17:34.280783] >>> [2820.057] next_event: no-op at 2880000
+[2022-12-01 18:18:34.282083] >>> [2880.058] nnodes: 15, no morph
+[2022-12-01 18:18:34.282158] >>> [2880.058] next_event: no-op at 2940000
+[2022-12-01 18:19:34.280704] >>> [2940.057] nnodes: 15, no morph
+[2022-12-01 18:19:34.280762] >>> [2940.057] next_event: no-op at 3000000
+[2022-12-01 18:20:34.283726] >>> [3000.060] nnodes: 15, no morph
+[2022-12-01 18:20:34.283799] >>> [3000.060] next_event: no-op at 3060000
+[2022-12-01 18:21:34.280714] >>> [3060.057] nnodes: 15, no morph
+[2022-12-01 18:21:34.280832] >>> [3060.057] next_event: add at 3120000
+[2022-12-01 18:22:34.280730] >>> [3120.057]      node to be add: ['172.31.16.5', '172.31.31.40']
+[2022-12-01 18:22:34.281445] >>> [3120.058] nnodes: 17, message: morph
+[2022-12-01 18:22:34.281503]                remain nodes: ['172.31.28.108', '172.31.20.223', '172.31.22.229', '172.31.17.44', '172.31.21.45', '172.31.19.112', '172.31.23.137', '172.31.28.16', '172.31.17.209', '172.31.24.82', '172.31.29.147', '172.31.27.21', '172.31.30.89', '172.31.27.155', '172.31.22.165', '172.31.16.5', '172.31.31.40']
+[2022-12-01 18:22:34.281527] >>> [3120.058] next_event: no-op at 3180000
+[2022-12-01 18:23:34.283333] >>> [3180.060] nnodes: 17, no morph
+[2022-12-01 18:23:34.283417] >>> [3180.060] next_event: no-op at 3240000
+[2022-12-01 18:24:34.280696] >>> [3240.057] nnodes: 17, no morph
+[2022-12-01 18:25:34.281098] >>> [3300.057] nnodes: 17, message: preempt 3300.0571875572205
+[2022-12-01 18:25:34.281139]           Finally kill all

@@ -1,0 +1,56 @@
+launch_varuna.sh: line 1:  8727 User defined signal 1   /opt/conda/envs/varuna/bin/python -u -m varuna.launcher --ngpus_per_server 1 --node_rank 9 --nservers 22 --master_addr 172.31.28.108 --batch_size 128 --master_port 16229 --chunk_size 1 --code_dir /home/ubuntu/varuna_examples/Megatron-LM --profile_folder s3://spot-checkpoints/gpt-n48-d1600-h25 pretrain_gpt2.py --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 37
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 103, in pretrain
+    model, optimizer, lr_scheduler = setup_model_and_optimizer(model_provider, get_batch_fn)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 280, in setup_model_and_optimizer
+    args.iteration = load_checkpoint(model, optimizer, lr_scheduler)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/checkpointing.py", line 285, in load_checkpoint
+    torch.distributed.barrier()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 2783, in barrier
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.21.109]:3500
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 103, in pretrain
+    model, optimizer, lr_scheduler = setup_model_and_optimizer(model_provider, get_batch_fn)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 280, in setup_model_and_optimizer
+    args.iteration = load_checkpoint(model, optimizer, lr_scheduler)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/checkpointing.py", line 285, in load_checkpoint
+    torch.distributed.barrier()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 2783, in barrier
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.16.100]:13227
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 103, in pretrain
+    model, optimizer, lr_scheduler = setup_model_and_optimizer(model_provider, get_batch_fn)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 280, in setup_model_and_optimizer
+    args.iteration = load_checkpoint(model, optimizer, lr_scheduler)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/checkpointing.py", line 285, in load_checkpoint
+    torch.distributed.barrier()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 2783, in barrier
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.20.223]:29102
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 131, in pretrain
+    iteration = train(forward_step_func if not args.varuna else varuna_step_func,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 503, in train
+    loss_dict, skipped_iter = train_step(forward_or_varuna_step_func,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 360, in train_step
+    varuna_step_func(data_iterator, model)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 117, in varuna_step
+    loss, overflow, global_norm = model.step(inputs)
+  File "/home/ubuntu/varuna/varuna/varuna.py", line 280, in step
+    self.average_loss, fwd_time = self.pipeline.run()
+  File "/home/ubuntu/varuna/varuna/pipeline.py", line 312, in run
+    torch.distributed.barrier(group=self.pipeline_group)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 2783, in barrier
+Terminated
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:589] Read error [172.31.21.137]:6027: Connection reset by peer

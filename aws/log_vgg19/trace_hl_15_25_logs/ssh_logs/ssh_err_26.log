@@ -1,0 +1,13 @@
+launch_varuna.sh: line 1: 124821 User defined signal 1   /opt/conda/envs/varuna/bin/python -u -m varuna.launcher --ngpus_per_server 1 --node_rank 26 --nservers 31 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/vgg19-profile main.py data -a vgg19 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/vgg19 --resume_step 833
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 567, in <module>
+    main()
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 156, in main
+    main_worker(args.gpu, ngpus_per_node, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 347, in main_worker
+    train(train_loader, model, optimizer, epoch, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 390, in train
+    dist.all_reduce(flag)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 1321, in all_reduce
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.25.155]:54158

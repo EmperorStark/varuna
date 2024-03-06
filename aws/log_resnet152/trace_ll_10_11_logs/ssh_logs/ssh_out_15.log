@@ -1,0 +1,400 @@
+Parent process ID: 26134 node: 172.31.21.109
+32 cutpoints
+Stages 1
+Micro-bs 32 Max mem: 8675329024.0
+Predicted microbatch size for 1: 32
+comm size 0
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 1 4 0 222679.87060546875 0
+End of simulation:  Mini-batch time (usec) = 1777661
+Min send: 10000000, max send 0
+Min long send: 10000000, max long send 0
+Min fwd: 10000000, max fwd 0; min bwd 10000000, max bwd 0
+Min long fwd: 201398, max long fwd 203682; min long bwd 184795, max long bwd 189299
+Time taken by simulation: 48 microseconds
+
+Stages 2
+Micro-bs 32 Max mem: 5306506956.799999
+Predicted microbatch size for 2: 32
+comm size 6422528
+WARNING: no send time found, 2 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 2 8 0 42864.17007446289 339993.4039718803
+End of simulation:  Mini-batch time (usec) = 2926179
+Min send: 10000000, max send 0
+Min long send: 340325, max long send 360040
+Min fwd: 54106, max fwd 61226; min bwd 79729, max bwd 84071
+Min long fwd: 142875, max long fwd 147087; min long bwd 100210, max long bwd 105674
+Time taken by simulation: 155 microseconds
+
+Stages 4
+Micro-bs 32 Max mem: 3266000179.2
+Predicted microbatch size for 4: 32
+comm size 12845056
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 16 0 5012.969017028809 632152.0801385244
+End of simulation:  Mini-batch time (usec) = 8186112
+Min send: 10000000, max send 0
+Min long send: 632289, max long send 656857
+Min fwd: 22997, max fwd 85414; min bwd 32345, max bwd 55249
+Min long fwd: 59874, max long fwd 66218; min long bwd 45265, max long bwd 54005
+Time taken by simulation: 715 microseconds
+
+Stages 8
+Micro-bs 32 Max mem: 1980926361.6
+Predicted microbatch size for 8: 32
+comm size 12845056
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 32 0 1084.3276977539062 632152.0801385244
+End of simulation:  Mini-batch time (usec) = 17887923
+Min send: 10000000, max send 0
+Min long send: 632168, max long send 660373
+Min fwd: 5425, max fwd 48670; min bwd 12684, max bwd 35373
+Min long fwd: 26803, max long fwd 34176; min long bwd 16127, max long bwd 25418
+Time taken by simulation: 3222 microseconds
+
+Stages 16
+Micro-bs 32 Max mem: 1128991948.8
+Predicted microbatch size for 16: 32
+comm size 25690112
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 64 0 0 1028093.6227904424
+End of simulation:  Mini-batch time (usec) = 61731430
+Min send: 10000000, max send 0
+Min long send: 1028093, max long send 1062462
+Min fwd: 56, max fwd 33543; min bwd 2591, max bwd 20855
+Min long fwd: 1672, max long fwd 12532; min long bwd 2017, max long bwd 11294
+Time taken by simulation: 14058 microseconds
+
+{1: 1.777661, 2: 2.926179, 4: 8.186112, 8: 17.887923, 16: 61.73143}
+{1: 32, 2: 32, 4: 32, 8: 32, 16: 32}
+best config is: 2 32
+expected time is 2.926179
+9 per stage
+18 servers!
+Config:
+ranks: range(15, 16)
+train batch size: 2048
+partitions: 2
+chunk_size: 32
+data depth: 9
+stage to rank map: 0,2,4,6,8,10,12,14,16;1,3,5,7,9,11,13,15,17;
+World size is 18
+/opt/conda/envs/varuna/bin/python -u main.py --rank=15 --chunk_size=32 --local_rank=0 --stage_to_rank_map=0,2,4,6,8,10,12,14,16;1,3,5,7,9,11,13,15,17; --batch-size=224 data -a resnet152 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/resnet
+=> creating model 'resnet152'
+Files already downloaded and verified
+Num cutpoints is 31
+dry run time 0.8903906345367432
+SHARED WEIGHTS ARE
+None
+this rank  15 is part of pipeline replica  7
+7 chunks
+15 Overflow !!
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+[2022-11-30 14:37:45.045761] Finished iteration 1, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7802.030
+15 Overflow !!
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+[2022-11-30 14:37:47.009716] Finished iteration 2, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1963.825
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+[2022-11-30 14:37:48.029693] Finished iteration 3, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1019.857
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+[2022-11-30 14:37:49.948287] Finished iteration 4, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1918.628
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+[2022-11-30 14:37:51.970425] Finished iteration 5, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 2022.105
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+[2022-11-30 14:37:52.957725] Finished iteration 6, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 987.199
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+[2022-11-30 14:37:53.851220] Finished iteration 7, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 893.470
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+[2022-11-30 14:37:54.750524] Finished iteration 8, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 899.278
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+[2022-11-30 14:37:55.747166] Finished iteration 9, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 996.612
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+[2022-11-30 14:37:37.228987] Epoch: [0][ 10/224]	Time  0.987 ( 1.948)	Data  0.007 ( 0.407)	Loss 7.0804e+00 (7.0756e+00)	Acc@1   0.00 (  0.00)	Acc@5   0.00 (  0.00)
+[2022-11-30 14:37:56.730634] Finished iteration 10, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 983.435
+[2022-11-30 14:37:57.712322] Finished iteration 11, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 981.663
+[2022-11-30 14:37:58.688118] Finished iteration 12, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 975.762
+[2022-11-30 14:37:59.605304] Finished iteration 13, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 917.151
+[2022-11-30 14:38:00.633154] Finished iteration 14, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1027.848
+[2022-11-30 14:38:01.617740] Finished iteration 15, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 984.522
+[2022-11-30 14:38:02.617005] Finished iteration 16, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 999.260
+[2022-11-30 14:38:03.503503] Finished iteration 17, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 886.433
+[2022-11-30 14:38:04.498642] Finished iteration 18, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 995.106
+[2022-11-30 14:38:05.422258] Finished iteration 19, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 923.586
+[2022-11-30 14:37:37.228987] Epoch: [0][ 20/224]	Time  1.006 ( 1.459)	Data  0.006 ( 0.207)	Loss 4.8371e+00 (6.0970e+00)	Acc@1   0.00 (  0.00)	Acc@5   0.00 (  0.00)
+[2022-11-30 14:38:06.426598] Finished iteration 20, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1004.298
+[2022-11-30 14:38:07.364467] Finished iteration 21, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 937.856
+[2022-11-30 14:38:08.357528] Finished iteration 22, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 993.021
+[2022-11-30 14:38:09.340759] Finished iteration 23, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 983.270
+[2022-11-30 14:38:10.302945] Finished iteration 24, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 962.079
+[2022-11-30 14:38:11.301023] Finished iteration 25, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 998.040
+[2022-11-30 14:38:12.210219] Finished iteration 26, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 909.164
+[2022-11-30 14:38:13.182397] Finished iteration 27, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 972.142
+[2022-11-30 14:38:14.115286] Finished iteration 28, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 932.853
+[2022-11-30 14:38:15.085670] Finished iteration 29, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 970.353
+[2022-11-30 14:37:37.228987] Epoch: [0][ 30/224]	Time  0.990 ( 1.294)	Data  0.003 ( 0.140)	Loss 4.6875e+00 (5.6430e+00)	Acc@1   0.00 (  0.00)	Acc@5   0.00 (  0.00)
+[2022-11-30 14:38:16.077004] Finished iteration 30, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 991.295
+[2022-11-30 14:38:17.024885] Finished iteration 31, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 947.870
+[2022-11-30 14:38:18.005073] Finished iteration 32, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 980.146
+[2022-11-30 14:38:18.939249] Finished iteration 33, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 934.146
+[2022-11-30 14:38:19.952601] Finished iteration 34, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1013.342
+[2022-11-30 14:38:20.950671] Finished iteration 35, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 998.013
+[2022-11-30 14:38:21.946361] Finished iteration 36, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 995.678
+[2022-11-30 14:38:22.925579] Finished iteration 37, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 979.158
+[2022-11-30 14:38:23.978347] Finished iteration 38, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1052.786
+[2022-11-30 14:38:24.956126] Finished iteration 39, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 977.691
+[2022-11-30 14:37:37.228987] Epoch: [0][ 40/224]	Time  1.004 ( 1.218)	Data  0.006 ( 0.106)	Loss 4.6507e+00 (5.3980e+00)	Acc@1   0.00 (  0.00)	Acc@5   0.00 (  0.00)
+[2022-11-30 14:38:25.957449] Finished iteration 40, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1001.286
+[2022-11-30 14:38:26.868973] Finished iteration 41, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 911.501
+[2022-11-30 14:38:27.789135] Finished iteration 42, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 920.129
+[2022-11-30 14:38:28.667384] Finished iteration 43, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 878.217
+[2022-11-30 14:38:29.695366] Finished iteration 44, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1027.943
+[2022-11-30 14:38:30.691434] Finished iteration 45, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 996.066
+[2022-11-30 14:38:31.685833] Finished iteration 46, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 994.336
+[2022-11-30 14:38:32.633309] Finished iteration 47, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 947.472
+[2022-11-30 14:38:33.627218] Finished iteration 48, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 993.869
+[2022-11-30 14:38:34.532764] Finished iteration 49, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 905.564
+[2022-11-30 14:37:37.228987] Epoch: [0][ 50/224]	Time  1.010 ( 1.166)	Data  0.003 ( 0.086)	Loss 4.6490e+00 (5.2480e+00)	Acc@1   0.00 (  0.00)	Acc@5   0.00 (  0.00)
+[2022-11-30 14:38:35.546192] Finished iteration 50, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1013.318
+[2022-11-30 14:38:36.556328] Finished iteration 51, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1010.122
+[2022-11-30 14:38:37.535680] Finished iteration 52, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 979.316
+[2022-11-30 14:38:38.530712] Finished iteration 53, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 995.010
+[2022-11-30 14:38:39.550457] Finished iteration 54, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1019.696
+[2022-11-30 14:38:40.545156] Finished iteration 55, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 994.659
+[2022-11-30 14:38:41.498047] Finished iteration 56, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 952.886
+[2022-11-30 14:38:42.430851] Finished iteration 57, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 932.745
+[2022-11-30 14:38:43.417251] Finished iteration 58, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 986.405
+[2022-11-30 14:38:44.333456] Finished iteration 59, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 916.126
+[2022-11-30 14:37:37.228987] Epoch: [0][ 60/224]	Time  0.976 ( 1.134)	Data  0.004 ( 0.072)	Loss 4.6445e+00 (5.1471e+00)	Acc@1   0.00 (  0.00)	Acc@5   0.00 (  0.00)
+[2022-11-30 14:38:45.309503] Finished iteration 60, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 976.005
+[2022-11-30 14:38:46.299560] Finished iteration 61, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 990.031
+[2022-11-30 14:38:47.229875] Finished iteration 62, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 930.277
+[2022-11-30 14:38:48.189314] Finished iteration 63, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 959.426
+[2022-11-30 14:38:49.183036] Finished iteration 64, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 993.693
+[2022-11-30 14:38:50.106376] Finished iteration 65, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 923.281
+[2022-11-30 14:38:51.116871] Finished iteration 66, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1010.463
+[2022-11-30 14:38:52.043491] Finished iteration 67, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 926.586
+[2022-11-30 14:38:53.033968] Finished iteration 68, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 990.450
+[2022-11-30 14:38:54.004893] Finished iteration 69, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 970.913
+[2022-11-30 14:37:37.228987] Epoch: [0][ 70/224]	Time  0.904 ( 1.109)	Data  0.006 ( 0.063)	Loss 4.6462e+00 (5.0747e+00)	Acc@1   0.00 (  0.00)	Acc@5   0.00 (  0.00)
+[2022-11-30 14:38:54.908076] Finished iteration 70, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 903.122
+[2022-11-30 14:38:55.890715] Finished iteration 71, CKPT_AND_STOP: False, flag: tensor([1], dtype=torch.int32), speed: 982.615
+Opt ckpt time 4.095759630203247
+Process done with return code 0
+Parent process ID: 24024 node: 172.31.21.254
+32 cutpoints
+Stages 1
+Micro-bs 32 Max mem: 8675329024.0
+Predicted microbatch size for 1: 32
+comm size 0
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 1 4 0 217441.22314453125 0
+End of simulation:  Mini-batch time (usec) = 1772423
+Min send: 10000000, max send 0
+Min long send: 10000000, max long send 0
+Min fwd: 10000000, max fwd 0; min bwd 10000000, max bwd 0
+Min long fwd: 201398, max long fwd 203682; min long bwd 184795, max long bwd 189299
+Time taken by simulation: 40 microseconds
+
+Stages 2
+Micro-bs 32 Max mem: 5306506956.799999
+Predicted microbatch size for 2: 32
+comm size 6422528
+WARNING: no send time found, 2 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 2 8 0 42123.68392944336 339993.4039718803
+End of simulation:  Mini-batch time (usec) = 2925438
+Min send: 10000000, max send 0
+Min long send: 340325, max long send 360040
+Min fwd: 54106, max fwd 61226; min bwd 79729, max bwd 84071
+Min long fwd: 142875, max long fwd 147087; min long bwd 100210, max long bwd 105674
+Time taken by simulation: 160 microseconds
+
+Stages 4
+Micro-bs 32 Max mem: 3266000179.2
+Predicted microbatch size for 4: 32
+comm size 12845056
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 16 0 5012.969017028809 632152.0801385244
+End of simulation:  Mini-batch time (usec) = 8186112
+Min send: 10000000, max send 0
+Min long send: 632289, max long send 656857
+Min fwd: 22997, max fwd 85414; min bwd 32345, max bwd 55249
+Min long fwd: 59874, max long fwd 66218; min long bwd 45265, max long bwd 54005
+Time taken by simulation: 711 microseconds
+
+Stages 8
+Micro-bs 32 Max mem: 1980926361.6
+Predicted microbatch size for 8: 32
+comm size 12845056
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 32 0 1084.3276977539062 632152.0801385244
+End of simulation:  Mini-batch time (usec) = 17887923
+Min send: 10000000, max send 0
+Min long send: 632168, max long send 660373
+Min fwd: 5425, max fwd 48670; min bwd 12684, max bwd 35373
+Min long fwd: 26803, max long fwd 34176; min long bwd 16127, max long bwd 25418
+Time taken by simulation: 3209 microseconds
+
+Stages 16
+Micro-bs 32 Max mem: 1128991948.8
+Predicted microbatch size for 16: 32
+comm size 25690112
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 64 0 0 1028093.6227904424
+End of simulation:  Mini-batch time (usec) = 61731430
+Min send: 10000000, max send 0
+Min long send: 1028093, max long send 1062462
+Min fwd: 56, max fwd 33543; min bwd 2591, max bwd 20855
+Min long fwd: 1672, max long fwd 12532; min long bwd 2017, max long bwd 11294
+Time taken by simulation: 14189 microseconds
+
+{1: 1.772423, 2: 2.925438, 4: 8.186112, 8: 17.887923, 16: 61.73143}
+{1: 32, 2: 32, 4: 32, 8: 32, 16: 32}
+best config is: 2 32
+expected time is 2.925438
+8 per stage
+16 servers!
+Config:
+ranks: range(15, 16)
+train batch size: 2048
+partitions: 2
+chunk_size: 32
+data depth: 8
+stage to rank map: 0,2,4,6,8,10,12,14;1,3,5,7,9,11,13,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u main.py --rank=15 --chunk_size=32 --local_rank=0 --stage_to_rank_map=0,2,4,6,8,10,12,14;1,3,5,7,9,11,13,15; --batch-size=256 data -a resnet152 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/resnet --resume_step 71
+=> creating model 'resnet152'
+Files already downloaded and verified
+Num cutpoints is 31
+dry run time 0.9873642921447754
+SHARED WEIGHTS ARE
+None
+this rank  15 is part of pipeline replica  7
+8 chunks
+15 Overflow !!
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+[2022-11-30 14:41:05.884433] Finished iteration 72, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 8493.535
+15 Overflow !!
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+[2022-11-30 14:41:06.955491] Finished iteration 73, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1070.755
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+[2022-11-30 14:41:08.126119] Finished iteration 74, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1170.593
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+[2022-11-30 14:41:10.240962] Finished iteration 75, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 2114.902
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+[2022-11-30 14:41:11.937240] Finished iteration 76, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1696.174
+[2022-11-30 14:41:12.993989] Finished iteration 77, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1056.736
+[2022-11-30 14:41:14.086789] Finished iteration 78, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1092.721
+[2022-11-30 14:41:15.156727] Finished iteration 79, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1069.921
+[2022-11-30 14:40:57.386923] Epoch: [0][ 80/196]	Time  1.083 ( 2.093)	Data  0.008 ( 0.296)	Loss 4.6104e+00 (4.6401e+00)	Acc@1   0.00 (  0.00)	Acc@5   0.00 (  0.00)
+[2022-11-30 14:41:16.241610] Finished iteration 80, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1084.832
+[2022-11-30 14:41:17.525113] Finished iteration 81, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1283.497
+[2022-11-30 14:41:18.548294] Finished iteration 82, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1023.104
+[2022-11-30 14:41:19.720192] Finished iteration 83, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1171.843
+[2022-11-30 14:41:20.804134] Finished iteration 84, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1083.885
+[2022-11-30 14:41:21.802303] Finished iteration 85, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 998.135
+[2022-11-30 14:41:22.890189] Finished iteration 86, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1087.842
+[2022-11-30 14:41:23.945687] Finished iteration 87, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1055.477
+[2022-11-30 14:41:24.981634] Finished iteration 88, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 1035.896
+[2022-11-30 14:41:26.030251] Finished iteration 89, CKPT_AND_STOP: False, flag: tensor([1], dtype=torch.int32), speed: 1048.579
+Opt ckpt time 4.850795269012451
+Process done with return code 0
+Parent process ID: 19782 node: 172.31.24.191
+32 cutpoints
+Stages 1
+Micro-bs 32 Max mem: 8675329024.0
+Predicted microbatch size for 1: 32
+comm size 0
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 1 4 0 211804.62646484375 0
+End of simulation:  Mini-batch time (usec) = 1766786
+Min send: 10000000, max send 0
+Min long send: 10000000, max long send 0
+Min fwd: 10000000, max fwd 0; min bwd 10000000, max bwd 0
+Min long fwd: 201398, max long fwd 203682; min long bwd 184795, max long bwd 189299
+Time taken by simulation: 44 microseconds
+
+Stages 2
+Micro-bs 32 Max mem: 5306506956.799999
+Predicted microbatch size for 2: 32
+comm size 6422528
+WARNING: no send time found, 2 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 2 8 0 42123.68392944336 339993.4039718803
+End of simulation:  Mini-batch time (usec) = 2925438
+Min send: 10000000, max send 0
+Min long send: 340325, max long send 360040
+Min fwd: 54106, max fwd 61226; min bwd 79729, max bwd 84071
+Min long fwd: 142875, max long fwd 147087; min long bwd 100210, max long bwd 105674
+Time taken by simulation: 162 microseconds
+
+Stages 4
+Micro-bs 32 Max mem: 3266000179.2
+Predicted microbatch size for 4: 32
+comm size 12845056
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 16 0 5012.969017028809 632152.0801385244
+End of simulation:  Mini-batch time (usec) = 8186112
+Min send: 10000000, max send 0
+Min long send: 632289, max long send 656857
+Min fwd: 22997, max fwd 85414; min bwd 32345, max bwd 55249
+Min long fwd: 59874, max long fwd 66218; min long bwd 45265, max long bwd 54005
+Time taken by simulation: 744 microseconds
+
+Stages 8
+Micro-bs 32 Max mem: 1980926361.6
+Predicted microbatch size for 8: 32
+comm size 12845056
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 32 0 1084.3276977539062 632152.0801385244
+End of simulation:  Mini-batch time (usec) = 17887923
+Min send: 10000000, max send 0
+Min long send: 632168, max long send 660373
+Min fwd: 5425, max fwd 48670; min bwd 12684, max bwd 35373
+Min long fwd: 26803, max long fwd 34176; min long bwd 16127, max long bwd 25418
+Time taken by simulation: 3239 microseconds
+
+Stages 16
+Micro-bs 32 Max mem: 1128991948.8
+Predicted microbatch size for 16: 32
+comm size 25690112
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 64 0 0 1028093.6227904424
+End of simulation:  Mini-batch time (usec) = 61731430
+Min send: 10000000, max send 0
+Min long send: 1028093, max long send 1062462
+Min fwd: 56, max fwd 33543; min bwd 2591, max bwd 20855
+Min long fwd: 1672, max long fwd 12532; min long bwd 2017, max long bwd 11294
+Time taken by simulation: 14157 microseconds
+
+{1: 1.766786, 2: 2.925438, 4: 8.186112, 8: 17.887923, 16: 61.73143}
+{1: 32, 2: 32, 4: 32, 8: 32, 16: 32}
+best config is: 2 32
+expected time is 2.925438
+8 per stage
+16 servers!
+Config:
+ranks: range(15, 16)
+train batch size: 2048
+partitions: 2
+chunk_size: 32
+data depth: 8
+stage to rank map: 0,2,4,6,8,10,12,14;1,3,5,7,9,11,13,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u main.py --rank=15 --chunk_size=32 --local_rank=0 --stage_to_rank_map=0,2,4,6,8,10,12,14;1,3,5,7,9,11,13,15; --batch-size=256 data -a resnet152 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/resnet --resume_step 89
+=> creating model 'resnet152'
+Files already downloaded and verified
+Num cutpoints is 31
+dry run time 0.8547224998474121
+SHARED WEIGHTS ARE
+None
+this rank  15 is part of pipeline replica  7
+8 chunks
+15 Overflow !!
+15 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+[2022-11-30 14:43:21.886596] Epoch: [0][ 90/196]	Time  8.333 ( 8.333)	Data  1.728 ( 1.728)	Loss 4.6372e+00 (4.6372e+00)	Acc@1   0.00 (  0.00)	Acc@5   0.00 (  0.00)
+[2022-11-30 14:43:30.226028] Finished iteration 90, CKPT_AND_STOP: False, flag: tensor([8], dtype=torch.int32), speed: 8336.297
+Opt ckpt time 4.538144826889038
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Process done with return code -10

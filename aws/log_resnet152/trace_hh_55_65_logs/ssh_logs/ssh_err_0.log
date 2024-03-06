@@ -1,0 +1,17 @@
+[W socket.cpp:401] [c10d] The server socket has failed to bind to [::]:13225 (errno: 98 - Address already in use).
+[W socket.cpp:401] [c10d] The server socket has failed to bind to ?UNKNOWN? (errno: 98 - Address already in use).
+[E socket.cpp:435] [c10d] The server socket has failed to listen on any local network address.
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 564, in <module>
+    main()
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 156, in main
+    main_worker(args.gpu, ngpus_per_node, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 181, in main_worker
+    dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 595, in init_process_group
+    store, rank, world_size = next(rendezvous_iterator)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/rendezvous.py", line 232, in _env_rendezvous_handler
+    store = _create_c10d_store(master_addr, master_port, rank, world_size, timeout)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/rendezvous.py", line 160, in _create_c10d_store
+    return TCPStore(
+RuntimeError: The server socket has failed to listen on any local network address. The server socket has failed to bind to [::]:13225 (errno: 98 - Address already in use). The server socket has failed to bind to ?UNKNOWN? (errno: 98 - Address already in use).

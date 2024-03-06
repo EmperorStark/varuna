@@ -1,0 +1,2719 @@
+Parent process ID: 5258 node: 172.31.22.229
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 21 0 1916562.744140625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6803052
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 62549
+Min fwd: 45773, max fwd 59456; min bwd 92874, max bwd 103910
+Min long fwd: 57033, max long fwd 64913; min long bwd 96930, max long bwd 106927
+Time taken by simulation: 623 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 32 0 1199719.8486328125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6885286
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 65217
+Min fwd: 31551, max fwd 49103; min bwd 67585, max bwd 79482
+Min long fwd: 42800, max long fwd 50971; min long bwd 74672, max long bwd 82652
+Time taken by simulation: 1360 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 42 0 770127.8076171875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5988334
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 18837, max fwd 35859; min bwd 42358, max bwd 55388
+Min long fwd: 27768, max long fwd 35092; min long bwd 51025, max long bwd 59414
+Time taken by simulation: 2996 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6541 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21414 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29654 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 6.803052, 4: 6.885286, 6: 5.988334, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 6 1
+expected time is 5.988334
+3 per stage
+18 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 3
+stage to rank map: 0,6,12;1,7,13;2,8,14;3,9,15;4,10,16;5,11,17;
+World size is 18
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6,12;1,7,13;2,8,14;3,9,15;4,10,16;5,11,17; --batch-size=42 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16
+dry run time 0.2480602264404297
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+42 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 0.209 seconds
+START iteration 0, CKPT_AND_STOP: False
+[2022-12-08 14:50:52.624226] Finished iteration 1, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 11102.035
+START iteration 1, CKPT_AND_STOP: False
+[2022-12-08 14:50:58.742300] Finished iteration 2, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6118.119
+START iteration 2, CKPT_AND_STOP: False
+[2022-12-08 14:51:04.770635] Finished iteration 3, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6028.332
+START iteration 3, CKPT_AND_STOP: False
+[2022-12-08 14:51:10.878323] Finished iteration 4, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6107.689
+START iteration 4, CKPT_AND_STOP: False
+[2022-12-08 14:51:17.225306] Finished iteration 5, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6346.984
+START iteration 5, CKPT_AND_STOP: False
+[2022-12-08 14:51:22.269731] Finished iteration 6, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5044.427
+START iteration 6, CKPT_AND_STOP: False
+[2022-12-08 14:51:27.275316] Finished iteration 7, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5005.584
+START iteration 7, CKPT_AND_STOP: False
+[2022-12-08 14:51:32.341003] Finished iteration 8, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5065.687
+START iteration 8, CKPT_AND_STOP: False
+[2022-12-08 14:51:37.455737] Finished iteration 9, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5114.733
+START iteration 9, CKPT_AND_STOP: False
+[2022-12-08 14:51:42.473097] Finished iteration 10, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5017.361
+START iteration 10, CKPT_AND_STOP: False
+[2022-12-08 14:51:47.528733] Finished iteration 11, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5055.634
+START iteration 11, CKPT_AND_STOP: False
+[2022-12-08 14:51:52.562152] Finished iteration 12, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5033.421
+START iteration 12, CKPT_AND_STOP: False
+[2022-12-08 14:51:57.633140] Finished iteration 13, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5070.988
+START iteration 13, CKPT_AND_STOP: False
+[2022-12-08 14:52:02.662613] Finished iteration 14, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5029.472
+START iteration 14, CKPT_AND_STOP: False
+[2022-12-08 14:52:07.739975] Finished iteration 15, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5077.363
+START iteration 15, CKPT_AND_STOP: False
+[2022-12-08 14:52:13.484672] Finished iteration 16, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5744.694
+START iteration 16, CKPT_AND_STOP: False
+[2022-12-08 14:52:18.465741] Finished iteration 17, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4981.072
+START iteration 17, CKPT_AND_STOP: False
+[2022-12-08 14:52:23.515293] Finished iteration 18, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5049.551
+START iteration 18, CKPT_AND_STOP: False
+[2022-12-08 14:52:28.517809] Finished iteration 19, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5002.516
+START iteration 19, CKPT_AND_STOP: False
+[2022-12-08 14:52:33.553259] Finished iteration 20, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5035.450
+START iteration 20, CKPT_AND_STOP: False
+[2022-12-08 14:52:38.581297] Finished iteration 21, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5028.036
+START iteration 21, CKPT_AND_STOP: False
+[2022-12-08 14:52:43.691794] Finished iteration 22, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5110.500
+START iteration 22, CKPT_AND_STOP: False
+[2022-12-08 14:52:48.797967] Finished iteration 23, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5106.172
+START iteration 23, CKPT_AND_STOP: False
+[2022-12-08 14:52:53.891527] Finished iteration 24, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5093.561
+START iteration 24, CKPT_AND_STOP: False
+[2022-12-08 14:52:58.904264] Finished iteration 25, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5012.736
+START iteration 25, CKPT_AND_STOP: False
+[2022-12-08 14:53:03.943743] Finished iteration 26, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5039.477
+START iteration 26, CKPT_AND_STOP: False
+[2022-12-08 14:53:09.042486] Finished iteration 27, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5098.745
+START iteration 27, CKPT_AND_STOP: False
+[2022-12-08 14:53:14.043058] Finished iteration 28, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5000.573
+START iteration 28, CKPT_AND_STOP: False
+[2022-12-08 14:53:19.086871] Finished iteration 29, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5043.811
+START iteration 29, CKPT_AND_STOP: False
+[2022-12-08 14:53:24.193206] Finished iteration 30, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5106.336
+START iteration 30, CKPT_AND_STOP: False
+[2022-12-08 14:53:29.244505] Finished iteration 31, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5051.300
+START iteration 31, CKPT_AND_STOP: False
+[2022-12-08 14:53:34.289135] Finished iteration 32, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5044.630
+START iteration 32, CKPT_AND_STOP: False
+[2022-12-08 14:53:39.366004] Finished iteration 33, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5076.869
+START iteration 33, CKPT_AND_STOP: False
+[2022-12-08 14:53:44.484091] Finished iteration 34, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5118.086
+START iteration 34, CKPT_AND_STOP: False
+[2022-12-08 14:53:49.502760] Finished iteration 35, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5018.667
+START iteration 35, CKPT_AND_STOP: False
+[2022-12-08 14:53:54.547739] Finished iteration 36, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5044.978
+START iteration 36, CKPT_AND_STOP: False
+[2022-12-08 14:53:59.589507] Finished iteration 37, CKPT_AND_STOP: False, flag: tensor([2], dtype=torch.int32), speed: 5041.771
+Begin to save checkpont and exit
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+Opt ckpt time 12.322285175323486
+Process done with return code 0
+Parent process ID: 5855 node: 172.31.22.229
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 21 0 1916562.744140625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6803052
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 62549
+Min fwd: 45773, max fwd 59456; min bwd 92874, max bwd 103910
+Min long fwd: 57033, max long fwd 64913; min long bwd 96930, max long bwd 106927
+Time taken by simulation: 645 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 25 0 1338646.484375 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5804683
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 64155
+Min fwd: 30866, max fwd 48132; min bwd 66753, max bwd 79482
+Min long fwd: 43307, max long fwd 50971; min long bwd 73461, max long bwd 80147
+Time taken by simulation: 1065 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 42 0 770127.8076171875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5988334
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 18837, max fwd 35859; min bwd 42358, max bwd 55388
+Min long fwd: 27768, max long fwd 35092; min long bwd 51025, max long bwd 59414
+Time taken by simulation: 2982 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6628 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21345 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29829 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 6.803052, 4: 5.804683, 6: 5.988334, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 4 1
+expected time is 5.804683
+5 per stage
+20 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 4
+chunk_size: 1
+data depth: 5
+stage to rank map: 0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19;
+World size is 20
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19; --batch-size=25 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 37
+dry run time 0.07884502410888672
+SHARED WEIGHTS ARE
+[(0, 3)]
+this rank  8 is part of pipeline replica  2
+25 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+ > finished loading checkpoint in 75.184 seconds
+Process done with return code 0
+Parent process ID: 6894 node: 172.31.22.229
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 18 0 1846814.0869140625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5987018
+Min send: 10000000, max send 0
+Min long send: 38387, max long send 60521
+Min fwd: 45773, max fwd 59834; min bwd 93871, max bwd 104244
+Min long fwd: 57033, max long fwd 64913; min long bwd 98140, max long bwd 103204
+Time taken by simulation: 541 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 25 0 1338646.484375 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5804683
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 64155
+Min fwd: 30866, max fwd 48132; min bwd 66753, max bwd 79482
+Min long fwd: 43307, max long fwd 50971; min long bwd 73461, max long bwd 80147
+Time taken by simulation: 1098 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 42 0 770127.8076171875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5988334
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 18837, max fwd 35859; min bwd 42358, max bwd 55388
+Min long fwd: 27768, max long fwd 35092; min long bwd 51025, max long bwd 59414
+Time taken by simulation: 3019 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6536 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21370 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29732 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 5.987018, 4: 5.804683, 6: 5.988334, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 4 1
+expected time is 5.804683
+5 per stage
+20 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 4
+chunk_size: 1
+data depth: 5
+stage to rank map: 0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19;
+World size is 20
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19; --batch-size=25 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 37
+dry run time 0.24177932739257812
+SHARED WEIGHTS ARE
+[(0, 3)]
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+this rank  8 is part of pipeline replica  2
+25 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 61.700 seconds
+Process done with return code 0
+Parent process ID: 7927 node: 172.31.22.229
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 18 0 1846814.0869140625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5987018
+Min send: 10000000, max send 0
+Min long send: 38387, max long send 60521
+Min fwd: 45773, max fwd 59834; min bwd 93871, max bwd 104244
+Min long fwd: 57033, max long fwd 64913; min long bwd 98140, max long bwd 103204
+Time taken by simulation: 536 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 25 0 1338646.484375 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5804683
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 64155
+Min fwd: 30866, max fwd 48132; min bwd 66753, max bwd 79482
+Min long fwd: 43307, max long fwd 50971; min long bwd 73461, max long bwd 80147
+Time taken by simulation: 1098 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 42 0 770127.8076171875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5988334
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 18837, max fwd 35859; min bwd 42358, max bwd 55388
+Min long fwd: 27768, max long fwd 35092; min long bwd 51025, max long bwd 59414
+Time taken by simulation: 2973 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6580 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21403 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29814 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 5.987018, 4: 5.804683, 6: 5.988334, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 4 1
+expected time is 5.804683
+5 per stage
+20 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 4
+chunk_size: 1
+data depth: 5
+stage to rank map: 0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19;
+World size is 20
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19; --batch-size=25 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 37
+dry run time 0.013539552688598633
+SHARED WEIGHTS ARE
+[(0, 3)]
+this rank  8 is part of pipeline replica  2
+25 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 74.796 seconds
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Process done with return code -10
+Parent process ID: 8967 node: 172.31.22.229
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 18 0 1846814.0869140625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5987018
+Min send: 10000000, max send 0
+Min long send: 38387, max long send 60521
+Min fwd: 45773, max fwd 59834; min bwd 93871, max bwd 104244
+Min long fwd: 57033, max long fwd 64913; min long bwd 98140, max long bwd 103204
+Time taken by simulation: 584 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 25 0 1338646.484375 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5804683
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 64155
+Min fwd: 30866, max fwd 48132; min bwd 66753, max bwd 79482
+Min long fwd: 43307, max long fwd 50971; min long bwd 73461, max long bwd 80147
+Time taken by simulation: 1063 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 42 0 770127.8076171875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5988334
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 18837, max fwd 35859; min bwd 42358, max bwd 55388
+Min long fwd: 27768, max long fwd 35092; min long bwd 51025, max long bwd 59414
+Time taken by simulation: 3049 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6491 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21397 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29733 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 5.987018, 4: 5.804683, 6: 5.988334, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 4 1
+expected time is 5.804683
+5 per stage
+20 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 4
+chunk_size: 1
+data depth: 5
+stage to rank map: 0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19;
+World size is 20
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19; --batch-size=25 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 37
+dry run time 0.3434913158416748
+SHARED WEIGHTS ARE
+[(0, 3)]
+this rank  8 is part of pipeline replica  2
+25 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+ > finished loading checkpoint in 72.072 seconds
+Process done with return code 0
+Parent process ID: 11161 node: 172.31.22.229
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 16 0 2198285.64453125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5986016
+Min send: 10000000, max send 0
+Min long send: 38293, max long send 60521
+Min fwd: 45773, max fwd 59456; min bwd 93556, max bwd 103910
+Min long fwd: 57033, max long fwd 64913; min long bwd 97741, max long bwd 104518
+Time taken by simulation: 505 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 21 0 1478731.4453125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5493991
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 64155
+Min fwd: 32128, max fwd 48180; min bwd 67776, max bwd 77208
+Min long fwd: 43175, max long fwd 51496; min long bwd 74514, max long bwd 81205
+Time taken by simulation: 912 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 32 0 876895.5078125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5017062
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 66276
+Min fwd: 18837, max fwd 35859; min bwd 42514, max bwd 56347
+Min long fwd: 27753, max long fwd 35222; min long bwd 51765, max long bwd 59571
+Time taken by simulation: 2307 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 42 0 610855.46875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 4799842
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 10665, max fwd 27276; min bwd 28791, max bwd 43945
+Min long fwd: 21459, max long fwd 30507; min long bwd 38642, max long bwd 48142
+Time taken by simulation: 4247 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 64 0 343797.36328125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5360725
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 68144
+Min fwd: 5149, max fwd 20736; min bwd 17314, max bwd 33457
+Min long fwd: 11639, max long fwd 22378; min long bwd 26559, max long bwd 34539
+Time taken by simulation: 10503 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29684 microseconds
+
+Stages 24
+Micro-bs 1 Max mem: 2949765734.4
+Predicted microbatch size for 24: 1
+comm size 1638400
+WARNING: no send time found, 24 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 24 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6789982
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 74455
+Min fwd: 26, max fwd 15549; min bwd 3842, max bwd 20573
+Min long fwd: 7764, max long fwd 18097; min long bwd 11316, max long bwd 21840
+Time taken by simulation: 46218 microseconds
+
+{1: inf, 2: inf, 3: 5.986016, 4: 5.493991, 6: 5.017062, 8: 4.799842, 12: 5.360725, 16: 7.580423, 24: 6.789982}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1, 24: 1}
+best config is: 8 1
+expected time is 4.799842
+3 per stage
+24 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 8
+chunk_size: 1
+data depth: 3
+stage to rank map: 0,8,16;1,9,17;2,10,18;3,11,19;4,12,20;5,13,21;6,14,22;7,15,23;
+World size is 24
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,8,16;1,9,17;2,10,18;3,11,19;4,12,20;5,13,21;6,14,22;7,15,23; --batch-size=42 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 37
+dry run time 0.37931156158447266
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  8 is part of pipeline replica  1
+42 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 43.976 seconds
+START iteration 37, CKPT_AND_STOP: False
+[2022-12-08 15:03:45.363610] Finished iteration 38, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 12377.376
+START iteration 38, CKPT_AND_STOP: False
+[2022-12-08 15:03:50.794503] Finished iteration 39, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5430.917
+START iteration 39, CKPT_AND_STOP: False
+[2022-12-08 15:03:56.240486] Finished iteration 40, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5445.983
+START iteration 40, CKPT_AND_STOP: False
+[2022-12-08 15:04:01.693485] Finished iteration 41, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5452.998
+START iteration 41, CKPT_AND_STOP: False
+[2022-12-08 15:04:07.177393] Finished iteration 42, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5483.910
+START iteration 42, CKPT_AND_STOP: False
+[2022-12-08 15:04:11.623809] Finished iteration 43, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4446.418
+START iteration 43, CKPT_AND_STOP: False
+[2022-12-08 15:04:15.963113] Finished iteration 44, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4339.303
+START iteration 44, CKPT_AND_STOP: False
+[2022-12-08 15:04:21.535464] Finished iteration 45, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5572.351
+START iteration 45, CKPT_AND_STOP: False
+[2022-12-08 15:04:25.861531] Finished iteration 46, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4326.067
+START iteration 46, CKPT_AND_STOP: False
+[2022-12-08 15:04:30.265894] Finished iteration 47, CKPT_AND_STOP: False, flag: tensor([3], dtype=torch.int32), speed: 4404.363
+Begin to save checkpont and exit
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+Opt ckpt time 9.980185985565186
+Process done with return code 0
+Parent process ID: 11870 node: 172.31.17.44
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 21 0 1916562.744140625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6803052
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 62549
+Min fwd: 45773, max fwd 59456; min bwd 92874, max bwd 103910
+Min long fwd: 57033, max long fwd 64913; min long bwd 96930, max long bwd 106927
+Time taken by simulation: 620 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 25 0 1338646.484375 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5804683
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 64155
+Min fwd: 30866, max fwd 48132; min bwd 66753, max bwd 79482
+Min long fwd: 43307, max long fwd 50971; min long bwd 73461, max long bwd 80147
+Time taken by simulation: 1058 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 42 0 770127.8076171875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5988334
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 18837, max fwd 35859; min bwd 42358, max bwd 55388
+Min long fwd: 27768, max long fwd 35092; min long bwd 51025, max long bwd 59414
+Time taken by simulation: 2987 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6475 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21255 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29619 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 6.803052, 4: 5.804683, 6: 5.988334, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 4 1
+expected time is 5.804683
+5 per stage
+20 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 4
+chunk_size: 1
+data depth: 5
+stage to rank map: 0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19;
+World size is 20
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,4,8,12,16;1,5,9,13,17;2,6,10,14,18;3,7,11,15,19; --batch-size=25 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+dry run time 9.960093259811401
+SHARED WEIGHTS ARE
+[(0, 3)]
+this rank  8 is part of pipeline replica  2
+25 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+Process done with return code 1
+Parent process ID: 12867 node: 172.31.17.44
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 25 0 1731851.1962890625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7585451
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 64155
+Min fwd: 45773, max fwd 59456; min bwd 92460, max bwd 103910
+Min long fwd: 56519, max long fwd 64913; min long bwd 96930, max long bwd 104722
+Time taken by simulation: 763 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 32 0 1199719.8486328125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6885286
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 65217
+Min fwd: 31551, max fwd 49103; min bwd 67585, max bwd 79482
+Min long fwd: 42800, max long fwd 50971; min long bwd 74672, max long bwd 82652
+Time taken by simulation: 1354 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4553 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6455 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21320 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29678 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 7.585451, 4: 6.885286, 6: 8.215819, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 8 1
+expected time is 6.489103
+2 per stage
+16 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 8
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+dry run time 12.40200138092041
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+ > finished loading checkpoint in 41.911 seconds
+Process done with return code 1
+Parent process ID: 13568 node: 172.31.28.236
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 32 0 1527054.19921875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8830859
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 61744
+Min fwd: 45773, max fwd 61214; min bwd 93190, max bwd 104086
+Min long fwd: 56519, max long fwd 64913; min long bwd 96534, max long bwd 106927
+Time taken by simulation: 957 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 42 0 1050667.96875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8392460
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 65217
+Min fwd: 32292, max fwd 49103; min bwd 66753, max bwd 79482
+Min long fwd: 42823, max long fwd 51268; min long bwd 73813, max long bwd 81750
+Time taken by simulation: 1764 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4629 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13121 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21362 microseconds
+
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 8.830859, 4: 8.39246, 6: 8.215819, 8: 11.360042, 12: 8.759578}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1}
+best config is: 6 1
+expected time is 8.215819
+2 per stage
+12 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,6;1,7;2,8;3,9;4,10;5,11;
+World size is 12
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6;1,7;2,8;3,9;4,10;5,11; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+dry run time 9.386321067810059
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+ > finished loading checkpoint in 44.893 seconds
+Process done with return code 0
+Parent process ID: 14491 node: 172.31.19.112
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 32 0 1527054.19921875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8830859
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 61744
+Min fwd: 45773, max fwd 61214; min bwd 93190, max bwd 104086
+Min long fwd: 56519, max long fwd 64913; min long bwd 96534, max long bwd 106927
+Time taken by simulation: 917 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 42 0 1050667.96875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8392460
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 65217
+Min fwd: 32292, max fwd 49103; min bwd 66753, max bwd 79482
+Min long fwd: 42823, max long fwd 51268; min long bwd 73813, max long bwd 81750
+Time taken by simulation: 1768 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4561 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13062 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21265 microseconds
+
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 8.830859, 4: 8.39246, 6: 8.215819, 8: 11.360042, 12: 8.759578}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1}
+best config is: 6 1
+expected time is 8.215819
+2 per stage
+12 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,6;1,7;2,8;3,9;4,10;5,11;
+World size is 12
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6;1,7;2,8;3,9;4,10;5,11; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+dry run time 9.705312490463257
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+ > finished loading checkpoint in 41.386 seconds
+Process done with return code 0
+Parent process ID: 15318 node: 172.31.19.112
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 42 0 1334285.400390625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 10543558
+Min send: 10000000, max send 0
+Min long send: 38287, max long send 65217
+Min fwd: 45773, max fwd 61214; min bwd 92331, max bwd 103910
+Min long fwd: 52474, max long fwd 64913; min long bwd 98140, max long bwd 106927
+Time taken by simulation: 1207 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 64 0 748630.126953125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11457418
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 31994, max fwd 49123; min bwd 66753, max bwd 80221
+Min long fwd: 40995, max long fwd 51310; min long bwd 72999, max long bwd 81750
+Time taken by simulation: 2736 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 14725210
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 70233
+Min fwd: 16996, max fwd 37054; min bwd 39871, max bwd 55692
+Min long fwd: 24877, max long fwd 36805; min long bwd 48154, max long bwd 62088
+Time taken by simulation: 9150 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13077 microseconds
+
+can't have 12 stages!
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 10.543558, 4: 11.457418, 6: 14.72521, 8: 11.360042}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1}
+best config is: 3 1
+expected time is 10.543558
+3 per stage
+9 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 3
+chunk_size: 1
+data depth: 3
+stage to rank map: 0,3,6;1,4,7;2,5,8;
+World size is 9
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,3,6;1,4,7;2,5,8; --batch-size=42 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+dry run time 9.664443969726562
+SHARED WEIGHTS ARE
+[(0, 2)]
+this rank  8 is part of pipeline replica  2
+42 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Parent process ID: 15596 node: 172.31.19.112
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 42 0 1334285.400390625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 10543558
+Min send: 10000000, max send 0
+Min long send: 38287, max long send 65217
+Min fwd: 45773, max fwd 61214; min bwd 92331, max bwd 103910
+Min long fwd: 52474, max long fwd 64913; min long bwd 98140, max long bwd 106927
+Time taken by simulation: 1233 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 64 0 748630.126953125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11457418
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 31994, max fwd 49123; min bwd 66753, max bwd 80221
+Min long fwd: 40995, max long fwd 51310; min long bwd 72999, max long bwd 81750
+Time taken by simulation: 2972 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 14725210
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 70233
+Min fwd: 16996, max fwd 37054; min bwd 39871, max bwd 55692
+Min long fwd: 24877, max long fwd 36805; min long bwd 48154, max long bwd 62088
+Time taken by simulation: 9198 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13080 microseconds
+
+can't have 12 stages!
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 10.543558, 4: 11.457418, 6: 14.72521, 8: 11.360042}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1}
+best config is: 3 1
+expected time is 10.543558
+3 per stage
+9 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 3
+chunk_size: 1
+data depth: 3
+stage to rank map: 0,3,6;1,4,7;2,5,8;
+World size is 9
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,3,6;1,4,7;2,5,8; --batch-size=42 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+dry run time 9.588160991668701
+SHARED WEIGHTS ARE
+[(0, 2)]
+this rank  8 is part of pipeline replica  2
+42 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+ > finished loading checkpoint in 85.759 seconds
+Process done with return code 0
+Parent process ID: 16822 node: 172.31.19.112
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 32 0 1527054.19921875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8830859
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 61744
+Min fwd: 45773, max fwd 61214; min bwd 93190, max bwd 104086
+Min long fwd: 56519, max long fwd 64913; min long bwd 96534, max long bwd 106927
+Time taken by simulation: 927 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 42 0 1050667.96875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8392460
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 65217
+Min fwd: 32292, max fwd 49103; min bwd 66753, max bwd 79482
+Min long fwd: 42823, max long fwd 51268; min long bwd 73813, max long bwd 81750
+Time taken by simulation: 1818 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4560 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13088 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21302 microseconds
+
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 8.830859, 4: 8.39246, 6: 8.215819, 8: 11.360042, 12: 8.759578}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1}
+best config is: 6 1
+expected time is 8.215819
+2 per stage
+12 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,6;1,7;2,8;3,9;4,10;5,11;
+World size is 12
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6;1,7;2,8;3,9;4,10;5,11; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+dry run time 9.593627691268921
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+ > finished loading checkpoint in 48.959 seconds
+Process done with return code 0
+Parent process ID: 17642 node: 172.31.19.112
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 32 0 1527054.19921875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8830859
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 61744
+Min fwd: 45773, max fwd 61214; min bwd 93190, max bwd 104086
+Min long fwd: 56519, max long fwd 64913; min long bwd 96534, max long bwd 106927
+Time taken by simulation: 916 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 42 0 1050667.96875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8392460
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 65217
+Min fwd: 32292, max fwd 49103; min bwd 66753, max bwd 79482
+Min long fwd: 42823, max long fwd 51268; min long bwd 73813, max long bwd 81750
+Time taken by simulation: 1834 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4589 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13045 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21294 microseconds
+
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 8.830859, 4: 8.39246, 6: 8.215819, 8: 11.360042, 12: 8.759578}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1}
+best config is: 6 1
+expected time is 8.215819
+2 per stage
+12 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,6;1,7;2,8;3,9;4,10;5,11;
+World size is 12
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6;1,7;2,8;3,9;4,10;5,11; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+dry run time 9.632319688796997
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+Process done with return code 1
+Parent process ID: 12975 node: 172.31.23.137
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 32 0 1527054.19921875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8830859
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 61744
+Min fwd: 45773, max fwd 61214; min bwd 93190, max bwd 104086
+Min long fwd: 56519, max long fwd 64913; min long bwd 96534, max long bwd 106927
+Time taken by simulation: 923 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 42 0 1050667.96875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8392460
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 65217
+Min fwd: 32292, max fwd 49103; min bwd 66753, max bwd 79482
+Min long fwd: 42823, max long fwd 51268; min long bwd 73813, max long bwd 81750
+Time taken by simulation: 1771 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4584 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13127 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21279 microseconds
+
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 8.830859, 4: 8.39246, 6: 8.215819, 8: 11.360042, 12: 8.759578}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1}
+best config is: 6 1
+expected time is 8.215819
+2 per stage
+12 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,6;1,7;2,8;3,9;4,10;5,11;
+World size is 12
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6;1,7;2,8;3,9;4,10;5,11; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+dry run time 9.822845458984375
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 48.082 seconds
+Process done with return code 0
+Parent process ID: 13790 node: 172.31.23.137
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 32 0 1527054.19921875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8830859
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 61744
+Min fwd: 45773, max fwd 61214; min bwd 93190, max bwd 104086
+Min long fwd: 56519, max long fwd 64913; min long bwd 96534, max long bwd 106927
+Time taken by simulation: 958 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 42 0 1050667.96875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8392460
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 65217
+Min fwd: 32292, max fwd 49103; min bwd 66753, max bwd 79482
+Min long fwd: 42823, max long fwd 51268; min long bwd 73813, max long bwd 81750
+Time taken by simulation: 1765 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4553 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13115 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21308 microseconds
+
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 8.830859, 4: 8.39246, 6: 8.215819, 8: 11.360042, 12: 8.759578}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1}
+best config is: 6 1
+expected time is 8.215819
+2 per stage
+12 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,6;1,7;2,8;3,9;4,10;5,11;
+World size is 12
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6;1,7;2,8;3,9;4,10;5,11; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 47
+dry run time 9.701392412185669
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 44.791 seconds
+START iteration 47, CKPT_AND_STOP: False
+[2022-12-08 15:22:35.061743] Finished iteration 48, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 11085.245
+START iteration 48, CKPT_AND_STOP: False
+[2022-12-08 15:22:42.568609] Finished iteration 49, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7506.898
+START iteration 49, CKPT_AND_STOP: False
+[2022-12-08 15:22:50.099844] Finished iteration 50, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7531.229
+START iteration 50, CKPT_AND_STOP: False
+[2022-12-08 15:22:57.779858] Finished iteration 51, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7680.017
+START iteration 51, CKPT_AND_STOP: False
+[2022-12-08 15:23:05.436609] Finished iteration 52, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7656.749
+START iteration 52, CKPT_AND_STOP: False
+[2022-12-08 15:23:12.056594] Finished iteration 53, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6619.992
+START iteration 53, CKPT_AND_STOP: False
+[2022-12-08 15:23:18.610935] Finished iteration 54, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6554.337
+START iteration 54, CKPT_AND_STOP: False
+[2022-12-08 15:23:25.340981] Finished iteration 55, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6730.044
+START iteration 55, CKPT_AND_STOP: False
+[2022-12-08 15:23:31.894390] Finished iteration 56, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6553.410
+START iteration 56, CKPT_AND_STOP: False
+[2022-12-08 15:23:38.531497] Finished iteration 57, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6637.107
+START iteration 57, CKPT_AND_STOP: False
+[2022-12-08 15:23:45.220527] Finished iteration 58, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6689.031
+START iteration 58, CKPT_AND_STOP: False
+[2022-12-08 15:23:51.793134] Finished iteration 59, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6572.607
+START iteration 59, CKPT_AND_STOP: False
+[2022-12-08 15:23:58.832280] Finished iteration 60, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7039.148
+START iteration 60, CKPT_AND_STOP: False
+[2022-12-08 15:24:05.570108] Finished iteration 61, CKPT_AND_STOP: False, flag: tensor([8], dtype=torch.int32), speed: 6737.828
+Begin to save checkpont and exit
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+Opt ckpt time 15.625580787658691
+Process done with return code 0
+Parent process ID: 14736 node: 172.31.23.137
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 32 0 1527054.19921875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8830859
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 61744
+Min fwd: 45773, max fwd 61214; min bwd 93190, max bwd 104086
+Min long fwd: 56519, max long fwd 64913; min long bwd 96534, max long bwd 106927
+Time taken by simulation: 928 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 42 0 1050667.96875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8392460
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 65217
+Min fwd: 32292, max fwd 49103; min bwd 66753, max bwd 79482
+Min long fwd: 42823, max long fwd 51268; min long bwd 73813, max long bwd 81750
+Time taken by simulation: 1804 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4556 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13065 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21548 microseconds
+
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 8.830859, 4: 8.39246, 6: 8.215819, 8: 11.360042, 12: 8.759578}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1}
+best config is: 6 1
+expected time is 8.215819
+2 per stage
+12 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,6;1,7;2,8;3,9;4,10;5,11;
+World size is 12
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6;1,7;2,8;3,9;4,10;5,11; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 61
+dry run time 9.65458345413208
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+ > finished loading checkpoint in 72.502 seconds
+Process done with return code 0
+Parent process ID: 15824 node: 172.31.23.137
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 21 0 1916562.744140625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6803052
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 62549
+Min fwd: 45773, max fwd 59456; min bwd 92874, max bwd 103910
+Min long fwd: 57033, max long fwd 64913; min long bwd 96930, max long bwd 106927
+Time taken by simulation: 613 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 32 0 1199719.8486328125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6885286
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 65217
+Min fwd: 31551, max fwd 49103; min bwd 67585, max bwd 79482
+Min long fwd: 42800, max long fwd 50971; min long bwd 74672, max long bwd 82652
+Time taken by simulation: 1360 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 42 0 770127.8076171875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5988334
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 18837, max fwd 35859; min bwd 42358, max bwd 55388
+Min long fwd: 27768, max long fwd 35092; min long bwd 51025, max long bwd 59414
+Time taken by simulation: 2936 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6484 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21311 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29768 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 6.803052, 4: 6.885286, 6: 5.988334, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 6 1
+expected time is 5.988334
+3 per stage
+18 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 3
+stage to rank map: 0,6,12;1,7,13;2,8,14;3,9,15;4,10,16;5,11,17;
+World size is 18
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6,12;1,7,13;2,8,14;3,9,15;4,10,16;5,11,17; --batch-size=42 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 61
+dry run time 10.365346670150757
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+42 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 69.581 seconds
+START iteration 61, CKPT_AND_STOP: False
+[2022-12-08 15:28:32.617466] Finished iteration 62, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 11423.409
+START iteration 62, CKPT_AND_STOP: False
+[2022-12-08 15:28:38.737505] Finished iteration 63, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6120.058
+START iteration 63, CKPT_AND_STOP: False
+[2022-12-08 15:28:44.879418] Finished iteration 64, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6141.914
+START iteration 64, CKPT_AND_STOP: False
+[2022-12-08 15:28:51.053564] Finished iteration 65, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6174.146
+START iteration 65, CKPT_AND_STOP: False
+[2022-12-08 15:28:57.873572] Finished iteration 66, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6820.005
+START iteration 66, CKPT_AND_STOP: False
+[2022-12-08 15:29:02.947128] Finished iteration 67, CKPT_AND_STOP: False, flag: tensor([4], dtype=torch.int32), speed: 5073.559
+Begin to save checkpont and exit
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+Opt ckpt time 12.849565982818604
+Process done with return code 0
+Parent process ID: 16955 node: 172.31.23.137
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 21 0 1916562.744140625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6803052
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 62549
+Min fwd: 45773, max fwd 59456; min bwd 92874, max bwd 103910
+Min long fwd: 57033, max long fwd 64913; min long bwd 96930, max long bwd 106927
+Time taken by simulation: 617 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 32 0 1199719.8486328125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6885286
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 65217
+Min fwd: 31551, max fwd 49103; min bwd 67585, max bwd 79482
+Min long fwd: 42800, max long fwd 50971; min long bwd 74672, max long bwd 82652
+Time taken by simulation: 1355 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 42 0 770127.8076171875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 5988334
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 18837, max fwd 35859; min bwd 42358, max bwd 55388
+Min long fwd: 27768, max long fwd 35092; min long bwd 51025, max long bwd 59414
+Time taken by simulation: 2957 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6484 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21417 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29529 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 6.803052, 4: 6.885286, 6: 5.988334, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 6 1
+expected time is 5.988334
+3 per stage
+18 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 6
+chunk_size: 1
+data depth: 3
+stage to rank map: 0,6,12;1,7,13;2,8,14;3,9,15;4,10,16;5,11,17;
+World size is 18
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,6,12;1,7,13;2,8,14;3,9,15;4,10,16;5,11,17; --batch-size=42 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 67
+dry run time 10.076346158981323
+SHARED WEIGHTS ARE
+[(0, 5)]
+this rank  8 is part of pipeline replica  1
+42 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 50.053 seconds
+START iteration 67, CKPT_AND_STOP: False
+[2022-12-08 15:31:12.613598] Finished iteration 68, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 11364.078
+START iteration 68, CKPT_AND_STOP: False
+[2022-12-08 15:31:18.732749] Finished iteration 69, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6119.189
+START iteration 69, CKPT_AND_STOP: False
+[2022-12-08 15:31:24.748672] Finished iteration 70, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6015.920
+START iteration 70, CKPT_AND_STOP: False
+[2022-12-08 15:31:30.907549] Finished iteration 71, CKPT_AND_STOP: False, flag: tensor([4], dtype=torch.int32), speed: 6158.879
+Begin to save checkpont and exit
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+Opt ckpt time 13.05528473854065
+Process done with return code 0
+Parent process ID: 18107 node: 172.31.22.165
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 25 0 1731851.1962890625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7585451
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 64155
+Min fwd: 45773, max fwd 59456; min bwd 92460, max bwd 103910
+Min long fwd: 56519, max long fwd 64913; min long bwd 96930, max long bwd 104722
+Time taken by simulation: 755 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 32 0 1199719.8486328125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6885286
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 65217
+Min fwd: 31551, max fwd 49103; min bwd 67585, max bwd 79482
+Min long fwd: 42800, max long fwd 50971; min long bwd 74672, max long bwd 82652
+Time taken by simulation: 1364 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4590 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6534 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21396 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29680 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 7.585451, 4: 6.885286, 6: 8.215819, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 8 1
+expected time is 6.489103
+2 per stage
+16 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 8
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 71
+dry run time 10.020020484924316
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+ > finished loading checkpoint in 38.747 seconds
+Process done with return code 0
+Parent process ID: 17450 node: 172.31.16.5
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 25 0 1731851.1962890625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7585451
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 64155
+Min fwd: 45773, max fwd 59456; min bwd 92460, max bwd 103910
+Min long fwd: 56519, max long fwd 64913; min long bwd 96930, max long bwd 104722
+Time taken by simulation: 729 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 42 0 1050667.96875 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8392460
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 65217
+Min fwd: 32292, max fwd 49103; min bwd 66753, max bwd 79482
+Min long fwd: 42823, max long fwd 51268; min long bwd 73813, max long bwd 81750
+Time taken by simulation: 1769 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4896 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 11360042
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 11033, max fwd 28476; min bwd 28114, max bwd 44951
+Min long fwd: 21153, max long fwd 31234; min long bwd 40297, max long bwd 49256
+Time taken by simulation: 13100 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21369 microseconds
+
+can't have 16 stages!
+can't have 24 stages!
+{1: inf, 2: inf, 3: 7.585451, 4: 8.39246, 6: 8.215819, 8: 11.360042, 12: 8.759578}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1}
+best config is: 3 1
+expected time is 7.585451
+5 per stage
+15 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 3
+chunk_size: 1
+data depth: 5
+stage to rank map: 0,3,6,9,12;1,4,7,10,13;2,5,8,11,14;
+World size is 15
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,3,6,9,12;1,4,7,10,13;2,5,8,11,14; --batch-size=25 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 71
+dry run time 9.877617835998535
+SHARED WEIGHTS ARE
+[(0, 2)]
+this rank  8 is part of pipeline replica  2
+25 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 81.081 seconds
+START iteration 71, CKPT_AND_STOP: False
+[2022-12-08 15:36:27.988277] Finished iteration 72, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 9570.038
+START iteration 72, CKPT_AND_STOP: False
+[2022-12-08 15:36:35.317834] Finished iteration 73, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7329.600
+START iteration 73, CKPT_AND_STOP: False
+[2022-12-08 15:36:42.669558] Finished iteration 74, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7351.720
+START iteration 74, CKPT_AND_STOP: False
+[2022-12-08 15:36:49.794368] Finished iteration 75, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7124.812
+START iteration 75, CKPT_AND_STOP: False
+[2022-12-08 15:36:57.122446] Finished iteration 76, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7328.077
+START iteration 76, CKPT_AND_STOP: False
+[2022-12-08 15:37:03.150635] Finished iteration 77, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6028.191
+START iteration 77, CKPT_AND_STOP: False
+[2022-12-08 15:37:09.457467] Finished iteration 78, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6306.832
+START iteration 78, CKPT_AND_STOP: False
+[2022-12-08 15:37:15.415519] Finished iteration 79, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5958.052
+START iteration 79, CKPT_AND_STOP: False
+[2022-12-08 15:37:21.696535] Finished iteration 80, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6281.017
+START iteration 80, CKPT_AND_STOP: False
+[2022-12-08 15:37:27.953822] Finished iteration 81, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6257.286
+START iteration 81, CKPT_AND_STOP: False
+[2022-12-08 15:37:34.312796] Finished iteration 82, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6358.974
+START iteration 82, CKPT_AND_STOP: False
+[2022-12-08 15:37:40.514510] Finished iteration 83, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6201.713
+START iteration 83, CKPT_AND_STOP: False
+[2022-12-08 15:37:46.715799] Finished iteration 84, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6201.289
+START iteration 84, CKPT_AND_STOP: False
+[2022-12-08 15:37:52.891396] Finished iteration 85, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6175.598
+START iteration 85, CKPT_AND_STOP: False
+[2022-12-08 15:37:59.005617] Finished iteration 86, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6114.221
+START iteration 86, CKPT_AND_STOP: False
+[2022-12-08 15:38:05.175717] Finished iteration 87, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6170.099
+START iteration 87, CKPT_AND_STOP: False
+[2022-12-08 15:38:11.456769] Finished iteration 88, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6281.053
+START iteration 88, CKPT_AND_STOP: False
+[2022-12-08 15:38:17.668707] Finished iteration 89, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6211.937
+START iteration 89, CKPT_AND_STOP: False
+[2022-12-08 15:38:23.987276] Finished iteration 90, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6318.568
+START iteration 90, CKPT_AND_STOP: False
+[2022-12-08 15:38:30.262906] Finished iteration 91, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6275.632
+START iteration 91, CKPT_AND_STOP: False
+[2022-12-08 15:38:36.525345] Finished iteration 92, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6262.437
+START iteration 92, CKPT_AND_STOP: False
+[2022-12-08 15:38:42.928928] Finished iteration 93, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6403.584
+START iteration 93, CKPT_AND_STOP: False
+[2022-12-08 15:38:49.445082] Finished iteration 94, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6516.154
+START iteration 94, CKPT_AND_STOP: False
+[2022-12-08 15:38:55.764008] Finished iteration 95, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6318.926
+START iteration 95, CKPT_AND_STOP: False
+[2022-12-08 15:39:02.030301] Finished iteration 96, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6266.293
+START iteration 96, CKPT_AND_STOP: False
+[2022-12-08 15:39:08.255882] Finished iteration 97, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6225.581
+START iteration 97, CKPT_AND_STOP: False
+[2022-12-08 15:39:14.476609] Finished iteration 98, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6220.727
+START iteration 98, CKPT_AND_STOP: False
+[2022-12-08 15:39:20.581698] Finished iteration 99, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6105.088
+START iteration 99, CKPT_AND_STOP: False
+[2022-12-08 15:39:26.741339] Finished iteration 100, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6159.642
+START iteration 100, CKPT_AND_STOP: False
+[2022-12-08 15:39:32.955606] Finished iteration 101, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6214.267
+START iteration 101, CKPT_AND_STOP: False
+[2022-12-08 15:39:38.986212] Finished iteration 102, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6030.606
+START iteration 102, CKPT_AND_STOP: False
+[2022-12-08 15:39:45.191994] Finished iteration 103, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6205.783
+START iteration 103, CKPT_AND_STOP: False
+[2022-12-08 15:39:51.398316] Finished iteration 104, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6206.322
+START iteration 104, CKPT_AND_STOP: False
+[2022-12-08 15:39:57.633424] Finished iteration 105, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6235.108
+START iteration 105, CKPT_AND_STOP: False
+[2022-12-08 15:40:03.885748] Finished iteration 106, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6252.323
+START iteration 106, CKPT_AND_STOP: False
+[2022-12-08 15:40:10.139229] Finished iteration 107, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6253.482
+START iteration 107, CKPT_AND_STOP: False
+[2022-12-08 15:40:16.395333] Finished iteration 108, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6256.103
+START iteration 108, CKPT_AND_STOP: False
+[2022-12-08 15:40:22.711859] Finished iteration 109, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6316.526
+START iteration 109, CKPT_AND_STOP: False
+[2022-12-08 15:40:29.204708] Finished iteration 110, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6492.849
+START iteration 110, CKPT_AND_STOP: False
+[2022-12-08 15:40:35.368877] Finished iteration 111, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6164.169
+START iteration 111, CKPT_AND_STOP: False
+[2022-12-08 15:40:41.612769] Finished iteration 112, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6243.892
+START iteration 112, CKPT_AND_STOP: False
+[2022-12-08 15:40:47.891861] Finished iteration 113, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6279.092
+START iteration 113, CKPT_AND_STOP: False
+[2022-12-08 15:40:54.168327] Finished iteration 114, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6276.465
+START iteration 114, CKPT_AND_STOP: False
+[2022-12-08 15:41:00.265834] Finished iteration 115, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6097.507
+START iteration 115, CKPT_AND_STOP: False
+[2022-12-08 15:41:06.806484] Finished iteration 116, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6540.650
+START iteration 116, CKPT_AND_STOP: False
+[2022-12-08 15:41:13.631296] Finished iteration 117, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6824.812
+START iteration 117, CKPT_AND_STOP: False
+[2022-12-08 15:41:20.754312] Finished iteration 118, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7123.016
+START iteration 118, CKPT_AND_STOP: False
+[2022-12-08 15:41:27.093941] Finished iteration 119, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6339.630
+START iteration 119, CKPT_AND_STOP: False
+[2022-12-08 15:41:33.799661] Finished iteration 120, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6705.719
+START iteration 120, CKPT_AND_STOP: False
+[2022-12-08 15:41:40.059135] Finished iteration 121, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6259.475
+START iteration 121, CKPT_AND_STOP: False
+[2022-12-08 15:41:46.296550] Finished iteration 122, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6237.414
+START iteration 122, CKPT_AND_STOP: False
+[2022-12-08 15:41:52.434437] Finished iteration 123, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6137.887
+START iteration 123, CKPT_AND_STOP: False
+[2022-12-08 15:41:58.805462] Finished iteration 124, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6371.025
+START iteration 124, CKPT_AND_STOP: False
+[2022-12-08 15:42:04.967567] Finished iteration 125, CKPT_AND_STOP: False, flag: tensor([7], dtype=torch.int32), speed: 6162.107
+Begin to save checkpont and exit
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 8 signal handler called with signal 10
+Opt ckpt time 21.165003776550293
+Process done with return code 0
+Parent process ID: 18824 node: 172.31.16.5
+48 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 35008318771.20003
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 17531106099.199993
+Predicted microbatch size for 2: -1
+Stages 3
+Micro-bs 1 Max mem: 12228800511.999996
+Predicted microbatch size for 3: 1
+comm size 1638400
+WARNING: no send time found, 3 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 3 25 0 1731851.1962890625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7585451
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 64155
+Min fwd: 45773, max fwd 59456; min bwd 92460, max bwd 103910
+Min long fwd: 56519, max long fwd 64913; min long bwd 96930, max long bwd 104722
+Time taken by simulation: 788 microseconds
+
+Stages 4
+Micro-bs 1 Max mem: 9577647718.399998
+Predicted microbatch size for 4: 1
+comm size 1638400
+WARNING: no send time found, 4 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 4 32 0 1199719.8486328125 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6885286
+Min send: 10000000, max send 0
+Min long send: 38109, max long send 65217
+Min fwd: 31551, max fwd 49103; min bwd 67585, max bwd 79482
+Min long fwd: 42800, max long fwd 50971; min long bwd 74672, max long bwd 82652
+Time taken by simulation: 1361 microseconds
+
+Stages 6
+Micro-bs 1 Max mem: 6926494924.799999
+Predicted microbatch size for 6: 1
+comm size 1638400
+WARNING: no send time found, 6 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 6 64 0 548680.6640625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8215819
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 68059
+Min fwd: 17630, max fwd 35943; min bwd 42061, max bwd 55179
+Min long fwd: 28151, max long fwd 36355; min long bwd 50517, max long bwd 61082
+Time taken by simulation: 4595 microseconds
+
+Stages 8
+Micro-bs 1 Max mem: 5600918528.0
+Predicted microbatch size for 8: 1
+comm size 1638400
+WARNING: no send time found, 8 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 8 64 0 442992.24853515625 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 6489103
+Min send: 10000000, max send 0
+Min long send: 38071, max long send 68059
+Min fwd: 9901, max fwd 27419; min bwd 27605, max bwd 45180
+Min long fwd: 21186, max long fwd 32479; min long bwd 41203, max long bwd 48557
+Time taken by simulation: 6472 microseconds
+
+Stages 12
+Micro-bs 1 Max mem: 4275342131.2000003
+Predicted microbatch size for 12: 1
+comm size 1638400
+WARNING: no send time found, 12 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 12 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 8759578
+Min send: 10000000, max send 0
+Min long send: 38055, max long send 72424
+Min fwd: 5999, max fwd 22973; min bwd 17039, max bwd 34800
+Min long fwd: 12470, max long fwd 25017; min long bwd 25566, max long bwd 36212
+Time taken by simulation: 21320 microseconds
+
+Stages 16
+Micro-bs 1 Max mem: 3612553932.8
+Predicted microbatch size for 16: 1
+comm size 1638400
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 128 0 0 38055.03383759529
+End of simulation:  Mini-batch time (usec) = 7580423
+Min send: 10000000, max send 0
+Min long send: 38056, max long send 77793
+Min fwd: 803, max fwd 17420; min bwd 10356, max bwd 28687
+Min long fwd: 10499, max long fwd 20148; min long bwd 17021, max long bwd 27905
+Time taken by simulation: 29582 microseconds
+
+can't have 24 stages!
+{1: inf, 2: inf, 3: 7.585451, 4: 6.885286, 6: 8.215819, 8: 6.489103, 12: 8.759578, 16: 7.580423}
+{1: -1, 2: -1, 3: 1, 4: 1, 6: 1, 8: 1, 12: 1, 16: 1}
+best config is: 8 1
+expected time is 6.489103
+2 per stage
+16 servers!
+Config:
+ranks: range(8, 9)
+train batch size: 128
+partitions: 8
+chunk_size: 1
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=8 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=64 --num-layers 48 --hidden-size 1600 --num-attention-heads 25 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 125
+dry run time 9.724476099014282
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  8 is part of pipeline replica  1
+64 chunks
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+ > finished loading checkpoint in 44.465 seconds
+START iteration 125, CKPT_AND_STOP: False
+[2022-12-08 15:44:15.420260] Finished iteration 126, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 13654.980
+START iteration 126, CKPT_AND_STOP: False
+[2022-12-08 15:44:23.217515] Finished iteration 127, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7797.282
+START iteration 127, CKPT_AND_STOP: False
+[2022-12-08 15:44:30.258178] Finished iteration 128, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7040.661
+START iteration 128, CKPT_AND_STOP: False
+[2022-12-08 15:44:36.796340] Finished iteration 129, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6538.164
+START iteration 129, CKPT_AND_STOP: False
+[2022-12-08 15:44:43.212018] Finished iteration 130, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6415.677
+START iteration 130, CKPT_AND_STOP: False
+[2022-12-08 15:44:48.567016] Finished iteration 131, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5355.000
+START iteration 131, CKPT_AND_STOP: False
+[2022-12-08 15:44:54.648734] Finished iteration 132, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6081.718
+START iteration 132, CKPT_AND_STOP: False

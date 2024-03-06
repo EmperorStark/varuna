@@ -1,0 +1,44 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 564, in <module>
+    main()
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 156, in main
+    main_worker(args.gpu, ngpus_per_node, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 347, in main_worker
+    train(train_loader, model, optimizer, epoch, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 390, in train
+    dist.all_reduce(flag)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 1321, in all_reduce
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.20.223]:10126
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 564, in <module>
+    main()
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 156, in main
+    main_worker(args.gpu, ngpus_per_node, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 181, in main_worker
+    dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 595, in init_process_group
+    store, rank, world_size = next(rendezvous_iterator)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/rendezvous.py", line 232, in _env_rendezvous_handler
+    store = _create_c10d_store(master_addr, master_port, rank, world_size, timeout)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/rendezvous.py", line 160, in _create_c10d_store
+    return TCPStore(
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 558, in handler
+    print('Rank', torch.distributed.get_rank(), 'signal handler called with signal', signum, flush=True)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 844, in get_rank
+    default_pg = _get_default_group()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 429, in _get_default_group
+    raise RuntimeError(
+RuntimeError: Default process group has not been initialized, please make sure to call init_process_group.
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 564, in <module>
+    main()
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 156, in main
+    main_worker(args.gpu, ngpus_per_node, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 347, in main_worker
+    train(train_loader, model, optimizer, epoch, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 390, in train
+    dist.all_reduce(flag)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 1321, in all_reduce
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.20.223]:30631

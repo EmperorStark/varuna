@@ -1,0 +1,45 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 131, in pretrain
+    iteration = train(forward_step_func if not args.varuna else varuna_step_func,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 519, in train
+    save_checkpoint(iteration, model, optimizer, lr_scheduler)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/checkpointing.py", line 141, in save_checkpoint
+    torch.distributed.barrier()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 2783, in barrier
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.20.223]:36260
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 103, in pretrain
+    model, optimizer, lr_scheduler = setup_model_and_optimizer(model_provider, get_batch_fn)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 280, in setup_model_and_optimizer
+    args.iteration = load_checkpoint(model, optimizer, lr_scheduler)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/checkpointing.py", line 285, in load_checkpoint
+    torch.distributed.barrier()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 2783, in barrier
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.18.152]:428
+[W socket.cpp:401] [c10d] The server socket has failed to bind to [::]:12890 (errno: 98 - Address already in use).
+[W socket.cpp:401] [c10d] The server socket has failed to bind to ?UNKNOWN? (errno: 98 - Address already in use).
+[E socket.cpp:435] [c10d] The server socket has failed to listen on any local network address.
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 90, in pretrain
+    initialize_megatron(extra_args_provider=extra_args_provider,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/initialize.py", line 74, in initialize_megatron
+    finish_mpu_init()
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/initialize.py", line 56, in finish_mpu_init
+    _initialize_distributed()
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/initialize.py", line 119, in _initialize_distributed
+    torch.distributed.init_process_group(
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 595, in init_process_group
+    store, rank, world_size = next(rendezvous_iterator)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/rendezvous.py", line 186, in _tcp_rendezvous_handler
+    store = _create_c10d_store(result.hostname, result.port, rank, world_size, timeout)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/rendezvous.py", line 160, in _create_c10d_store
+    return TCPStore(
+RuntimeError: The server socket has failed to listen on any local network address. The server socket has failed to bind to [::]:12890 (errno: 98 - Address already in use). The server socket has failed to bind to ?UNKNOWN? (errno: 98 - Address already in use).

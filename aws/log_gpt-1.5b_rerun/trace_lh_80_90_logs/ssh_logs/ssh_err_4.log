@@ -1,0 +1,64 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 103, in pretrain
+    model, optimizer, lr_scheduler = setup_model_and_optimizer(model_provider, get_batch_fn)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 280, in setup_model_and_optimizer
+    args.iteration = load_checkpoint(model, optimizer, lr_scheduler)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/checkpointing.py", line 285, in load_checkpoint
+    torch.distributed.barrier()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 2783, in barrier
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.17.44]:14739
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 131, in pretrain
+    iteration = train(forward_step_func if not args.varuna else varuna_step_func,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 494, in train
+    dist.all_reduce(flag)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 1321, in all_reduce
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.16.100]:27021
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/opt/conda/envs/varuna/lib/python3.9/threading.py", line 980, in _bootstrap_inner
+    self.run()
+  File "/opt/conda/envs/varuna/lib/python3.9/threading.py", line 917, in run
+    self._target(*self._args, **self._kwargs)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/utils/data/_utils/pin_memory.py", line 28, in _pin_memory_loop
+    r = in_queue.get(timeout=MP_STATUS_CHECK_INTERVAL)
+  File "/opt/conda/envs/varuna/lib/python3.9/multiprocessing/queues.py", line 122, in get
+    return _ForkingPickler.loads(res)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/multiprocessing/reductions.py", line 295, in rebuild_storage_fd
+    fd = df.detach()
+  File "/opt/conda/envs/varuna/lib/python3.9/multiprocessing/resource_sharer.py", line 57, in detach
+    with _resource_sharer.get_connection(self._id) as conn:
+  File "/opt/conda/envs/varuna/lib/python3.9/multiprocessing/resource_sharer.py", line 86, in get_connection
+    c = Client(address, authkey=process.current_process().authkey)
+  File "/opt/conda/envs/varuna/lib/python3.9/multiprocessing/connection.py", line 513, in Client
+    answer_challenge(c, authkey)
+  File "/opt/conda/envs/varuna/lib/python3.9/multiprocessing/connection.py", line 757, in answer_challenge
+    message = connection.recv_bytes(256)         # reject large message
+  File "/opt/conda/envs/varuna/lib/python3.9/multiprocessing/connection.py", line 221, in recv_bytes
+    buf = self._recv_bytes(maxlength)
+  File "/opt/conda/envs/varuna/lib/python3.9/multiprocessing/connection.py", line 419, in _recv_bytes
+    buf = self._recv(4)
+  File "/opt/conda/envs/varuna/lib/python3.9/multiprocessing/connection.py", line 384, in _recv
+    chunk = read(handle, remaining)
+ConnectionResetError: [Errno 104] Connection reset by peer
+Exception in thread Thread-3:
+Traceback (most recent call last):
+  File "/opt/conda/envs/varuna/lib/python3.9/threading.py", line 980, in _bootstrap_inner
+    Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 103, in pretrain
+    model, optimizer, lr_scheduler = setup_model_and_optimizer(model_provider, get_batch_fn)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 280, in setup_model_and_optimizer
+    args.iteration = load_checkpoint(model, optimizer, lr_scheduler)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/checkpointing.py", line 285, in load_checkpoint
+    torch.distributed.barrier()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 2783, in barrier
+    work.wait()
+RuntimeError: [/opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/pair.cc:598] Connection closed by peer [172.31.27.216]:30112

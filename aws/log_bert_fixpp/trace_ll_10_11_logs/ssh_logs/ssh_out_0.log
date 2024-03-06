@@ -1,0 +1,448 @@
+Parent process ID: 66392 node: 172.31.28.108
+2 per stage
+16 servers!
+Config:
+ranks: range(0, 1)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=0 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+DLL 2022-11-23 14:15:38.790643 - PARAMETER Config : ["Namespace(input_dir='/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/', config_file='bert_config.json', bert_model='bert-large-uncased', output_dir='s3://spot-checkpoints/bert', init_checkpoint=None, max_seq_length=128, max_predictions_per_seq=20, train_batch_size=512, learning_rate=0.006, num_train_epochs=3.0, max_steps=7038.0, warmup_proportion=0.2843, local_rank=0, seed=12439, gradient_accumulation_steps=1, fp16=True, amp=False, loss_scale=0.0, log_freq=1.0, checkpoint_activations=False, resume_from_checkpoint=False, resume_step=-1, num_steps_per_checkpoint=200, skip_checkpoint=False, phase2=False, allreduce_post_accumulation=False, allreduce_post_accumulation_fp16=False, phase1_end_step=7038, init_loss_scale=1048576, do_train=True, json_summary='/home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json', use_env=False, disable_progress_bar=False, steps_this_run=7038.0, varuna=True, stage_to_rank_map='0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;', chunk_size=8, batch_size=512, rank=0, profiling=False, n_gpu=1)"] 
+dry run time 0.07405281066894531
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  0 is part of pipeline replica  0
+64 chunks
+Selected optimization level O2:  FP16 training with FP32 batchnorm and FP32 master weights.
+
+Defaults for this optimization level are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+Processing user overrides (additional kwargs that are not None)...
+After processing overrides, optimization options are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+DLL 2022-11-23 14:15:48.216332 - PARAMETER SEED : 12439 
+DLL 2022-11-23 14:15:48.216482 - PARAMETER train_start : True 
+DLL 2022-11-23 14:15:48.216545 - PARAMETER batch_size_per_gpu : 512 
+DLL 2022-11-23 14:15:48.216592 - PARAMETER learning_rate : 0.006 
+Finished iteration 0, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 9385.642
+DLL 2022-11-23 14:15:57.646276 - Training Epoch: 0 Training Iteration: 1  average_loss : 11.2333984375  step_loss : 11.2333984375  learning_rate : 2.9986455118223097e-06 
+Finished iteration 1, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5645.291
+DLL 2022-11-23 14:16:03.289433 - Training Epoch: 0 Training Iteration: 2  average_loss : 11.2242431640625  step_loss : 11.2242431640625  learning_rate : 5.9972910236446195e-06 
+Finished iteration 2, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5712.555
+DLL 2022-11-23 14:16:09.006770 - Training Epoch: 0 Training Iteration: 3  average_loss : 11.2479248046875  step_loss : 11.2479248046875  learning_rate : 8.995936535466931e-06 
+Finished iteration 3, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5486.763
+DLL 2022-11-23 14:16:14.489049 - Training Epoch: 0 Training Iteration: 4  average_loss : 11.2188720703125  step_loss : 11.2188720703125  learning_rate : 1.1994582047289239e-05 
+Finished iteration 4, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5599.884
+DLL 2022-11-23 14:16:20.088871 - Training Epoch: 0 Training Iteration: 5  average_loss : 11.2196044921875  step_loss : 11.2196044921875  learning_rate : 1.499322755911155e-05 
+Finished iteration 5, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4542.597
+DLL 2022-11-23 14:16:24.631254 - Training Epoch: 0 Training Iteration: 6  average_loss : 11.2205810546875  step_loss : 11.2205810546875  learning_rate : 1.7991873070933862e-05 
+Finished iteration 6, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4325.404
+DLL 2022-11-23 14:16:28.964693 - Training Epoch: 0 Training Iteration: 7  average_loss : 11.2249755859375  step_loss : 11.2249755859375  learning_rate : 2.099051858275617e-05 
+Finished iteration 7, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4191.442
+DLL 2022-11-23 14:16:33.148104 - Training Epoch: 0 Training Iteration: 8  average_loss : 11.237060546875  step_loss : 11.237060546875  learning_rate : 2.3989164094578478e-05 
+Finished iteration 8, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4238.448
+DLL 2022-11-23 14:16:37.386701 - Training Epoch: 0 Training Iteration: 9  average_loss : 11.224609375  step_loss : 11.224609375  learning_rate : 2.698780960640079e-05 
+Finished iteration 9, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4320.203
+DLL 2022-11-23 14:16:41.707286 - Training Epoch: 0 Training Iteration: 10  average_loss : 11.215576171875  step_loss : 11.215576171875  learning_rate : 2.99864551182231e-05 
+Finished iteration 10, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4466.459
+DLL 2022-11-23 14:16:46.176055 - Training Epoch: 0 Training Iteration: 11  average_loss : 11.2149658203125  step_loss : 11.2149658203125  learning_rate : 3.298510063004541e-05 
+Finished iteration 11, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4526.986
+DLL 2022-11-23 14:16:50.700622 - Training Epoch: 0 Training Iteration: 12  average_loss : 11.2044677734375  step_loss : 11.2044677734375  learning_rate : 3.5983746141867724e-05 
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 12, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4390.496
+DLL 2022-11-23 14:16:55.090925 - Training Epoch: 0 Training Iteration: 13  average_loss : 11.2064208984375  step_loss : 11.2064208984375  learning_rate : 3.898239165369003e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 13, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4329.510
+DLL 2022-11-23 14:16:59.426155 - Training Epoch: 0 Training Iteration: 14  average_loss : nan  step_loss : nan  learning_rate : 4.198103716551234e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 14, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4387.190
+DLL 2022-11-23 14:17:03.808040 - Training Epoch: 0 Training Iteration: 15  average_loss : nan  step_loss : nan  learning_rate : 4.497968267733465e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 15, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4371.426
+DLL 2022-11-23 14:17:08.179200 - Training Epoch: 0 Training Iteration: 16  average_loss : nan  step_loss : nan  learning_rate : 4.7978328189156956e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 16, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4349.925
+DLL 2022-11-23 14:17:12.529476 - Training Epoch: 0 Training Iteration: 17  average_loss : nan  step_loss : nan  learning_rate : 5.097697370097927e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 17, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4454.585
+DLL 2022-11-23 14:17:16.983629 - Training Epoch: 0 Training Iteration: 18  average_loss : nan  step_loss : nan  learning_rate : 5.397561921280158e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 18, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4449.872
+DLL 2022-11-23 14:17:21.433688 - Training Epoch: 0 Training Iteration: 19  average_loss : nan  step_loss : nan  learning_rate : 5.697426472462389e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 19, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4552.082
+DLL 2022-11-23 14:17:25.991327 - Training Epoch: 0 Training Iteration: 20  average_loss : nan  step_loss : nan  learning_rate : 5.99729102364462e-05 
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 0 signal handler called with signal 10
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 20, CKPT_AND_STOP: True, flag: tensor([2], dtype=torch.int32), speed: 4278.905
+DLL 2022-11-23 14:17:30.264626 - Training Epoch: 0 Training Iteration: 21  average_loss : nan  step_loss : nan  learning_rate : 6.297155574826851e-05 
+2022-11-23 14:17:30.264771 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+DLL 2022-11-23 14:17:30.264795 - PARAMETER checkpoint_step : 21 
+Opt ckpt time 7.970766067504883
+Process done with return code 0
+Parent process ID: 67455 node: 172.31.28.108
+2 per stage
+16 servers!
+Config:
+ranks: range(0, 1)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=0 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 21
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+DLL 2022-11-23 14:17:48.821815 - PARAMETER Config : ["Namespace(input_dir='/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/', config_file='bert_config.json', bert_model='bert-large-uncased', output_dir='s3://spot-checkpoints/bert', init_checkpoint=None, max_seq_length=128, max_predictions_per_seq=20, train_batch_size=512, learning_rate=0.006, num_train_epochs=3.0, max_steps=7038.0, warmup_proportion=0.2843, local_rank=0, seed=12439, gradient_accumulation_steps=1, fp16=True, amp=False, loss_scale=0.0, log_freq=1.0, checkpoint_activations=False, resume_from_checkpoint=True, resume_step=21, num_steps_per_checkpoint=200, skip_checkpoint=False, phase2=False, allreduce_post_accumulation=False, allreduce_post_accumulation_fp16=False, phase1_end_step=7038, init_loss_scale=1048576, do_train=True, json_summary='/home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json', use_env=False, disable_progress_bar=False, steps_this_run=7038.0, varuna=True, stage_to_rank_map='0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;', chunk_size=8, batch_size=512, rank=0, profiling=False, n_gpu=1)"] 
+dry run time 0.08561301231384277
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  0 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_21.pt
+2022-11-23 14:17:58.894368 resume step from  21
+Selected optimization level O2:  FP16 training with FP32 batchnorm and FP32 master weights.
+
+Defaults for this optimization level are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+Processing user overrides (additional kwargs that are not None)...
+After processing overrides, optimization options are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+2022-11-23 14:18:08.583237 - Finished loading checkpoint, takes 9677.152 secs
+DLL 2022-11-23 14:18:08.584250 - PARAMETER SEED : 12439 
+DLL 2022-11-23 14:18:08.584376 - PARAMETER train_start : True 
+DLL 2022-11-23 14:18:08.584467 - PARAMETER batch_size_per_gpu : 512 
+DLL 2022-11-23 14:18:08.584531 - PARAMETER learning_rate : 0.006 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 21, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 12932.283
+DLL 2022-11-23 14:18:21.552297 - Training Epoch: 0 Training Iteration: 22  average_loss : nan  step_loss : nan  learning_rate : 6.597020126009082e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 22, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5301.265
+DLL 2022-11-23 14:18:26.853399 - Training Epoch: 0 Training Iteration: 23  average_loss : nan  step_loss : nan  learning_rate : 6.896884677191313e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 23, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5354.336
+DLL 2022-11-23 14:18:32.207923 - Training Epoch: 0 Training Iteration: 24  average_loss : nan  step_loss : nan  learning_rate : 7.196749228373545e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 24, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5331.451
+DLL 2022-11-23 14:18:37.539411 - Training Epoch: 0 Training Iteration: 25  average_loss : nan  step_loss : nan  learning_rate : 7.496613779555775e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 25, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5369.924
+DLL 2022-11-23 14:18:42.914324 - Training Epoch: 0 Training Iteration: 26  average_loss : nan  step_loss : nan  learning_rate : 7.796478330738006e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 26, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4188.196
+DLL 2022-11-23 14:18:47.097594 - Training Epoch: 0 Training Iteration: 27  average_loss : nan  step_loss : nan  learning_rate : 8.096342881920237e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 27, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4146.372
+DLL 2022-11-23 14:18:51.243869 - Training Epoch: 0 Training Iteration: 28  average_loss : nan  step_loss : nan  learning_rate : 8.396207433102469e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 28, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4280.112
+DLL 2022-11-23 14:18:55.523910 - Training Epoch: 0 Training Iteration: 29  average_loss : nan  step_loss : nan  learning_rate : 8.696071984284699e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 29, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4187.193
+DLL 2022-11-23 14:18:59.716240 - Training Epoch: 0 Training Iteration: 30  average_loss : nan  step_loss : nan  learning_rate : 8.99593653546693e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 30, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4301.637
+DLL 2022-11-23 14:19:04.012804 - Training Epoch: 0 Training Iteration: 31  average_loss : nan  step_loss : nan  learning_rate : 9.29580108664916e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 31, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4234.162
+DLL 2022-11-23 14:19:08.246741 - Training Epoch: 0 Training Iteration: 32  average_loss : nan  step_loss : nan  learning_rate : 9.595665637831391e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 32, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4227.023
+DLL 2022-11-23 14:19:12.473832 - Training Epoch: 0 Training Iteration: 33  average_loss : nan  step_loss : nan  learning_rate : 9.895530189013622e-05 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 33, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4172.155
+DLL 2022-11-23 14:19:16.646080 - Training Epoch: 0 Training Iteration: 34  average_loss : nan  step_loss : nan  learning_rate : 0.00010195394740195854 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 34, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4230.084
+DLL 2022-11-23 14:19:20.876226 - Training Epoch: 0 Training Iteration: 35  average_loss : nan  step_loss : nan  learning_rate : 0.00010495259291378085 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 35, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4179.873
+DLL 2022-11-23 14:19:25.055975 - Training Epoch: 0 Training Iteration: 36  average_loss : nan  step_loss : nan  learning_rate : 0.00010795123842560316 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 36, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4187.481
+DLL 2022-11-23 14:19:29.243559 - Training Epoch: 0 Training Iteration: 37  average_loss : nan  step_loss : nan  learning_rate : 0.00011094988393742548 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  8.0
+Finished iteration 37, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4278.036
+DLL 2022-11-23 14:19:33.521865 - Training Epoch: 0 Training Iteration: 38  average_loss : nan  step_loss : nan  learning_rate : 0.00011394852944924778 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  4.0
+Finished iteration 38, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4217.824
+DLL 2022-11-23 14:19:37.739640 - Training Epoch: 0 Training Iteration: 39  average_loss : nan  step_loss : nan  learning_rate : 0.00011694717496107008 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  2.0
+Finished iteration 39, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4308.952
+DLL 2022-11-23 14:19:42.048664 - Training Epoch: 0 Training Iteration: 40  average_loss : nan  step_loss : nan  learning_rate : 0.0001199458204728924 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 40, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4221.096
+DLL 2022-11-23 14:19:46.269449 - Training Epoch: 0 Training Iteration: 41  average_loss : nan  step_loss : nan  learning_rate : 0.0001229444659847147 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 41, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4680.629
+DLL 2022-11-23 14:19:50.950191 - Training Epoch: 0 Training Iteration: 42  average_loss : nan  step_loss : nan  learning_rate : 0.00012594311149653702 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 42, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4304.030
+DLL 2022-11-23 14:19:55.259611 - Training Epoch: 0 Training Iteration: 43  average_loss : nan  step_loss : nan  learning_rate : 0.00012894175700835933 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 43, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4141.164
+DLL 2022-11-23 14:19:59.395469 - Training Epoch: 0 Training Iteration: 44  average_loss : nan  step_loss : nan  learning_rate : 0.00013194040252018164 
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 0 signal handler called with signal 10
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 44, CKPT_AND_STOP: True, flag: tensor([5], dtype=torch.int32), speed: 4160.711
+DLL 2022-11-23 14:20:03.564333 - Training Epoch: 0 Training Iteration: 45  average_loss : nan  step_loss : nan  learning_rate : 0.00013493904803200396 
+2022-11-23 14:20:03.564463 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+DLL 2022-11-23 14:20:03.564485 - PARAMETER checkpoint_step : 45 
+Opt ckpt time 6.648961067199707
+Process done with return code 0
+Parent process ID: 68648 node: 172.31.28.108
+1 per stage
+8 servers!
+Config:
+ranks: range(0, 1)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 1
+stage to rank map: 0;1;2;3;4;5;6;7;
+World size is 8
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=0 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0;1;2;3;4;5;6;7; --batch-size=1024 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 45
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+DLL 2022-11-23 14:20:21.833323 - PARAMETER Config : ["Namespace(input_dir='/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/', config_file='bert_config.json', bert_model='bert-large-uncased', output_dir='s3://spot-checkpoints/bert', init_checkpoint=None, max_seq_length=128, max_predictions_per_seq=20, train_batch_size=1024, learning_rate=0.006, num_train_epochs=3.0, max_steps=7038.0, warmup_proportion=0.2843, local_rank=0, seed=12439, gradient_accumulation_steps=1, fp16=True, amp=False, loss_scale=0.0, log_freq=1.0, checkpoint_activations=False, resume_from_checkpoint=True, resume_step=45, num_steps_per_checkpoint=200, skip_checkpoint=False, phase2=False, allreduce_post_accumulation=False, allreduce_post_accumulation_fp16=False, phase1_end_step=7038, init_loss_scale=1048576, do_train=True, json_summary='/home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json', use_env=False, disable_progress_bar=False, steps_this_run=7038.0, varuna=True, stage_to_rank_map='0;1;2;3;4;5;6;7;', chunk_size=8, batch_size=1024, rank=0, profiling=False, n_gpu=1)"] 
+dry run time 0.0725564956665039
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  0 is part of pipeline replica  0
+128 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_45.pt
+2022-11-23 14:20:31.689590 resume step from  45
+Selected optimization level O2:  FP16 training with FP32 batchnorm and FP32 master weights.
+
+Defaults for this optimization level are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+Processing user overrides (additional kwargs that are not None)...
+After processing overrides, optimization options are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+2022-11-23 14:20:46.294621 - Finished loading checkpoint, takes 14592.865 secs
+DLL 2022-11-23 14:20:46.295502 - PARAMETER SEED : 12439 
+DLL 2022-11-23 14:20:46.295645 - PARAMETER train_start : True 
+DLL 2022-11-23 14:20:46.295695 - PARAMETER batch_size_per_gpu : 1024 
+DLL 2022-11-23 14:20:46.295726 - PARAMETER learning_rate : 0.006 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 45, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 14494.569
+DLL 2022-11-23 14:21:00.825608 - Training Epoch: 0 Training Iteration: 46  average_loss : nan  step_loss : nan  learning_rate : 0.00013793769354382627 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 46, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7527.627
+DLL 2022-11-23 14:21:08.352696 - Training Epoch: 0 Training Iteration: 47  average_loss : nan  step_loss : nan  learning_rate : 0.00014093633905564855 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 47, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7349.592
+DLL 2022-11-23 14:21:15.710200 - Training Epoch: 0 Training Iteration: 48  average_loss : nan  step_loss : nan  learning_rate : 0.0001439349845674709 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 48, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7462.850
+DLL 2022-11-23 14:21:23.165324 - Training Epoch: 0 Training Iteration: 49  average_loss : nan  step_loss : nan  learning_rate : 0.00014693363007929318 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 49, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7355.904
+DLL 2022-11-23 14:21:30.528842 - Training Epoch: 0 Training Iteration: 50  average_loss : nan  step_loss : nan  learning_rate : 0.0001499322755911155 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 50, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7361.646
+DLL 2022-11-23 14:21:37.882411 - Training Epoch: 0 Training Iteration: 51  average_loss : nan  step_loss : nan  learning_rate : 0.0001529309211029378 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 51, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7467.767
+DLL 2022-11-23 14:21:45.350547 - Training Epoch: 0 Training Iteration: 52  average_loss : nan  step_loss : nan  learning_rate : 0.00015592956661476012 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 52, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7250.833
+DLL 2022-11-23 14:21:52.601040 - Training Epoch: 0 Training Iteration: 53  average_loss : nan  step_loss : nan  learning_rate : 0.0001589282121265824 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 53, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7430.546
+DLL 2022-11-23 14:22:00.031934 - Training Epoch: 0 Training Iteration: 54  average_loss : nan  step_loss : nan  learning_rate : 0.00016192685763840475 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 54, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7903.100
+DLL 2022-11-23 14:22:07.934932 - Training Epoch: 0 Training Iteration: 55  average_loss : nan  step_loss : nan  learning_rate : 0.00016492550315022706 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 55, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7439.139
+DLL 2022-11-23 14:22:15.374166 - Training Epoch: 0 Training Iteration: 56  average_loss : nan  step_loss : nan  learning_rate : 0.00016792414866204937 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 56, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7336.385
+DLL 2022-11-23 14:22:22.710611 - Training Epoch: 0 Training Iteration: 57  average_loss : nan  step_loss : nan  learning_rate : 0.00017092279417387166 
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 0 signal handler called with signal 10
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 57, CKPT_AND_STOP: True, flag: tensor([1], dtype=torch.int32), speed: 7358.711
+DLL 2022-11-23 14:22:30.072401 - Training Epoch: 0 Training Iteration: 58  average_loss : nan  step_loss : nan  learning_rate : 0.00017392143968569397 
+2022-11-23 14:22:30.072535 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+DLL 2022-11-23 14:22:30.072559 - PARAMETER checkpoint_step : 58 
+Opt ckpt time 9.64237642288208
+Process done with return code 0
+Parent process ID: 69713 node: 172.31.28.108
+1 per stage
+8 servers!
+Config:
+ranks: range(0, 1)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 1
+stage to rank map: 0;1;2;3;4;5;6;7;
+World size is 8
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=0 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0;1;2;3;4;5;6;7; --batch-size=1024 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 58
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+DLL 2022-11-23 14:22:48.957162 - PARAMETER Config : ["Namespace(input_dir='/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/', config_file='bert_config.json', bert_model='bert-large-uncased', output_dir='s3://spot-checkpoints/bert', init_checkpoint=None, max_seq_length=128, max_predictions_per_seq=20, train_batch_size=1024, learning_rate=0.006, num_train_epochs=3.0, max_steps=7038.0, warmup_proportion=0.2843, local_rank=0, seed=12439, gradient_accumulation_steps=1, fp16=True, amp=False, loss_scale=0.0, log_freq=1.0, checkpoint_activations=False, resume_from_checkpoint=True, resume_step=58, num_steps_per_checkpoint=200, skip_checkpoint=False, phase2=False, allreduce_post_accumulation=False, allreduce_post_accumulation_fp16=False, phase1_end_step=7038, init_loss_scale=1048576, do_train=True, json_summary='/home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json', use_env=False, disable_progress_bar=False, steps_this_run=7038.0, varuna=True, stage_to_rank_map='0;1;2;3;4;5;6;7;', chunk_size=8, batch_size=1024, rank=0, profiling=False, n_gpu=1)"] 
+dry run time 0.07035279273986816
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  0 is part of pipeline replica  0
+128 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_58.pt
+2022-11-23 14:22:58.837958 resume step from  58
+Selected optimization level O2:  FP16 training with FP32 batchnorm and FP32 master weights.
+
+Defaults for this optimization level are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+Processing user overrides (additional kwargs that are not None)...
+After processing overrides, optimization options are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+2022-11-23 14:23:07.988820 - Finished loading checkpoint, takes 9139.220 secs
+DLL 2022-11-23 14:23:07.989788 - PARAMETER SEED : 12439 
+DLL 2022-11-23 14:23:07.989907 - PARAMETER train_start : True 
+DLL 2022-11-23 14:23:07.989963 - PARAMETER batch_size_per_gpu : 1024 
+DLL 2022-11-23 14:23:07.990001 - PARAMETER learning_rate : 0.006 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 58, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 15125.317
+DLL 2022-11-23 14:23:23.151787 - Training Epoch: 0 Training Iteration: 59  average_loss : nan  step_loss : nan  learning_rate : 0.0001769200851975163 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 59, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7498.083
+DLL 2022-11-23 14:23:30.648507 - Training Epoch: 0 Training Iteration: 60  average_loss : nan  step_loss : nan  learning_rate : 0.0001799187307093386 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 60, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7444.502
+DLL 2022-11-23 14:23:38.101172 - Training Epoch: 0 Training Iteration: 61  average_loss : nan  step_loss : nan  learning_rate : 0.00018291737622116094 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 61, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7447.900
+DLL 2022-11-23 14:23:45.541229 - Training Epoch: 0 Training Iteration: 62  average_loss : nan  step_loss : nan  learning_rate : 0.0001859160217329832 
+0 Overflow !!
+0 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 62, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7585.318
+DLL 2022-11-23 14:23:53.126361 - Training Epoch: 0 Training Iteration: 63  average_loss : nan  step_loss : nan  learning_rate : 0.00018891466724480554 
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 0 signal handler called with signal 10

@@ -1,0 +1,856 @@
+Parent process ID: 48674 node: 172.31.28.108
+32 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 128933453516.80006
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 64530397593.59998
+Predicted microbatch size for 2: -1
+Stages 4
+Micro-bs 1 Max mem: 34529746124.799995
+Predicted microbatch size for 4: -1
+Stages 8
+Micro-bs 1 Max mem: 19529420390.4
+Predicted microbatch size for 8: -1
+Stages 16
+Micro-bs 1 Max mem: 12029257523.2
+Predicted microbatch size for 16: 1
+comm size 4194304
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 64 0 0 97573.47158206406
+End of simulation:  Mini-batch time (usec) = 9027729
+Min send: 10000000, max send 0
+Min long send: 97573, max long send 127662
+Min fwd: 6433, max fwd 20013; min bwd 37432, max bwd 53429
+Min long fwd: 15602, max long fwd 25495; min long bwd 46790, max long bwd 57770
+Time taken by simulation: 14436 microseconds
+
+{1: inf, 2: inf, 4: inf, 8: inf, 16: 9.027729}
+{1: -1, 2: -1, 4: -1, 8: -1, 16: 1}
+best config is: 16 1
+expected time is 9.027729
+1 per stage
+16 servers!
+Config:
+ranks: range(0, 1)
+train batch size: 64
+partitions: 16
+chunk_size: 1
+data depth: 1
+stage to rank map: 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=0 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15; --batch-size=64 --num-layers 32 --hidden-size 4096 --num-attention-heads 32 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16
+using world size: 16 and model-parallel size: 1 
+using torch.float32 for parameters ...
+-------------------- arguments --------------------
+  adam_beta1 ...................... 0.9
+  adam_beta2 ...................... 0.999
+  adam_eps ........................ 1e-08
+  adlr_autoresume ................. False
+  adlr_autoresume_interval ........ 1000
+  apply_query_key_layer_scaling ... False
+  apply_residual_connection_post_layernorm  False
+  attention_dropout ............... 0.1
+  attention_softmax_in_fp32 ....... False
+  batch_size ...................... 64
+  bert_load ....................... None
+  bias_dropout_fusion ............. False
+  bias_gelu_fusion ................ False
+  block_data_path ................. None
+  checkpoint_activations .......... False
+  checkpoint_num_layers ........... 1
+  chunk_size ...................... 1
+  clip_grad ....................... 1.0
+  data_impl ....................... mmap
+  data_path ....................... None
+  DDP_impl ........................ local
+  distribute_checkpointed_activations  False
+  distributed_backend ............. gloo
+  dynamic_loss_scale .............. True
+  eod_mask_loss ................... False
+  eval_interval ................... 10000
+  eval_iters ...................... 10
+  exit_interval ................... 10000
+  faiss_use_gpu ................... False
+  finetune ........................ False
+  fp16 ............................ True
+  fp16_lm_cross_entropy ........... False
+  fp32_allreduce .................. False
+  hidden_dropout .................. 0.1
+  hidden_size ..................... 4096
+  hysteresis ...................... 2
+  ict_head_size ................... None
+  ict_load ........................ None
+  indexer_batch_size .............. 128
+  indexer_log_interval ............ 1000
+  init_method_std ................. 0.02
+  layernorm_epsilon ............... 1e-05
+  lazy_mpu_init ................... None
+  load ............................ s3://spot-checkpoints/gpt
+  local_rank ...................... 0
+  log_interval .................... 1
+  loss_scale ...................... None
+  loss_scale_window ............... 1000
+  lr .............................. 0.00015
+  lr_decay_iters .................. 18750
+  lr_decay_style .................. cosine
+  make_vocab_size_divisible_by .... 128
+  mask_prob ....................... 0.15
+  max_position_embeddings ......... 1024
+  merge_file ...................... /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt
+  min_lr .......................... 1e-05
+  min_scale ....................... 1
+  mmap_warmup ..................... False
+  model_parallel_size ............. 1
+  no_load_optim ................... False
+  no_load_rng ..................... False
+  no_save_optim ................... False
+  no_save_rng ..................... False
+  num_attention_heads ............. 32
+  num_layers ...................... 32
+  num_unique_layers ............... None
+  num_workers ..................... 2
+  onnx_safe ....................... None
+  openai_gelu ..................... False
+  override_lr_scheduler ........... False
+  param_sharing_style ............. grouped
+  params_dtype .................... torch.float32
+  profiling ....................... False
+  query_in_block_prob ............. 0.1
+  rank ............................ 0
+  report_topk_accuracies .......... []
+  reset_attention_mask ............ False
+  reset_position_ids .............. False
+  resume_step ..................... None
+  save ............................ s3://spot-checkpoints/gpt
+  save_interval ................... 500
+  scaled_masked_softmax_fusion .... False
+  scaled_upper_triang_masked_softmax_fusion  False
+  seed ............................ 1234
+  seq_length ...................... 1024
+  short_seq_prob .................. 0.1
+  split ........................... 949,50,1
+  stage_to_rank_map ............... 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;
+  synthetic ....................... True
+  tensorboard_dir ................. None
+  titles_data_path ................ None
+  tokenizer_type .................. GPT2BPETokenizer
+  train_iters ..................... 18750
+  use_checkpoint_lr_scheduler ..... False
+  use_cpu_initialization .......... True
+  use_one_sent_docs ............... False
+  varuna .......................... True
+  vocab_file ...................... /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json
+  vocab_size ...................... 40478
+  warmup .......................... 0.01
+  weight_decay .................... 0.01
+  world_size ...................... 16
+---------------- end of arguments ----------------
+> building GPT2BPETokenizer tokenizer ...
+ > padded vocab (size: 50257) with 47 dummy tokens (new size: 50304)
+> initializing torch distributed ...
+> initializing model parallel with size 1
+> setting random seeds to 1234 ...
+> initializing model parallel cuda seeds on global rank 0, model parallel rank 0, and data parallel rank 0 with model parallel seed: 3952 and data parallel seed: 1234
+> building train, validation, and test datasets ...
+ > datasets target sizes (minimum size):
+    train:      1200000
+    validation: 1280
+    test:       640
+> building train, validation, and test datasets for GPT2 ...
+> finished creating GPT2 datasets ...
+building GPT2 model ...
+dry run time 2.7143585681915283
+SHARED WEIGHTS ARE
+[(0, 15)]
+this rank  0 is part of pipeline replica  0
+64 chunks
+ > number of parameters on model parallel rank 0: 612999168
+Selected optimization level O2:  FP16 training with FP32 batchnorm and FP32 master weights.
+
+Defaults for this optimization level are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+Processing user overrides (additional kwargs that are not None)...
+After processing overrides, optimization options are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+> learning rate decay style: cosine
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+WARNING: could not find the metadata file s3://spot-checkpoints/gpt/latest_checkpointed_iteration.txt 
+    will not load any checkpoints and will start from random
+ > finished loading checkpoint in 0.204 seconds
+setting training data start iteration to 0
+setting validation data start iteration to 0
+done with setups ...
+time (ms) | model and optimizer: 72700.24 | train/valid/test data iterators: 168.96
+training ...
+START iteration 0, CKPT_AND_STOP: False
+Finished iteration 1, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:52:51.936796] iteration        1/   18750 | elapsed time per iteration (ms): 18554.6 | learning rate: 8.000E-07 | lm loss: 1.164425E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+after 1 iterations memory (MB) | allocated: 8187.68212890625 | max allocated: 11696.29150390625 | reserved: 12088.0 | max reserved: 12088.0
+time (ms) | optimizer: 38.43 | batch generator: 9.64
+START iteration 1, CKPT_AND_STOP: False
+Finished iteration 2, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:52:59.733568] iteration        2/   18750 | elapsed time per iteration (ms): 7796.8 | learning rate: 1.600E-06 | lm loss: 1.163514E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.98 | batch generator: 2.89
+START iteration 2, CKPT_AND_STOP: False
+Finished iteration 3, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:53:07.797611] iteration        3/   18750 | elapsed time per iteration (ms): 8064.0 | learning rate: 2.400E-06 | lm loss: 1.160775E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 31.07 | batch generator: 2.15
+START iteration 3, CKPT_AND_STOP: False
+Finished iteration 4, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:53:15.723279] iteration        4/   18750 | elapsed time per iteration (ms): 7925.7 | learning rate: 3.200E-06 | lm loss: 1.153927E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 31.00 | batch generator: 7.20
+START iteration 4, CKPT_AND_STOP: False
+Finished iteration 5, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:53:24.134798] iteration        5/   18750 | elapsed time per iteration (ms): 8411.5 | learning rate: 4.000E-06 | lm loss: 1.149410E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.96 | batch generator: 1.95
+START iteration 5, CKPT_AND_STOP: False
+Finished iteration 6, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:53:30.818317] iteration        6/   18750 | elapsed time per iteration (ms): 6683.5 | learning rate: 4.800E-06 | lm loss: 1.144258E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.95 | batch generator: 2.15
+START iteration 6, CKPT_AND_STOP: False
+Finished iteration 7, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:53:37.427418] iteration        7/   18750 | elapsed time per iteration (ms): 6609.1 | learning rate: 5.600E-06 | lm loss: 1.139772E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.95 | batch generator: 8.77
+START iteration 7, CKPT_AND_STOP: False
+Finished iteration 8, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:53:44.417151] iteration        8/   18750 | elapsed time per iteration (ms): 6989.7 | learning rate: 6.400E-06 | lm loss: 1.135775E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.97 | batch generator: 2.04
+START iteration 8, CKPT_AND_STOP: False
+Finished iteration 9, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:53:51.057437] iteration        9/   18750 | elapsed time per iteration (ms): 6640.3 | learning rate: 7.200E-06 | lm loss: 1.132344E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.96 | batch generator: 2.00
+START iteration 9, CKPT_AND_STOP: False
+Finished iteration 10, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:53:57.656521] iteration       10/   18750 | elapsed time per iteration (ms): 6599.1 | learning rate: 8.000E-06 | lm loss: 1.129568E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 31.00 | batch generator: 1.88
+START iteration 10, CKPT_AND_STOP: False
+Finished iteration 11, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:54:04.546505] iteration       11/   18750 | elapsed time per iteration (ms): 6890.0 | learning rate: 8.800E-06 | lm loss: 1.126905E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.97 | batch generator: 2.13
+START iteration 11, CKPT_AND_STOP: False
+Finished iteration 12, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:54:11.738107] iteration       12/   18750 | elapsed time per iteration (ms): 7191.6 | learning rate: 9.600E-06 | lm loss: 1.124445E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.94 | batch generator: 2.32
+START iteration 12, CKPT_AND_STOP: False
+Finished iteration 13, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:54:18.535625] iteration       13/   18750 | elapsed time per iteration (ms): 6797.5 | learning rate: 1.040E-05 | lm loss: 1.123124E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.98 | batch generator: 2.08
+START iteration 13, CKPT_AND_STOP: False
+Finished iteration 14, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:54:25.222248] iteration       14/   18750 | elapsed time per iteration (ms): 6686.6 | learning rate: 1.120E-05 | lm loss: 1.121167E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.97 | batch generator: 1.96
+START iteration 14, CKPT_AND_STOP: False
+Finished iteration 15, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:54:32.011992] iteration       15/   18750 | elapsed time per iteration (ms): 6789.7 | learning rate: 1.200E-05 | lm loss: 1.118062E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.94 | batch generator: 2.13
+START iteration 15, CKPT_AND_STOP: False
+Finished iteration 16, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:54:38.849022] iteration       16/   18750 | elapsed time per iteration (ms): 6837.0 | learning rate: 1.280E-05 | lm loss: 1.116613E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.99 | batch generator: 2.01
+START iteration 16, CKPT_AND_STOP: False
+Finished iteration 17, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:54:45.700121] iteration       17/   18750 | elapsed time per iteration (ms): 6851.1 | learning rate: 1.360E-05 | lm loss: 1.114746E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.94 | batch generator: 1.80
+START iteration 17, CKPT_AND_STOP: False
+Finished iteration 18, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:54:53.057627] iteration       18/   18750 | elapsed time per iteration (ms): 7357.5 | learning rate: 1.440E-05 | lm loss: 1.112959E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.93 | batch generator: 2.02
+START iteration 18, CKPT_AND_STOP: False
+Finished iteration 19, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:54:59.843932] iteration       19/   18750 | elapsed time per iteration (ms): 6786.3 | learning rate: 1.520E-05 | lm loss: 1.111303E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.96 | batch generator: 2.29
+START iteration 19, CKPT_AND_STOP: False
+Finished iteration 20, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:55:06.954848] iteration       20/   18750 | elapsed time per iteration (ms): 7110.9 | learning rate: 1.600E-05 | lm loss: 1.109165E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.98 | batch generator: 1.91
+START iteration 20, CKPT_AND_STOP: False
+Finished iteration 21, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:55:13.652960] iteration       21/   18750 | elapsed time per iteration (ms): 6698.1 | learning rate: 1.680E-05 | lm loss: 1.105932E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.98 | batch generator: 1.98
+START iteration 21, CKPT_AND_STOP: False
+Finished iteration 22, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:55:20.404631] iteration       22/   18750 | elapsed time per iteration (ms): 6751.7 | learning rate: 1.760E-05 | lm loss: 1.104463E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.93 | batch generator: 2.07
+START iteration 22, CKPT_AND_STOP: False
+Finished iteration 23, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:55:26.996970] iteration       23/   18750 | elapsed time per iteration (ms): 6592.3 | learning rate: 1.840E-05 | lm loss: 1.101758E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.98 | batch generator: 1.92
+START iteration 23, CKPT_AND_STOP: False
+Finished iteration 24, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:55:33.680059] iteration       24/   18750 | elapsed time per iteration (ms): 6683.0 | learning rate: 1.920E-05 | lm loss: 1.099335E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.95 | batch generator: 2.02
+START iteration 24, CKPT_AND_STOP: False
+Finished iteration 25, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:55:40.374702] iteration       25/   18750 | elapsed time per iteration (ms): 6694.6 | learning rate: 2.000E-05 | lm loss: 1.097654E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.97 | batch generator: 2.00
+START iteration 25, CKPT_AND_STOP: False
+Finished iteration 26, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:55:47.037003] iteration       26/   18750 | elapsed time per iteration (ms): 6662.3 | learning rate: 2.080E-05 | lm loss: 1.095471E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.99 | batch generator: 2.11
+START iteration 26, CKPT_AND_STOP: False
+Finished iteration 27, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:55:53.667575] iteration       27/   18750 | elapsed time per iteration (ms): 6630.6 | learning rate: 2.160E-05 | lm loss: 1.093253E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.98 | batch generator: 2.02
+START iteration 27, CKPT_AND_STOP: False
+Finished iteration 28, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:56:00.234853] iteration       28/   18750 | elapsed time per iteration (ms): 6567.3 | learning rate: 2.240E-05 | lm loss: 1.090885E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.96 | batch generator: 1.98
+START iteration 28, CKPT_AND_STOP: False
+Finished iteration 29, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:56:07.037225] iteration       29/   18750 | elapsed time per iteration (ms): 6802.3 | learning rate: 2.320E-05 | lm loss: 1.088760E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 31.00 | batch generator: 2.09
+START iteration 29, CKPT_AND_STOP: False
+Finished iteration 30, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:56:13.741343] iteration       30/   18750 | elapsed time per iteration (ms): 6704.1 | learning rate: 2.400E-05 | lm loss: 1.086837E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.95 | batch generator: 2.27
+START iteration 30, CKPT_AND_STOP: False
+Finished iteration 31, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:56:20.447561] iteration       31/   18750 | elapsed time per iteration (ms): 6706.2 | learning rate: 2.480E-05 | lm loss: 1.084704E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.96 | batch generator: 2.06
+START iteration 31, CKPT_AND_STOP: False
+Finished iteration 32, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:56:27.298403] iteration       32/   18750 | elapsed time per iteration (ms): 6850.8 | learning rate: 2.560E-05 | lm loss: 1.082701E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.93 | batch generator: 2.02
+START iteration 32, CKPT_AND_STOP: False
+Finished iteration 33, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:56:34.177738] iteration       33/   18750 | elapsed time per iteration (ms): 6879.3 | learning rate: 2.640E-05 | lm loss: 1.080562E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.94 | batch generator: 2.23
+START iteration 33, CKPT_AND_STOP: False
+Finished iteration 34, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:56:40.795672] iteration       34/   18750 | elapsed time per iteration (ms): 6617.9 | learning rate: 2.720E-05 | lm loss: 1.078952E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.97 | batch generator: 2.02
+START iteration 34, CKPT_AND_STOP: False
+Finished iteration 35, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:56:47.554933] iteration       35/   18750 | elapsed time per iteration (ms): 6759.2 | learning rate: 2.800E-05 | lm loss: 1.076982E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.96 | batch generator: 1.90
+START iteration 35, CKPT_AND_STOP: False
+Finished iteration 36, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:56:54.150344] iteration       36/   18750 | elapsed time per iteration (ms): 6595.4 | learning rate: 2.880E-05 | lm loss: 1.075840E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.98 | batch generator: 2.08
+START iteration 36, CKPT_AND_STOP: False
+Finished iteration 37, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:57:00.919566] iteration       37/   18750 | elapsed time per iteration (ms): 6769.2 | learning rate: 2.960E-05 | lm loss: 1.074439E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.96 | batch generator: 2.30
+START iteration 37, CKPT_AND_STOP: False
+Finished iteration 38, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:57:07.609740] iteration       38/   18750 | elapsed time per iteration (ms): 6690.1 | learning rate: 3.040E-05 | lm loss: 1.073424E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.93 | batch generator: 2.02
+START iteration 38, CKPT_AND_STOP: False
+Finished iteration 39, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:57:14.300656] iteration       39/   18750 | elapsed time per iteration (ms): 6690.9 | learning rate: 3.120E-05 | lm loss: 1.072425E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.94 | batch generator: 1.97
+START iteration 39, CKPT_AND_STOP: False
+Finished iteration 40, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:57:21.234259] iteration       40/   18750 | elapsed time per iteration (ms): 6933.6 | learning rate: 3.200E-05 | lm loss: 1.071634E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.97 | batch generator: 1.97
+START iteration 40, CKPT_AND_STOP: False
+Finished iteration 41, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:57:28.133603] iteration       41/   18750 | elapsed time per iteration (ms): 6899.3 | learning rate: 3.280E-05 | lm loss: 1.070673E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.95 | batch generator: 2.10
+START iteration 41, CKPT_AND_STOP: False
+Finished iteration 42, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32)
+[2022-11-28 10:57:34.869371] iteration       42/   18750 | elapsed time per iteration (ms): 6735.7 | learning rate: 3.360E-05 | lm loss: 1.069976E+01 | loss scale: 131072.0 | number of skipped iterations:   0 | number of nan iterations:   0 |
+time (ms) | optimizer: 30.94 | batch generator: 2.05
+START iteration 42, CKPT_AND_STOP: False
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 0 signal handler called with signal 10
+Finished iteration 43, CKPT_AND_STOP: True, flag: tensor([8], dtype=torch.int32)
+Begin to save checkpont and exit
+global rank 0 is saving checkpoint at iteration      43 to s3://spot-checkpoints/gpt/iter_0000043/mp_rank_00/model_optim_rng.pt
+  successfully saved s3://spot-checkpoints/gpt/iter_0000043/mp_rank_00/model_optim_rng.pt
+Opt ckpt time 80.1576235294342
+Process done with return code 1
+Parent process ID: 49941 node: 172.31.28.108
+32 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 128933453516.80006
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 64530397593.59998
+Predicted microbatch size for 2: -1
+Stages 4
+Micro-bs 1 Max mem: 34529746124.799995
+Predicted microbatch size for 4: -1
+Stages 8
+Micro-bs 1 Max mem: 19529420390.4
+Predicted microbatch size for 8: -1
+Stages 16
+Micro-bs 1 Max mem: 12029257523.2
+Predicted microbatch size for 16: 1
+comm size 4194304
+WARNING: no send time found, 16 partitions
+GPUS_PER_VM=1 /home/ubuntu/varuna/tools/simulator/simulate-varuna 16 64 0 0 97573.47158206406
+End of simulation:  Mini-batch time (usec) = 9027729
+Min send: 10000000, max send 0
+Min long send: 97573, max long send 127662
+Min fwd: 6433, max fwd 20013; min bwd 37432, max bwd 53429
+Min long fwd: 15602, max long fwd 25495; min long bwd 46790, max long bwd 57770
+Time taken by simulation: 14272 microseconds
+
+{1: inf, 2: inf, 4: inf, 8: inf, 16: 9.027729}
+{1: -1, 2: -1, 4: -1, 8: -1, 16: 1}
+best config is: 16 1
+expected time is 9.027729
+1 per stage
+16 servers!
+Config:
+ranks: range(0, 1)
+train batch size: 64
+partitions: 16
+chunk_size: 1
+data depth: 1
+stage to rank map: 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=0 --chunk_size=1 --local_rank=0 --stage_to_rank_map=0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15; --batch-size=64 --num-layers 32 --hidden-size 4096 --num-attention-heads 32 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 43
+using world size: 16 and model-parallel size: 1 
+using torch.float32 for parameters ...
+-------------------- arguments --------------------
+  adam_beta1 ...................... 0.9
+  adam_beta2 ...................... 0.999
+  adam_eps ........................ 1e-08
+  adlr_autoresume ................. False
+  adlr_autoresume_interval ........ 1000
+  apply_query_key_layer_scaling ... False
+  apply_residual_connection_post_layernorm  False
+  attention_dropout ............... 0.1
+  attention_softmax_in_fp32 ....... False
+  batch_size ...................... 64
+  bert_load ....................... None
+  bias_dropout_fusion ............. False
+  bias_gelu_fusion ................ False
+  block_data_path ................. None
+  checkpoint_activations .......... False
+  checkpoint_num_layers ........... 1
+  chunk_size ...................... 1
+  clip_grad ....................... 1.0
+  data_impl ....................... mmap
+  data_path ....................... None
+  DDP_impl ........................ local
+  distribute_checkpointed_activations  False
+  distributed_backend ............. gloo
+  dynamic_loss_scale .............. True
+  eod_mask_loss ................... False
+  eval_interval ................... 10000
+  eval_iters ...................... 10
+  exit_interval ................... 10000
+  faiss_use_gpu ................... False
+  finetune ........................ False
+  fp16 ............................ True
+  fp16_lm_cross_entropy ........... False
+  fp32_allreduce .................. False
+  hidden_dropout .................. 0.1
+  hidden_size ..................... 4096
+  hysteresis ...................... 2
+  ict_head_size ................... None
+  ict_load ........................ None
+  indexer_batch_size .............. 128
+  indexer_log_interval ............ 1000
+  init_method_std ................. 0.02
+  layernorm_epsilon ............... 1e-05
+  lazy_mpu_init ................... None
+  load ............................ s3://spot-checkpoints/gpt
+  local_rank ...................... 0
+  log_interval .................... 1
+  loss_scale ...................... None
+  loss_scale_window ............... 1000
+  lr .............................. 0.00015
+  lr_decay_iters .................. 18750
+  lr_decay_style .................. cosine
+  make_vocab_size_divisible_by .... 128
+  mask_prob ....................... 0.15
+  max_position_embeddings ......... 1024
+  merge_file ...................... /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt
+  min_lr .......................... 1e-05
+  min_scale ....................... 1
+  mmap_warmup ..................... False
+  model_parallel_size ............. 1
+  no_load_optim ................... False
+  no_load_rng ..................... False
+  no_save_optim ................... False
+  no_save_rng ..................... False
+  num_attention_heads ............. 32
+  num_layers ...................... 32
+  num_unique_layers ............... None
+  num_workers ..................... 2
+  onnx_safe ....................... None
+  openai_gelu ..................... False
+  override_lr_scheduler ........... False
+  param_sharing_style ............. grouped
+  params_dtype .................... torch.float32
+  profiling ....................... False
+  query_in_block_prob ............. 0.1
+  rank ............................ 0
+  report_topk_accuracies .......... []
+  reset_attention_mask ............ False
+  reset_position_ids .............. False
+  resume_step ..................... 43
+  save ............................ s3://spot-checkpoints/gpt
+  save_interval ................... 500
+  scaled_masked_softmax_fusion .... False
+  scaled_upper_triang_masked_softmax_fusion  False
+  seed ............................ 1234
+  seq_length ...................... 1024
+  short_seq_prob .................. 0.1
+  split ........................... 949,50,1
+  stage_to_rank_map ............... 0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;
+  synthetic ....................... True
+  tensorboard_dir ................. None
+  titles_data_path ................ None
+  tokenizer_type .................. GPT2BPETokenizer
+  train_iters ..................... 18750
+  use_checkpoint_lr_scheduler ..... False
+  use_cpu_initialization .......... True
+  use_one_sent_docs ............... False
+  varuna .......................... True
+  vocab_file ...................... /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json
+  vocab_size ...................... 40478
+  warmup .......................... 0.01
+  weight_decay .................... 0.01
+  world_size ...................... 16
+---------------- end of arguments ----------------
+> building GPT2BPETokenizer tokenizer ...
+ > padded vocab (size: 50257) with 47 dummy tokens (new size: 50304)
+> initializing torch distributed ...
+> initializing model parallel with size 1
+> setting random seeds to 1234 ...
+> initializing model parallel cuda seeds on global rank 0, model parallel rank 0, and data parallel rank 0 with model parallel seed: 3952 and data parallel seed: 1234
+> building train, validation, and test datasets ...
+ > datasets target sizes (minimum size):
+    train:      1200000
+    validation: 1280
+    test:       640
+> building train, validation, and test datasets for GPT2 ...
+> finished creating GPT2 datasets ...
+building GPT2 model ...
+dry run time 2.4636664390563965
+SHARED WEIGHTS ARE
+[(0, 15)]
+this rank  0 is part of pipeline replica  0
+64 chunks
+ > number of parameters on model parallel rank 0: 612999168
+Selected optimization level O2:  FP16 training with FP32 batchnorm and FP32 master weights.
+
+Defaults for this optimization level are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+Processing user overrides (additional kwargs that are not None)...
+After processing overrides, optimization options are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+> learning rate decay style: cosine
+Begin to load checkpoint from global store s3://spot-checkpoints/gpt
+global rank 0 is loading checkpoint s3://spot-checkpoints/gpt/iter_0000043/mp_rank_00/model_optim_rng.pt
+ > using checkpoint value 0.00015 for learning rate
+ > using checkpoint value 1e-05 for minimum learning rate
+ > using checkpoint value 187.5 for warmup iterations
+ > using checkpoint value 18750 for total number of iterations
+ > using checkpoint value cosine for decay style
+Process done with return code 1
+Parent process ID: 50503 node: 172.31.28.108
+32 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 128933453516.80006
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 64530397593.59998
+Predicted microbatch size for 2: -1
+Stages 4
+Micro-bs 1 Max mem: 34529746124.799995
+Predicted microbatch size for 4: -1
+Stages 8
+Micro-bs 1 Max mem: 19529420390.4
+Predicted microbatch size for 8: -1
+can't have 16 stages!
+{1: inf, 2: inf, 4: inf, 8: inf}
+{1: -1, 2: -1, 4: -1, 8: -1}
+best config is: -1 -1
+expected time is 1000000000000
+-15 per stage
+15 servers!
+Config:
+ranks: range(0, 1)
+train batch size: 64
+partitions: -1
+chunk_size: -1
+data depth: -15
+stage to rank map: 
+World size is 15
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=0 --chunk_size=-1 --local_rank=0 --stage_to_rank_map= --batch-size=-5 --num-layers 32 --hidden-size 4096 --num-attention-heads 32 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 43
+using world size: 15 and model-parallel size: 1 
+using torch.float32 for parameters ...
+-------------------- arguments --------------------
+  adam_beta1 ...................... 0.9
+  adam_beta2 ...................... 0.999
+  adam_eps ........................ 1e-08
+  adlr_autoresume ................. False
+  adlr_autoresume_interval ........ 1000
+  apply_query_key_layer_scaling ... False
+  apply_residual_connection_post_layernorm  False
+  attention_dropout ............... 0.1
+  attention_softmax_in_fp32 ....... False
+  batch_size ...................... -5
+  bert_load ....................... None
+  bias_dropout_fusion ............. False
+  bias_gelu_fusion ................ False
+  block_data_path ................. None
+  checkpoint_activations .......... False
+  checkpoint_num_layers ........... 1
+  chunk_size ...................... -1
+  clip_grad ....................... 1.0
+  data_impl ....................... mmap
+  data_path ....................... None
+  DDP_impl ........................ local
+  distribute_checkpointed_activations  False
+  distributed_backend ............. gloo
+  dynamic_loss_scale .............. True
+  eod_mask_loss ................... False
+  eval_interval ................... 10000
+  eval_iters ...................... 10
+  exit_interval ................... 10000
+  faiss_use_gpu ................... False
+  finetune ........................ False
+  fp16 ............................ True
+  fp16_lm_cross_entropy ........... False
+  fp32_allreduce .................. False
+  hidden_dropout .................. 0.1
+  hidden_size ..................... 4096
+  hysteresis ...................... 2
+  ict_head_size ................... None
+  ict_load ........................ None
+  indexer_batch_size .............. 128
+  indexer_log_interval ............ 1000
+  init_method_std ................. 0.02
+  layernorm_epsilon ............... 1e-05
+  lazy_mpu_init ................... None
+  load ............................ s3://spot-checkpoints/gpt
+  local_rank ...................... 0
+  log_interval .................... 1
+  loss_scale ...................... None
+  loss_scale_window ............... 1000
+  lr .............................. 0.00015
+  lr_decay_iters .................. 18750
+  lr_decay_style .................. cosine
+  make_vocab_size_divisible_by .... 128
+  mask_prob ....................... 0.15
+  max_position_embeddings ......... 1024
+  merge_file ...................... /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt
+  min_lr .......................... 1e-05
+  min_scale ....................... 1
+  mmap_warmup ..................... False
+  model_parallel_size ............. 1
+  no_load_optim ................... False
+  no_load_rng ..................... False
+  no_save_optim ................... False
+  no_save_rng ..................... False
+  num_attention_heads ............. 32
+  num_layers ...................... 32
+  num_unique_layers ............... None
+  num_workers ..................... 2
+  onnx_safe ....................... None
+  openai_gelu ..................... False
+  override_lr_scheduler ........... False
+  param_sharing_style ............. grouped
+  params_dtype .................... torch.float32
+  profiling ....................... False
+  query_in_block_prob ............. 0.1
+  rank ............................ 0
+  report_topk_accuracies .......... []
+  reset_attention_mask ............ False
+  reset_position_ids .............. False
+  resume_step ..................... 43
+  save ............................ s3://spot-checkpoints/gpt
+  save_interval ................... 500
+  scaled_masked_softmax_fusion .... False
+  scaled_upper_triang_masked_softmax_fusion  False
+  seed ............................ 1234
+  seq_length ...................... 1024
+  short_seq_prob .................. 0.1
+  split ........................... 949,50,1
+  stage_to_rank_map ............... 
+  synthetic ....................... True
+  tensorboard_dir ................. None
+  titles_data_path ................ None
+  tokenizer_type .................. GPT2BPETokenizer
+  train_iters ..................... 18750
+  use_checkpoint_lr_scheduler ..... False
+  use_cpu_initialization .......... True
+  use_one_sent_docs ............... False
+  varuna .......................... True
+  vocab_file ...................... /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json
+  vocab_size ...................... 40478
+  warmup .......................... 0.01
+  weight_decay .................... 0.01
+  world_size ...................... 15
+---------------- end of arguments ----------------
+> building GPT2BPETokenizer tokenizer ...
+ > padded vocab (size: 50257) with 47 dummy tokens (new size: 50304)
+> initializing torch distributed ...
+Parent process ID: 50925 node: 172.31.28.108
+32 cutpoints
+Stages 1
+Micro-bs 1 Max mem: 128933453516.80006
+Predicted microbatch size for 1: -1
+Stages 2
+Micro-bs 1 Max mem: 64530397593.59998
+Predicted microbatch size for 2: -1
+Stages 4
+Micro-bs 1 Max mem: 34529746124.799995
+Predicted microbatch size for 4: -1
+Stages 8
+Micro-bs 1 Max mem: 19529420390.4
+Predicted microbatch size for 8: -1
+can't have 16 stages!
+{1: inf, 2: inf, 4: inf, 8: inf}
+{1: -1, 2: -1, 4: -1, 8: -1}
+best config is: -1 -1
+expected time is 1000000000000
+-15 per stage
+15 servers!
+Config:
+ranks: range(0, 1)
+train batch size: 64
+partitions: -1
+chunk_size: -1
+data depth: -15
+stage to rank map: 
+World size is 15
+/opt/conda/envs/varuna/bin/python -u pretrain_gpt2.py --rank=0 --chunk_size=-1 --local_rank=0 --stage_to_rank_map= --batch-size=-5 --num-layers 32 --hidden-size 4096 --num-attention-heads 32 --seq-length 1024 --max-position-embeddings 1024 --train-iters 18750 --lr-decay-iters 18750 --save s3://spot-checkpoints/gpt --load s3://spot-checkpoints/gpt --vocab-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json --merge-file /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt --data-impl mmap --split 949,50,1 --distributed-backend gloo --lr 0.00015 --min-lr 1.0e-5 --lr-decay-style cosine --weight-decay 1e-2 --clip-grad 1.0 --warmup .01 --log-interval 1 --exit-interval 10000 --save-interval 500 --eval-interval 10000 --use-cpu-initialization --synthetic --eval-iters 10 --varuna --fp16 --resume_step 43
+using world size: 15 and model-parallel size: 1 
+using torch.float32 for parameters ...
+-------------------- arguments --------------------
+  adam_beta1 ...................... 0.9
+  adam_beta2 ...................... 0.999
+  adam_eps ........................ 1e-08
+  adlr_autoresume ................. False
+  adlr_autoresume_interval ........ 1000
+  apply_query_key_layer_scaling ... False
+  apply_residual_connection_post_layernorm  False
+  attention_dropout ............... 0.1
+  attention_softmax_in_fp32 ....... False
+  batch_size ...................... -5
+  bert_load ....................... None
+  bias_dropout_fusion ............. False
+  bias_gelu_fusion ................ False
+  block_data_path ................. None
+  checkpoint_activations .......... False
+  checkpoint_num_layers ........... 1
+  chunk_size ...................... -1
+  clip_grad ....................... 1.0
+  data_impl ....................... mmap
+  data_path ....................... None
+  DDP_impl ........................ local
+  distribute_checkpointed_activations  False
+  distributed_backend ............. gloo
+  dynamic_loss_scale .............. True
+  eod_mask_loss ................... False
+  eval_interval ................... 10000
+  eval_iters ...................... 10
+  exit_interval ................... 10000
+  faiss_use_gpu ................... False
+  finetune ........................ False
+  fp16 ............................ True
+  fp16_lm_cross_entropy ........... False
+  fp32_allreduce .................. False
+  hidden_dropout .................. 0.1
+  hidden_size ..................... 4096
+  hysteresis ...................... 2
+  ict_head_size ................... None
+  ict_load ........................ None
+  indexer_batch_size .............. 128
+  indexer_log_interval ............ 1000
+  init_method_std ................. 0.02
+  layernorm_epsilon ............... 1e-05
+  lazy_mpu_init ................... None
+  load ............................ s3://spot-checkpoints/gpt
+  local_rank ...................... 0
+  log_interval .................... 1
+  loss_scale ...................... None
+  loss_scale_window ............... 1000
+  lr .............................. 0.00015
+  lr_decay_iters .................. 18750
+  lr_decay_style .................. cosine
+  make_vocab_size_divisible_by .... 128
+  mask_prob ....................... 0.15
+  max_position_embeddings ......... 1024
+  merge_file ...................... /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/merges.txt
+  min_lr .......................... 1e-05
+  min_scale ....................... 1
+  mmap_warmup ..................... False
+  model_parallel_size ............. 1
+  no_load_optim ................... False
+  no_load_rng ..................... False
+  no_save_optim ................... False
+  no_save_rng ..................... False
+  num_attention_heads ............. 32
+  num_layers ...................... 32
+  num_unique_layers ............... None
+  num_workers ..................... 2
+  onnx_safe ....................... None
+  openai_gelu ..................... False
+  override_lr_scheduler ........... False
+  param_sharing_style ............. grouped
+  params_dtype .................... torch.float32
+  profiling ....................... False
+  query_in_block_prob ............. 0.1
+  rank ............................ 0
+  report_topk_accuracies .......... []
+  reset_attention_mask ............ False
+  reset_position_ids .............. False
+  resume_step ..................... 43
+  save ............................ s3://spot-checkpoints/gpt
+  save_interval ................... 500
+  scaled_masked_softmax_fusion .... False
+  scaled_upper_triang_masked_softmax_fusion  False
+  seed ............................ 1234
+  seq_length ...................... 1024
+  short_seq_prob .................. 0.1
+  split ........................... 949,50,1
+  stage_to_rank_map ............... 
+  synthetic ....................... True
+  tensorboard_dir ................. None
+  titles_data_path ................ None
+  tokenizer_type .................. GPT2BPETokenizer
+  train_iters ..................... 18750
+  use_checkpoint_lr_scheduler ..... False
+  use_cpu_initialization .......... True
+  use_one_sent_docs ............... False
+  varuna .......................... True
+  vocab_file ...................... /home/ubuntu/SpotDL-DeesSpeed/megatron/Megatron-LM-v1.1.5-3D_parallelism/data/gpt2/vocab.json
+  vocab_size ...................... 40478
+  warmup .......................... 0.01
+  weight_decay .................... 0.01
+  world_size ...................... 15
+---------------- end of arguments ----------------
+> building GPT2BPETokenizer tokenizer ...
+ > padded vocab (size: 50257) with 47 dummy tokens (new size: 50304)
+> initializing torch distributed ...
+Process done with return code 1

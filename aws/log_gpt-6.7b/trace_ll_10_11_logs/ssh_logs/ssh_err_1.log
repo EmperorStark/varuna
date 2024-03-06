@@ -1,0 +1,31 @@
+Terminated
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/Megatron-LM/pretrain_gpt2.py", line 170, in <module>
+    pretrain(train_valid_test_datasets_provider, model_provider, forward_step,
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 103, in pretrain
+    model, optimizer, lr_scheduler = setup_model_and_optimizer(model_provider, get_batch_fn)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/training.py", line 280, in setup_model_and_optimizer
+    args.iteration = load_checkpoint(model, optimizer, lr_scheduler)
+  File "/home/ubuntu/varuna_examples/Megatron-LM/megatron/checkpointing.py", line 253, in load_checkpoint
+    model.load_checkpoint(args.load, iteration)
+  File "/home/ubuntu/varuna/varuna/varuna.py", line 512, in load_checkpoint
+    load_varuna_optimizer(self.optimizer, self.stage, self.partitions,
+  File "/home/ubuntu/varuna/varuna/checkpoint.py", line 315, in load_varuna_optimizer
+    state_ = smart_load_checkpoint(f,map_location='cpu')
+  File "/home/ubuntu/varuna/varuna/checkpoint.py", line 39, in smart_load_checkpoint
+    s3.download_fileobj(Bucket=bucket, Key=key, Fileobj=f)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/boto3/s3/inject.py", line 795, in download_fileobj
+    return future.result()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/s3transfer/futures.py", line 103, in result
+    return self._coordinator.result()
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/s3transfer/futures.py", line 266, in result
+    raise self._exception
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/s3transfer/tasks.py", line 269, in _main
+    self._submit(transfer_future=transfer_future, **kwargs)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/s3transfer/download.py", line 354, in _submit
+    response = client.head_object(
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/botocore/client.py", line 495, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/botocore/client.py", line 914, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (404) when calling the HeadObject operation: Not Found

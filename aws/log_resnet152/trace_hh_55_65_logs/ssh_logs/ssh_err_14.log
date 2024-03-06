@@ -1,0 +1,13 @@
+launch_varuna.sh: line 1: 100769 User defined signal 1   /opt/conda/envs/varuna/bin/python -u -m varuna.launcher --ngpus_per_server 1 --node_rank 14 --nservers 23 --master_addr 172.31.28.108 --batch_size 2048 --chunk_size 32 --code_dir /home/ubuntu/varuna_examples/ResNet --profile_folder s3://spot-checkpoints/resnet-profile main.py data -a resnet152 --varuna --lr 0.001 --epochs 1000 --resume s3://spot-checkpoints/resnet --resume_step 189
+Traceback (most recent call last):
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 564, in <module>
+    main()
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 156, in main
+    main_worker(args.gpu, ngpus_per_node, args)
+  File "/home/ubuntu/varuna_examples/ResNet/main.py", line 181, in main_worker
+    dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 602, in init_process_group
+    default_pg = _new_process_group_helper(
+  File "/opt/conda/envs/varuna/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py", line 703, in _new_process_group_helper
+    pg = ProcessGroupGloo(prefix_store, rank, world_size, timeout=timeout)
+RuntimeError: [enforce fail at /opt/conda/conda-bld/pytorch_1646755888534/work/third_party/gloo/gloo/transport/tcp/address.cc:45] sizeof(impl_) == bytes.size(). 136 vs 123

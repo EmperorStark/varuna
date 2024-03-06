@@ -1,0 +1,1712 @@
+Parent process ID: 46230 node: 172.31.20.223
+Killing process on gpu with nvidia-smi | grep 'python' | awk '{ print $5 }' | xargs -n1 kill -9
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.12621355056762695
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Finished iteration 0, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 10686.407
+Finished iteration 1, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5486.883
+Finished iteration 2, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5495.548
+Finished iteration 3, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5626.034
+Finished iteration 4, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5426.435
+Finished iteration 5, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4378.400
+Finished iteration 6, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4498.669
+Finished iteration 7, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4507.928
+Finished iteration 8, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4371.481
+Finished iteration 9, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4525.081
+Finished iteration 10, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4216.208
+Finished iteration 11, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4438.306
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 12, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4259.012
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 13, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4248.043
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 14, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4456.814
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 15, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4478.734
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 16, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4324.457
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 17, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4292.607
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 18, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4563.044
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 19, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5291.440
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 20, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4367.299
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 21, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4214.230
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 22, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4415.597
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 23, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4277.315
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 24, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4388.923
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 25, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4456.131
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 26, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4322.396
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 27, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4410.672
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8.0
+Finished iteration 28, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4561.632
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4.0
+Finished iteration 29, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4366.165
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2.0
+Finished iteration 30, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4358.376
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 31, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4638.801
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 32, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4257.982
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 33, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4369.490
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 34, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4832.314
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 35, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4510.844
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 36, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4521.210
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 37, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4467.596
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 38, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4348.933
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 39, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4297.724
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 40, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4337.254
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 41, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4422.395
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 42, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4362.481
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 43, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4478.570
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 44, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4374.926
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 45, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4662.657
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 46, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4395.921
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 47, CKPT_AND_STOP: True, flag: tensor([3], dtype=torch.int32), speed: 4263.664
+2022-11-23 14:43:19.364387 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Opt ckpt time 3.49228835105896
+Process done with return code 0
+Parent process ID: 46831 node: 172.31.20.223
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 48
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.5953295230865479
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_48.pt
+2022-11-23 14:43:47.772808 resume step from  48
+2022-11-23 14:43:54.926624 - Finished loading checkpoint, takes 7142.081 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 48, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 15733.885
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 49, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5290.158
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 50, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5417.099
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 51, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5334.876
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 52, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5550.989
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 53, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4425.278
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 54, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5012.200
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 55, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4371.332
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 56, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4263.044
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 57, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4197.619
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 58, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4202.475
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 59, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4489.767
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 60, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4358.263
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 61, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4389.094
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 62, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4738.588
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 63, CKPT_AND_STOP: True, flag: tensor([5], dtype=torch.int32), speed: 4344.008
+2022-11-23 14:45:21.085619 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Opt ckpt time 3.702237844467163
+Process done with return code 0
+Parent process ID: 47390 node: 172.31.20.223
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 64
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.22391819953918457
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_64.pt
+2022-11-23 14:45:54.275414 resume step from  64
+2022-11-23 14:46:01.552205 - Finished loading checkpoint, takes 7265.539 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 64, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 15234.823
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 65, CKPT_AND_STOP: True, flag: tensor([5], dtype=torch.int32), speed: 5802.192
+2022-11-23 14:46:22.629359 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Opt ckpt time 3.3930983543395996
+Process done with return code 0
+Parent process ID: 47892 node: 172.31.20.223
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 66
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.15266084671020508
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_66.pt
+2022-11-23 14:46:50.627634 resume step from  66
+2022-11-23 14:46:57.769055 - Finished loading checkpoint, takes 7130.010 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 66, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 21092.815
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 67, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5467.327
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 68, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5709.237
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 69, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5755.422
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 70, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5467.629
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 71, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4322.461
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 72, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4308.561
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 73, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4279.682
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 74, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4458.669
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 75, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4304.480
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 76, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4330.934
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 77, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4257.128
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 78, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4307.616
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 79, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4239.738
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 80, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4337.175
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 81, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4384.691
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8.0
+Finished iteration 82, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4352.999
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4.0
+Finished iteration 83, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4165.026
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2.0
+Finished iteration 84, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4387.415
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 85, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4289.293
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 86, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4403.703
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 87, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4337.485
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 88, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4501.361
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 89, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4357.099
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 90, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4361.808
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 91, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4574.604
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 92, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4419.250
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 93, CKPT_AND_STOP: True, flag: tensor([4], dtype=torch.int32), speed: 4340.276
+2022-11-23 14:49:21.325763 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Opt ckpt time 3.32696270942688
+Process done with return code 0
+Parent process ID: 48503 node: 172.31.20.223
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 94
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.0950005054473877
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_94.pt
+2022-11-23 14:49:51.022079 resume step from  94
+2022-11-23 14:49:57.860594 - Finished loading checkpoint, takes 6826.747 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+Finished iteration 94, CKPT_AND_STOP: True, flag: tensor([2], dtype=torch.int32), speed: 21194.379
+2022-11-23 14:50:19.095697 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Opt ckpt time 3.1727218627929688
+Process done with return code 0
+Parent process ID: 49005 node: 172.31.20.223
+3 per stage
+24 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 3
+stage to rank map: 0,8,16;1,9,17;2,10,18;3,11,19;4,12,20;5,13,21;6,14,22;7,15,23;
+World size is 24
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8,16;1,9,17;2,10,18;3,11,19;4,12,20;5,13,21;6,14,22;7,15,23; --batch-size=341 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 95
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.18149232864379883
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+43 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_95.pt
+2022-11-23 14:50:55.869371 resume step from  95
+2022-11-23 14:51:02.981377 - Finished loading checkpoint, takes 7100.216 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 95, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 11702.237
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 96, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4192.446
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 97, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4192.243
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 98, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4249.139
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 99, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4179.567
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 100, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3264.564
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 101, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3238.026
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 102, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3427.709
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 103, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3263.718
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 104, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3127.926
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 105, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3098.915
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 106, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3205.064
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 107, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3134.226
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 108, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3166.876
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 109, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3380.049
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 110, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3088.621
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8.0
+Finished iteration 111, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3181.508
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4.0
+Finished iteration 112, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3336.158
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2.0
+Finished iteration 113, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3154.014
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 114, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3212.156
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 115, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3153.300
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 116, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3224.550
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 117, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3179.781
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 118, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3122.634
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 119, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3121.850
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 120, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3175.617
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 121, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3162.398
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 122, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3089.481
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 123, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3170.146
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 124, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3176.012
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 125, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4008.226
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 126, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3130.010
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 127, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3395.214
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 128, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3254.280
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 129, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3289.167
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 130, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3093.032
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 131, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3171.803
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 132, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3171.300
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 133, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3284.640
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 134, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3315.693
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 135, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3368.509
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 136, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3157.906
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 137, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3173.741
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 138, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3230.485
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 139, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3947.772
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 140, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 3201.168
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 141, CKPT_AND_STOP: False, flag: tensor([1], dtype=torch.int32), speed: 3197.926
+2022-11-23 14:53:47.782736 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+Opt ckpt time 1.8369884490966797
+Process done with return code 0
+Parent process ID: 49691 node: 172.31.20.223
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 142
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.12001299858093262
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_142.pt
+2022-11-23 14:54:21.987163 resume step from  142
+2022-11-23 14:54:29.902347 - Finished loading checkpoint, takes 7903.377 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 142, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 20730.632
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 143, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5308.237
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 144, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5364.639
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 145, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5468.357
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 146, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5312.152
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 147, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4520.020
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 148, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4417.120
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 149, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4490.143
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 150, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4447.267
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 151, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4419.794
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 152, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4532.416
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 153, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4300.904
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 154, CKPT_AND_STOP: False, flag: tensor([1], dtype=torch.int32), speed: 4217.076
+2022-11-23 14:55:47.468574 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+Opt ckpt time 4.2391932010650635
+Process done with return code 0
+Parent process ID: 50324 node: 172.31.20.223
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 155
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.15692806243896484
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_155.pt
+2022-11-23 14:56:18.388000 resume step from  155
+2022-11-23 14:56:25.185112 - Finished loading checkpoint, takes 6785.593 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 155, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 16633.189
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 156, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6397.103
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 157, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5539.638
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 158, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5612.998
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 159, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5541.539
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 160, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4417.330
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 161, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4159.843
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 162, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4444.437
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 163, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4356.444
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 164, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4492.252
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 165, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4434.672
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 166, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4468.304
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 167, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5416.141
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 168, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4521.484
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 169, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4488.865
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 170, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4176.030
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8.0
+Finished iteration 171, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4528.521
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4.0
+Finished iteration 172, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4408.362
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2.0
+Finished iteration 173, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4426.505
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 174, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4472.996
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 175, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4418.797
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 176, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4482.828
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 177, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4498.019
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 178, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4490.316
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 179, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4577.362
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 180, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4436.602
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 181, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4788.389
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 182, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4440.613
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 183, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4354.607
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 184, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4745.766
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 185, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4556.486
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 186, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4327.022
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 187, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4426.148
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 188, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4442.731
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 189, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4740.020
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 190, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4304.251
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 191, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4178.951
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 192, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4235.826
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 193, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4292.586
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 194, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4401.073
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 195, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4260.226
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 196, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4641.325
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 197, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4343.995
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 198, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4251.742
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 199, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4325.398
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 200, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4227.336
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 201, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4226.233
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 202, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4279.378
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 203, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4453.831
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 204, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4417.388
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 205, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4747.075
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 206, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5259.881
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 207, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4377.203
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 208, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4294.200
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 209, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4287.579
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 210, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4209.438
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 211, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4606.509
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 212, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4401.893
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 213, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4524.453
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 214, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5035.544
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 215, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4544.046
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 216, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4708.481
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 217, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4251.038
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 218, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4240.168
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 219, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4424.071
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 220, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4582.689
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 221, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4335.704
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 222, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4826.762
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 223, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4489.125
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 224, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4449.552
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 225, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4487.813
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 226, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4261.572
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 227, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4402.414
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 228, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4485.997
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 229, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4547.634
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 230, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4302.722
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 231, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4148.071
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 232, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4322.198
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 233, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4368.074
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 234, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4445.607
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 235, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4196.373
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 236, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4270.835
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 237, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4323.770
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 238, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4297.462
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 239, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4445.311
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 240, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4368.279
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 241, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4534.006
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 242, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4451.576
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 243, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4721.644
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 244, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4448.088
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 245, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4396.527
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 246, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4451.560
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 247, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4360.727
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 248, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4483.451
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 249, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4182.773
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 250, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4162.128
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 251, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5038.798
+Process done with return code -6
+Parent process ID: 51247 node: 172.31.20.223
+1 per stage
+8 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 1
+stage to rank map: 0;1;2;3;4;5;6;7;
+World size is 8
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0;1;2;3;4;5;6;7; --batch-size=1024 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 155
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.20541143417358398
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+128 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_155.pt
+2022-11-23 15:09:36.540753 resume step from  155
+2022-11-23 15:09:44.909310 - Finished loading checkpoint, takes 8356.677 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 155, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 18340.669
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 156, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7014.447
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 157, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7142.536
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 158, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7155.643
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 159, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7412.189
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 160, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6989.305
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 161, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7417.232
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 162, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7201.117
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 163, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7095.165
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 164, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7128.480
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 165, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7275.566
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 166, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7180.430
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 167, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7135.543
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 168, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7317.461
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 169, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7000.074
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 170, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7237.470
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8.0
+Finished iteration 171, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7323.637
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4.0
+Finished iteration 172, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6973.187
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2.0
+Finished iteration 173, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7225.384
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 174, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7037.309
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 175, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7141.616
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 176, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7588.289
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 177, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7120.575
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 178, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7120.390
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 179, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7157.870
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 180, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7103.760
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 181, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7059.185
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 182, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 6822.817
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 183, CKPT_AND_STOP: True, flag: tensor([8], dtype=torch.int32), speed: 7195.644
+2022-11-23 15:13:23.861089 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Opt ckpt time 5.03877592086792
+Process done with return code 0
+Parent process ID: 51849 node: 172.31.20.223
+1 per stage
+8 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 1
+stage to rank map: 0;1;2;3;4;5;6;7;
+World size is 8
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0;1;2;3;4;5;6;7; --batch-size=1024 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 184
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.05078744888305664
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+128 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_184.pt
+2022-11-23 15:13:52.948844 resume step from  184
+2022-11-23 15:13:58.570765 - Finished loading checkpoint, takes 5610.147 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 184, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 18653.116
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 185, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7285.980
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 186, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7610.432
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 187, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7542.716
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 188, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7447.066
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 189, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7620.642
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 190, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7718.328
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 191, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 7506.121
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 192, CKPT_AND_STOP: False, flag: tensor([1], dtype=torch.int32), speed: 7504.510
+2022-11-23 15:15:17.497899 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+Opt ckpt time 4.86974573135376
+Process done with return code 0
+Parent process ID: 52344 node: 172.31.20.223
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 193
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.7992932796478271
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_193.pt
+2022-11-23 15:15:53.806659 resume step from  193
+2022-11-23 15:15:59.356225 - Finished loading checkpoint, takes 5538.185 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 193, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 11740.559
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 194, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5453.845
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 195, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5179.389
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 196, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5350.517
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 197, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5424.021
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 198, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4096.463
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 199, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4213.234
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 200, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4345.738
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 201, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4332.951
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 202, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4285.201
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 203, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4343.376
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 204, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4092.022
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 205, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4243.792
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 206, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4083.720
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 207, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4277.300
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 208, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4171.826
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8.0
+Finished iteration 209, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4514.910
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4.0
+Finished iteration 210, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4278.470
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2.0
+Finished iteration 211, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4188.003
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 212, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4287.334
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 213, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4111.327
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 214, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4099.555
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 215, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4262.865
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 216, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4108.584
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 217, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4234.469
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 218, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4261.753
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 219, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4114.316
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 220, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4239.051
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 221, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4463.902
+1 Overflow !!
+Signal handler called with signal 10
+
+
+ STOPPING VARUNA !!
+
+
+
+Rank 1 signal handler called with signal 10
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 222, CKPT_AND_STOP: True, flag: tensor([2], dtype=torch.int32), speed: 4176.352
+2022-11-23 15:18:18.378989 Begin to save checkpont to s3://spot-checkpoints/bert and exit
+Opt ckpt time 3.4481842517852783
+Process done with return code 0
+Parent process ID: 52936 node: 172.31.20.223
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 223
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.061745643615722656
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_223.pt
+2022-11-23 15:18:46.828956 resume step from  223
+2022-11-23 15:18:53.817123 - Finished loading checkpoint, takes 6976.904 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 223, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 20785.790
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 224, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5327.872
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 225, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5299.217
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 226, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5192.035
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 227, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5258.963
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 228, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4405.870
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 229, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4337.813
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 230, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4174.989
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 231, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4236.947
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 232, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4241.833
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 233, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4237.877
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 234, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4259.476
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 235, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4114.165
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 236, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4348.213
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 237, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4166.980
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 238, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4235.116
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8.0
+Finished iteration 239, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4216.080
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4.0
+Finished iteration 240, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4249.161
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2.0
+Finished iteration 241, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4055.983
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 242, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4242.945
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 243, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4368.723
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 244, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4183.581
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 245, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4188.433
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 246, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4344.677
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 247, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4196.249
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 248, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4311.895
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 249, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4207.763
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 250, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4192.693
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 251, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4251.379
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 252, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4205.962
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 253, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4278.028
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 254, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4095.553
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 255, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4134.408
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 256, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4100.659
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 257, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4120.992
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 258, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4332.124
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 259, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4347.327
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 260, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4188.437
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 261, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4383.888
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 262, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4245.175
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 263, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4308.545
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 264, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4283.597
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 265, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4125.830
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 266, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4343.405
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 267, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4179.517
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 268, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4345.961
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 269, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4262.141
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 270, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4274.869
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 271, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4370.316
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 272, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4221.133
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 273, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4205.038
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 274, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4270.932
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 275, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4193.761
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 276, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4221.824
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 277, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4142.692
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 278, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4085.749
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 279, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4244.304
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 280, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4147.946
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 281, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4250.047
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 282, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4384.782
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 283, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4166.942
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 284, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4171.212
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 285, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5243.726
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 286, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4374.399
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 287, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4255.777
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 288, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4330.661
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 289, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4147.687
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 290, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4300.901
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 291, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4249.230
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 292, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4123.928
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 293, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4357.268
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 294, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4157.023
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 295, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4343.754
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 296, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4134.091
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 297, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4328.224
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 298, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4153.129
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 299, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4266.972
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 300, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4239.674
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 301, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4372.632
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 302, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4460.348
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 303, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4602.338
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 304, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4633.324
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 305, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4157.763
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 306, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4254.592
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 307, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4267.074
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 308, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4191.456
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 309, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4177.037
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 310, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4128.038
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 311, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4168.396
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 312, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4260.203
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 313, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4082.507
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 314, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4467.441
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 315, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4243.535
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 316, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4202.641
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 317, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4159.569
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 318, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4160.557
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 319, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4157.556
+Process done with return code 1
+Parent process ID: 53779 node: 172.31.20.223
+1 per stage
+8 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 1
+stage to rank map: 0;1;2;3;4;5;6;7;
+World size is 8
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0;1;2;3;4;5;6;7; --batch-size=1024 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 223
+Process done with return code 1
+Parent process ID: 54096 node: 172.31.20.223
+2 per stage
+16 servers!
+Config:
+ranks: range(1, 2)
+train batch size: 1024
+partitions: 8
+chunk_size: 8
+data depth: 2
+stage to rank map: 0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15;
+World size is 16
+/opt/conda/envs/varuna/bin/python -u /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/run_pretraining.py --rank=1 --chunk_size=8 --local_rank=0 --stage_to_rank_map=0,8;1,9;2,10;3,11;4,12;5,13;6,14;7,15; --batch-size=512 --input_dir=/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/wikicorpus_en/ --output_dir=s3://spot-checkpoints/bert --config_file=bert_config.json --bert_model=bert-large-uncased --train_batch_size=1024 --max_seq_length=128 --max_predictions_per_seq=20 --max_steps=7038 --warmup_proportion=0.2843 --num_steps_per_checkpoint=200 --learning_rate=6e-3 --seed=12439 --fp16 --gradient_accumulation_steps=128 --allreduce_post_accumulation --allreduce_post_accumulation_fp16 --do_train --json-summary /home/ubuntu/varuna_examples/DeepLearningExamples/PyTorch/LanguageModeling/BERT/results/dllogger.json --varuna --resume_step 223
+device: cuda:0 n_gpu: 1, distributed training: True, 16-bits training: True
+dry run time 0.20346426963806152
+SHARED WEIGHTS ARE
+[(0, 7)]
+this rank  1 is part of pipeline replica  0
+64 chunks
+Begin to load checkpint from s3://spot-checkpoints/bert/ckpt_223.pt
+2022-11-23 15:26:44.313210 resume step from  223
+2022-11-23 15:26:52.692624 - Finished loading checkpoint, takes 8367.656 secs
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  524288.0
+Finished iteration 223, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 20556.067
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  262144.0
+Finished iteration 224, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5303.969
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  131072.0
+Finished iteration 225, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5295.250
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  65536.0
+Finished iteration 226, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5232.605
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32768.0
+Finished iteration 227, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 5248.562
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16384.0
+Finished iteration 228, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4204.295
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8192.0
+Finished iteration 229, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4267.079
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4096.0
+Finished iteration 230, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4335.113
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2048.0
+Finished iteration 231, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4194.428
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1024.0
+Finished iteration 232, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4416.767
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  512.0
+Finished iteration 233, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4281.425
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  256.0
+Finished iteration 234, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4484.604
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  128.0
+Finished iteration 235, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4308.119
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  64.0
+Finished iteration 236, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4184.627
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  32.0
+Finished iteration 237, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4227.690
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  16.0
+Finished iteration 238, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4193.253
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  8.0
+Finished iteration 239, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4277.621
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  4.0
+Finished iteration 240, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4162.527
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  2.0
+Finished iteration 241, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4248.253
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 242, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4257.441
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 243, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4242.040
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 244, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4158.983
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 245, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4165.550
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 246, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4037.839
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 247, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4312.431
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 248, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4285.288
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 249, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4303.048
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 250, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4138.271
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 251, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4137.592
+1 Overflow !!
+1 : update_scale(): _has_overflow, dynamic. _loss_scale =  1.0
+Finished iteration 252, CKPT_AND_STOP: False, flag: tensor([0], dtype=torch.int32), speed: 4069.170
