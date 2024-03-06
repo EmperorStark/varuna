@@ -63,6 +63,12 @@ def get_rsync_example_bert_cmd(ip):
             {HOMEDIR}/varuna_examples/DeepLearningExamples/ ubuntu@{ip}:{HOMEDIR}/varuna_examples/DeepLearningExamples'
     return cmd
 
+def get_rsync_example_resnet_cmd(ip):
+    cmd = f'rsync -q --timeout=5 -avr --delete --exclude "checkpoints/*" \
+            --exclude ".git" --exclude "log/*" \
+            {HOMEDIR}/varuna_examples/ResNet/ ubuntu@{ip}:{HOMEDIR}/varuna_examples/ResNet'
+    return cmd
+
 
 def run_cmd(cmd, hosts):
     processes = []
@@ -114,6 +120,11 @@ def sync_example(hosts):
         processes.append(p)
 
         cmd = get_rsync_example_bert_cmd(ip)
+        print(cmd)
+        p = subprocess.Popen(cmd, shell=True)
+        processes.append(p)
+
+        cmd = get_rsync_example_resnet_cmd(ip)
         print(cmd)
         p = subprocess.Popen(cmd, shell=True)
         processes.append(p)

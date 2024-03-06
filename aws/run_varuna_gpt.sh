@@ -6,7 +6,7 @@ TRAIN_SCRIPT='/home/ubuntu/varuna_examples/Megatron-LM/examples/pretrain_gpt2_va
 
 nnode=$1
 tracefile=$2
-HOSTFILE="/home/ubuntu/varuna/aws/hostname"
+HOSTFILE="/home/ubuntu/varuna/aws/hosts/hostname"
 logtag=${3:-"test"}
 DRY_RUN= #"--dry-run"
 
